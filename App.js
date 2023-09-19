@@ -1,11 +1,17 @@
-import * as React from "react";
+import React, {useState} from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import SignInScreen  from "./src/screens/SignInScreen";
+import Header from "./src/components/Header";
 
 export default function App() {
+
   return (
     <View style={styles.container}>
-      <Text>SDSDFFKJDFHKSDFHSKJ</Text>
+      <View style={styles.header}>
+        <Header />
+        <SignInScreen/>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -14,8 +20,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff', 
+    width: '100%',
   },
+ 
 });
+
