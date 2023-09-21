@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator();
 
 const Navigation = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer style={styles.container}>
         <Tab.Navigator 
             initialRouteName={Home}
             screenOptions={({route}) => ({
@@ -42,6 +42,7 @@ const Navigation = () => {
                 tabBarInactiveTintColor: '#E6F5EE',
                 tabBarStyle: {
                     backgroundColor: '#9ED5C5',
+                    paddingTop: 10,
                 }
             })}
         >
@@ -56,7 +57,9 @@ const Navigation = () => {
 export default Navigation
 
 const styles = StyleSheet.create({
-    bottomTab: {
-        backgroundColor: "#9ED5C5"
+    container: {
+        height: 50,
+        paddingTop: 10,
+        paddingBottom: 10
     }
 })

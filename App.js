@@ -1,27 +1,36 @@
 import React, {useState} from "react";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView, SafeAreaView } from 'react-native';
-import SignInScreen  from "./src/screens/SignInScreen";
-import Register from "./src/screens/Register";
-import Header from "./src/components/Header";
-import Navigation from "./src/components/Navigation";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+import Dashboard from "./src/screens/Dashboard";
 import Home from "./src/screens/Home";
-import MainNavigationContainer from "./src/components/mainNavigationContainer";
+import SignInScreen from "./src/screens/SignInScreen"
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
 
   return (
-    <View style={styles.container}>
-    {/* <SafeAreaView style={styles.container}> */}
-      {/* <ScrollView style={styles.header}> */}
-        {/* <Header /> */}
-        {/* <SignInScreen/> */}
-        {/* <Register/> */}
-        <MainNavigationContainer />
-      {/* </ScrollView> */}
-      {/* <StatusBar style="auto" /> */}
-    {/* </SafeAreaView> */}
-    </View>
+    // <View style={styles.container}>
+    // <SafeAreaView style={styles.container}>
+    //   <ScrollView style={styles.header}>
+    //     {/* <Header /> */}
+    //     {/* <SignInScreen/> */}
+    //     {/* <Register/> */}
+    //     {/* <MNavigationContainer /> */}
+    //     <Dashboard />
+    //   </ScrollView>
+    //   {/* <StatusBar style="auto" /> */}
+    // </SafeAreaView>
+    // </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
