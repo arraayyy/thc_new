@@ -6,7 +6,7 @@ import Register from "./src/screens/Register";
 import Header from "./src/components/Header";
 import Navigation from "./src/components/Navigation";
 import Home from "./src/screens/Home";
-import MainNavigationContainer from "./src/components/mainNavigationContainer";
+import MainNavigationContainer from "./src/components/MainNavigationContainer";
 
 export default function App() {
 
@@ -16,8 +16,8 @@ export default function App() {
       {/* <ScrollView style={styles.header}> */}
         {/* <Header /> */}
         {/* <SignInScreen/> */}
-        {/* <Register/> */}
-        <MainNavigationContainer />
+        <Register/>
+        {/* <MainNavigationContainer /> */}
       {/* </ScrollView> */}
       {/* <StatusBar style="auto" /> */}
     {/* </SafeAreaView> */}
