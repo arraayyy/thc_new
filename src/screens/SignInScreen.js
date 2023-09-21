@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
+import Header from '../components/Header';
+
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,37 +14,42 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={styles.container}>  
-      {/* Label for Email */}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Email</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setEmail(text)}
-        value={email}
-      />
-      
-      {/* Label for Password */}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Password</Text>
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        onChangeText={text => setPassword(text)}
-        value={password}
-      />
-      
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={handleLogin}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      
-      <View style={styles.accTextContainer}>
-        <Text style={styles.accText}>Don't have an account? </Text>
-        <Text style={styles.signUpText}>Sign Up</Text>
+    <>
+      <Header height={150}/>
+      <View style={styles.container}>  
+        
+        {/* Label for Email */}
+        <Text style={[styles.label, { color: '#AEAEAE' }]}>Email</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={text => setEmail(text)}
+          value={email}
+        />
+        
+        {/* Label for Password */}
+        <Text style={[styles.label, { color: '#AEAEAE' }]}>Password</Text>
+        <TextInput
+          style={styles.input}
+          secureTextEntry={true}
+          onChangeText={text => setPassword(text)}
+          value={password}
+        />
+        
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={handleLogin}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        
+        <View style={styles.accTextContainer}>
+          <Text style={styles.accText}>Don't have an account? </Text>
+          <Text style={styles.signUpText}>Sign Up</Text>
+        </View>
+        
       </View>
-      
-    </View>
+    </>
+    
   );
 };
 

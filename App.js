@@ -28,7 +28,8 @@ export default function App() {
     // </View>
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen name="Dashboard" component={Dashboard} />
+        {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
+        <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
