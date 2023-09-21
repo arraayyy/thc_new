@@ -10,6 +10,8 @@ import { View,
 import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Dropdown from '../components/Dropdown';
+import CustomInput from '../components/CustomInput';
+import CustomHr from '../components/CustomHr';
 
 
 let eduAt =[ {id:1, name:'Elementary Level'},{id:2,name:'Elementary Graduate'},{id:3,name:'Vocational'},{id:4,name:'High School Level'},{    id:5, name:' High School Graduate'},{id:6,name:'College Level '},{id:7,name:'College Graduate'},{id:8,name:'Graduate School'},]
@@ -78,79 +80,24 @@ const Register = () => {
   return (
     <View style={styles.container}>
   
+     <CustomHr label="Account Information"/>
 
-     <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom:'20'}}>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        <View>
-            <Text style={{paddingHorizontal:8, textAlign: 'center'}}>Account Information</Text>
+     <CustomInput label="Email" value={email} setValue={setEmail} />
+     <CustomInput label="Password" value={password} setValue={setPassword} />
+     <CustomInput label="Confirm Password" value={confirmpassword} setValue={setconfPassword} />
+     
+     <CustomHr label="Personal Information"/> 
+      
+     <CustomInput label="First Name" value={fname} setValue={setFName} />
+     <CustomInput label="Middle Name" value={mname} setValue={setMName} />
+     <CustomInput label="Last Name" value={lname} setValue={setLName} /> 
+      
+     <Text style={[styles.label, { color: '#AEAEAE' }]}>Sex</Text>
+        <View style={styles.check}>
+          <CheckBox title="MALE" center  checked={male} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexMale}/>
+          <CheckBox title="FEMALE" center checked={female} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexFemale}/>
         </View>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-      </View>
-      {/* Label for Email */}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Email</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setEmail(text)}
-        value={email}
-      />
-      
-      {/* Label for Password */}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Password</Text>
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        onChangeText={text => setPassword(text)}
-        value={password}
-      />
-      
-      {/* Label for Confirm Password */}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Confirm Password</Text>
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        onChangeText={text => setconfPassword(text)}
-        value={confirmpassword}
-      />
 
-      
-      <View style={{flexDirection: 'row', alignItems: 'center',paddingBottom:'20'}}>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        <View>
-            <Text style={{paddingHorizontal:8, textAlign: 'center'}}>Personal Information</Text>
-        </View>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-      </View>
-
-       {/* Label for First Name */}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>First Name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setFName(text)}
-        value={fname}
-      />
-
-       {/* Label for Middle Name*/}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Middle Name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setMName(text)}
-        value={mname}
-      />
-
-       {/* Label for Last Name */}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Last Name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setLName(text)}
-        value={lname}
-      />
-      
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Sex</Text>
-      <View style={styles.check}>
-      <CheckBox title="MALE" center  checked={male} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexMale}/>
-      <CheckBox title="FEMALE" center checked={female} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexFemale}/>
-      </View>
-      
       {showPicker && (
          <DateTimePicker
             mode='date'
@@ -159,7 +106,7 @@ const Register = () => {
             onChange={onChange}
          />
       )}
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Birthdate</Text>
+      <Text style={styles.label}>Birthdate</Text>
       {!showPicker &&(
         <Pressable onPress={toggleDatepicker}>
           <TextInput
@@ -171,63 +118,25 @@ const Register = () => {
         </Pressable>
       )}
 
-      
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Educational Attainment</Text> 
-      <View style={styles.padd}>
-      <Dropdown 
-       value={selectItem}
-        data ={eduAt}
-        onSelect={onSelect} 
-      />
-      </View>
-      
-      
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Nationality</Text> 
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setNat(text)}
-        value={nat}
-      />
-
-      <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom:'20'}}>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        <View>
-            <Text style={{paddingHorizontal:8, textAlign: 'center'}}>Address Information</Text>
+      <Text style={styles.label}>Educational Attainment</Text> 
+        <View style={styles.padd}>
+            <Dropdown 
+            value={selectItem}
+              data ={eduAt}
+              onSelect={onSelect} 
+            />
         </View>
-        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-      </View>
       
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>House Number,Street/Sitio</Text> 
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setSitio(text)}
-        value={sitio}
-      />
-     <Text style={[styles.label, { color: '#AEAEAE' }]}>Barangay</Text> 
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setBarangay(text)}
-        value={barangay}
-      />
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Municipality</Text> 
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setMuncp(text)}
-        value={muncp}
-      />
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Province</Text> 
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setProv(text)}
-        value={prov}
-      />
-      <Text style={[styles.label, { color: '#AEAEAE' }]}>Zip Code</Text> 
-      <TextInput
-        style={styles.input}
-        onChangeText={text => setZip(text)}
-        value={zip}
-      />
+      <CustomInput label="Nationality" value={nat} setValue={setNat} />
 
+
+      <CustomHr label="Address Information"/>
+
+      <CustomInput label="House Number,Street/Sitio" value={sitio} setValue={setSitio} />
+      <CustomInput label="Barangay" value={barangay} setValue={setBarangay} />
+      <CustomInput label="Municipality" value={muncp} setValue={setMuncp} />
+      <CustomInput label="Province" value={prov} setValue={setProv} />
+      <CustomInput label="Zip Code" value={zip} setValue={setZip} />
 
       <TouchableOpacity
         style={styles.buttonContainer}
@@ -240,8 +149,6 @@ const Register = () => {
         <Text style={styles.accText}>Already have an account? </Text>
         <Text style={styles.loginText}>Log-in</Text>
       </View>
-      
-   
     </View>
   );
 };
@@ -252,10 +159,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 40,
   },
-  heading: {
-    fontSize: 24,
-    marginBottom: 16,
-  },
+ 
   label: {
     fontSize: 16,
     marginBottom: 8,
