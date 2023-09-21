@@ -4,18 +4,24 @@ import { StyleSheet, Text, View, Button, ScrollView, SafeAreaView } from 'react-
 import SignInScreen  from "./src/screens/SignInScreen";
 import Register from "./src/screens/Register";
 import Header from "./src/components/Header";
+import Navigation from "./src/components/Navigation";
+import Home from "./src/screens/Home";
+import MainNavigationContainer from "./src/components/mainNavigationContainer";
 
 export default function App() {
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.header}>
-        <Header />
+    <View style={styles.container}>
+    {/* <SafeAreaView style={styles.container}> */}
+      {/* <ScrollView style={styles.header}> */}
+        {/* <Header /> */}
         {/* <SignInScreen/> */}
-        <Register/>
-      </ScrollView>
-      <StatusBar style="auto" />
-    </SafeAreaView>
+        {/* <Register/> */}
+        <MainNavigationContainer />
+      {/* </ScrollView> */}
+      {/* <StatusBar style="auto" /> */}
+    {/* </SafeAreaView> */}
+    </View>
   );
 }
 
