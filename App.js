@@ -9,6 +9,7 @@ import Home from "./src/screens/Home";
 import SignInScreen from "./src/screens/SignInScreen"
 import Register from "./src/screens/Register";
 import MainNavigationContainer from "./src/components/MNavigationContainer";
+import FamilyPlanning from "./src/screens/FamilyPlanning";
 
 const Stack = createNativeStackNavigator();
 

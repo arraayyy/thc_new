@@ -36,7 +36,7 @@ const Navigation = () => {
                     } else {
                         color = focused ? "#6DFFD3" : '#E6F5EE'
                         return <Icon name='user-alt' size={size} color={color} />
-                    }
+                    } 
                 },
                 tabBarActiveTintColor: '#6DFFD3',
                 tabBarInactiveTintColor: '#E6F5EE',
@@ -49,6 +49,7 @@ const Navigation = () => {
             <Tab.Screen name={homeScreenName} component={Home} />
             <Tab.Screen name={servicesScreenName} component={Services} />
             <Tab.Screen name={profileScreenName} component={Profile} />
+            
         </Tab.Navigator>
     </NavigationContainer>
   )
