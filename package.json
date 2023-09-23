@@ -23,8 +23,8 @@
     "react-native-elements": "^3.4.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
-   
+    "@babel/core": "^7.20.0",
+    "metro-config": "^0.79.1"
   },
   "private": true
 }

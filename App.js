@@ -8,31 +8,33 @@ import Dashboard from "./src/screens/Dashboard";
 import Home from "./src/screens/Home";
 import SignInScreen from "./src/screens/SignInScreen"
 import MainNavigationContainer from "./src/components/MNavigationContainer";
+import FamilyPlanning from "./src/screens/FamilyPlanning";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
   return (
-    // <View style={styles.container}>
-    // <SafeAreaView style={styles.container}>
-    //   <ScrollView style={styles.header}>
-    //     {/* <Header /> */}
-    //     {/* <SignInScreen/> */}
-    //     {/* <Register/> */}
-    //     {/* <MNavigationContainer /> */}
-    //     <Dashboard />
-    //   </ScrollView>
-    //   {/* <StatusBar style="auto" /> */}
-    // </SafeAreaView>
-    // </View>
-    <NavigationContainer>
-      <Stack.Navigator>
-        {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
-        <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+    {/* <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.header}> */}
+        {/* * <Header />  */}
+         {/* <SignInScreen/> */}
+        {/* <Register/> */}
+         {/* <MNavigationContainer /> */}
+        {/* <Dashboard /> */}
+         <FamilyPlanning /> 
+       {/* </ScrollView> */}
+       {/* <StatusBar style="auto" /> */}
+      {/* </SafeAreaView> */}
+      </View> 
+  //   <NavigationContainer>
+  //     <Stack.Navigator>
+  //       {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
+  //       <Stack.Screen name="Dashboard" component={Dashboard} />
+  //       <Stack.Screen name="Home" component={Home} />
+  //     </Stack.Navigator>
+  //  </NavigationContainer >
   );
 }
 
