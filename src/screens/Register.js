@@ -5,13 +5,15 @@ import { View,
         TouchableOpacity,
         StyleSheet,
         Pressable,
-        Platform
+        Platform,
+        ScrollView
   } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Dropdown from '../components/Dropdown';
 import CustomInput from '../components/CustomInput';
 import CustomHr from '../components/CustomHr';
+import { useNavigation } from '@react-navigation/native';
 
 
 let eduAt =[ {id:1, name:'Elementary Level'},{id:2,name:'Elementary Graduate'},{id:3,name:'Vocational'},{id:4,name:'High School Level'},{    id:5, name:' High School Graduate'},{id:6,name:'College Level '},{id:7,name:'College Graduate'},{id:8,name:'Graduate School'},]
@@ -36,6 +38,7 @@ const Register = () => {
   const [muncp, setMuncp] = useState('');
   const [prov, setProv] = useState('');
   const [zip, setZip] = useState('');
+  const navigation = useNavigation();
 
   const onSelect = (item) =>{
     setSelectItem(item);
@@ -75,81 +78,89 @@ const Register = () => {
     // Implement your register logic here
     console.log('Email:', email);
     console.log('Password:', password);
+    alert("You have Successfully Registered!");
+    navigation.navigate("SignInScreen");
+
   };
 
   return (
-    <View style={styles.container}>
-  
-     <CustomHr label="Account Information"/>
+    <ScrollView>
+      <View style={styles.container}>
+        
+        <CustomHr label="Account Information"/>
 
-     <CustomInput label="Email" value={email} setValue={setEmail} />
-     <CustomInput label="Password" value={password} setValue={setPassword} />
-     <CustomInput label="Confirm Password" value={confirmpassword} setValue={setconfPassword} />
-     
-     <CustomHr label="Personal Information"/> 
-      
-     <CustomInput label="First Name" value={fname} setValue={setFName} />
-     <CustomInput label="Middle Name" value={mname} setValue={setMName} />
-     <CustomInput label="Last Name" value={lname} setValue={setLName} /> 
-      
-     <Text style={[styles.label, { color: '#AEAEAE' }]}>Sex</Text>
-        <View style={styles.check}>
-          <CheckBox title="MALE" center  checked={male} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexMale}/>
-          <CheckBox title="FEMALE" center checked={female} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexFemale}/>
-        </View>
+        <CustomInput label="Email" value={email} setValue={setEmail} />
+        <CustomInput label="Password" value={password} setValue={setPassword} />
+        <CustomInput label="Confirm Password" value={confirmpassword} setValue={setconfPassword} />
+        
+        <CustomHr label="Personal Information"/> 
+        
+        <CustomInput label="First Name" value={fname} setValue={setFName} />
+        <CustomInput label="Middle Name" value={mname} setValue={setMName} />
+        <CustomInput label="Last Name" value={lname} setValue={setLName} /> 
+        
+        <Text style={[styles.label, { color: '#AEAEAE' }]}>Sex</Text>
+          <View style={styles.check}>
+            <CheckBox title="MALE" center  checked={male} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexMale}/>
+            <CheckBox title="FEMALE" center checked={female} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={sexFemale}/>
+          </View>
 
-      {showPicker && (
-         <DateTimePicker
-            mode='date'
-            display='spinner'
-            value ={date}
-            onChange={onChange}
-         />
-      )}
-      <Text style={styles.label}>Birthdate</Text>
-      {!showPicker &&(
-        <Pressable onPress={toggleDatepicker}>
-          <TextInput
-            style={styles.input}
-            onChangeText={setDateofBirth}
-            value={dateOfBirth}
-            editable ={false}
-          />
-        </Pressable>
-      )}
-
-      <Text style={styles.label}>Educational Attainment</Text> 
-        <View style={styles.padd}>
-            <Dropdown 
-            value={selectItem}
-              data ={eduAt}
-              onSelect={onSelect} 
+        {showPicker && (
+            <DateTimePicker
+              mode='date'
+              display='spinner'
+              value ={date}
+              onChange={onChange}
             />
+        )}
+        <Text style={styles.label}>Birthdate</Text>
+        {!showPicker &&(
+          <Pressable onPress={toggleDatepicker}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setDateofBirth}
+              value={dateOfBirth}
+              editable ={false}
+            />
+          </Pressable>
+        )}
+
+        <Text style={styles.label}>Educational Attainment</Text> 
+          <View style={styles.padd}>
+              <Dropdown 
+              value={selectItem}
+                data ={eduAt}
+                onSelect={onSelect} 
+              />
+          </View>
+        
+        <CustomInput label="Nationality" value={nat} setValue={setNat} />
+
+
+        <CustomHr label="Address Information"/>
+
+        <CustomInput label="House Number,Street/Sitio" value={sitio} setValue={setSitio} />
+        <CustomInput label="Barangay" value={barangay} setValue={setBarangay} />
+        <CustomInput label="Municipality" value={muncp} setValue={setMuncp} />
+        <CustomInput label="Province" value={prov} setValue={setProv} />
+        <CustomInput label="Zip Code" value={zip} setValue={setZip} />
+
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={handleRegister}
+        >
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
+        
+        <View style={styles.accTextContainer}>
+          <Text style={styles.accText}>Already have an account? </Text>
+          <Text 
+          style={styles.loginText}
+          onPress={() => navigation.navigate("SignInScreen")}
+          >Log-in</Text>
         </View>
-      
-      <CustomInput label="Nationality" value={nat} setValue={setNat} />
-
-
-      <CustomHr label="Address Information"/>
-
-      <CustomInput label="House Number,Street/Sitio" value={sitio} setValue={setSitio} />
-      <CustomInput label="Barangay" value={barangay} setValue={setBarangay} />
-      <CustomInput label="Municipality" value={muncp} setValue={setMuncp} />
-      <CustomInput label="Province" value={prov} setValue={setProv} />
-      <CustomInput label="Zip Code" value={zip} setValue={setZip} />
-
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={handleRegister}
-      >
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
-      
-      <View style={styles.accTextContainer}>
-        <Text style={styles.accText}>Already have an account? </Text>
-        <Text style={styles.loginText}>Log-in</Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

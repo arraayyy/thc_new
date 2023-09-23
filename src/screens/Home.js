@@ -8,7 +8,7 @@ import Header from '../components/Header'
 
 const Stack = createNativeStackNavigator();
 
-const Home = () => {
+const Home = ({route}) => {
     return (
     <SafeAreaView>
         <Header height={80}/>
@@ -17,7 +17,7 @@ const Home = () => {
                 <View style={styles.greetingInnerContainer}>
                     <Text 
                         numberOfLines={1} 
-                        style={styles.greetingText}>Hello ...</Text>
+                        style={styles.greetingText}>Hello {route.params.name}</Text>
                     <Text 
                         numberOfLines={2} 
                         style={styles.greetingText}>Welcome To Talamban Health Connect Access Our Services</Text>

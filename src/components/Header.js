@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 40, // Adjust the padding as needed
+    // paddingTop: 40, // Adjust the padding as needed
   },
   logo: {
     width: '200%',

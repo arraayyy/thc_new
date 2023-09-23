@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Dashboard from "./src/screens/Dashboard";
 import Home from "./src/screens/Home";
 import SignInScreen from "./src/screens/SignInScreen"
+import Register from "./src/screens/Register";
 import MainNavigationContainer from "./src/components/MNavigationContainer";
 
 const Stack = createNativeStackNavigator();
@@ -26,9 +27,22 @@ export default function App() {
     //   {/* <StatusBar style="auto" /> */}
     // </SafeAreaView>
     // </View>
-    <NavigationContainer>
-      <Stack.Navigator>
-        {/* <Stack.Screen name="SignInScreen" component={SignInScreen} /> */}
+    <NavigationContainer style={styles.container}>
+      <Stack.Navigator
+        initialRouteName="SignInScreen"
+        screenOptions={{
+          title: '',
+          headerStyle:{
+            backgroundColor: '#F2F2F2',
+            color: "#88EECC"
+          },
+          headerShadowVisible: false,
+          statusBarStyle: "dark",
+          headerShadowVisible: false,
+        }}
+      >
+        <Stack.Screen name="SignInScreen" component={SignInScreen} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
@@ -38,8 +52,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff', 
+    backgroundColor: '#88EECC', 
     width: '100%',
   },
  

@@ -1,17 +1,12 @@
 import { Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import Header from "../components/Header";
-import Home from './Home';
-import { Button } from 'react-native-elements';
 
-
-const Stack = createNativeStackNavigator();
-
-const Dashboard = (props) => {
+const Dashboard = () => {
+  const navigation = useNavigation();
   const [profiles, setProfiles] = useState([
     { key: 1, name: 'Joan Cartilla', gender: "Female" },
     { key: 2, name: 'Roe Ann Codoy', gender: "Female" },
@@ -31,7 +26,7 @@ const Dashboard = (props) => {
             data={profiles}
             renderItem={({item}) => (
               <TouchableOpacity
-                onPress={() => props.navigation.navigate("Home")}
+                onPress={() => navigation.navigate("Home", item)}
                 style={styles.profileContainer}>
                   <View style={styles.profileIconContainer}>
                     <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />
