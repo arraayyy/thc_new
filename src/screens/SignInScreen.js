@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
 
@@ -49,11 +49,10 @@ const SignInScreen = () => {
         
         <View style={styles.accTextContainer}>
           <Text style={styles.accText}>Don't have an account? </Text>
-          <Text 
-            style={styles.signUpText}
-            onPress={() => navigation.navigate("Register")} >Sign Up</Text>
-        </View>
-        
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              <Text style={styles.signUpText}>Sign Up</Text>
+          </TouchableOpacity>
+          </View>
       </View>
     </View>
     

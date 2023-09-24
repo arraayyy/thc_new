@@ -3,12 +3,13 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
+import { useNavigation } from '@react-navigation/native';
 import Header from '../components/Header'
 
 const Stack = createNativeStackNavigator();
 
 const Home = ({route}) => {
+    const navigation = useNavigation();
     return (
     <SafeAreaView>
         <Header height={80}/>
@@ -25,7 +26,7 @@ const Home = ({route}) => {
             </View>
             <View style={styles.container} numColumns={2}>
                 <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => navigation.navigate("Services")}
                 style={styles.homeContainer}>
                     <View>
                     <Icon style={styles.icon} name='briefcase-medical' size={15} color='#E0E2E1' />

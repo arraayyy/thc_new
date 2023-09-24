@@ -10,44 +10,40 @@ import SignInScreen from "./src/screens/SignInScreen"
 import Register from "./src/screens/Register";
 import MainNavigationContainer from "./src/components/MNavigationContainer";
 import FamilyPlanning from "./src/screens/FamilyPlanning";
+import Services from "./src/screens/Services";
+import Prenatal from "./src/screens/Prenatal/Prenatal";
+import PrenatalDetails from "./src/screens/Prenatal/PrenatalDetails";
+import PrenatalSession from "./src/screens/Prenatal/PrenatalSession";
+
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
   return (
-    // <View style={styles.container}>
-    // <SafeAreaView style={styles.container}>
-    //   <ScrollView style={styles.header}>
-    //     {/* <Header /> */}
-    //     {/* <SignInScreen/> */}
-    //     {/* <Register/> */}
-    //     {/* <MNavigationContainer /> */}
-    //     <Dashboard />
-    //   </ScrollView>
-    //   {/* <StatusBar style="auto" /> */}
-    // </SafeAreaView>
-    // </View>
-    <NavigationContainer style={styles.container}>
+    <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignInScreen"
-        screenOptions={{
-          title: '',
-          headerStyle:{
-            backgroundColor: '#F2F2F2',
-            color: "#88EECC"
-          },
-          headerShadowVisible: false,
-          statusBarStyle: "dark",
-          headerShadowVisible: false,
-        }}
-      >
-        <Stack.Screen name="SignInScreen" component={SignInScreen} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
+      initialRouteName="Login"
+      screenOptions={{
+        title: '',
+        headerStyle:{
+          backgroundColor: '#F2F2F2',
+          color: "#88EECC"
+        },
+        headerShadowVisible: false,
+        statusBarStyle: "dark",
+        headerShadowVisible: false,
+      }}>
+        <Stack.Screen name="Login" component={SignInScreen}  options={{headerShown: false}}/>
+        <Stack.Screen name="Register" component={Register}  options={{headerShown: false}}/>
+        <Stack.Screen name="Dashboard" component={Dashboard}  options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Services" component={Services} />
+        <Stack.Screen name="Prenatal" component={Prenatal} options={{headerShown: false}} />
+        <Stack.Screen name="Prenatal Results" component={PrenatalDetails} />
+        <Stack.Screen name="Prenatal Session" component={PrenatalSession} />
       </Stack.Navigator>
-    </NavigationContainer>
+   </NavigationContainer >
   );
 }
 

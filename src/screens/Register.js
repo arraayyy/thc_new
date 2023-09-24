@@ -14,11 +14,12 @@ import Dropdown from '../components/Dropdown';
 import CustomInput from '../components/CustomInput';
 import CustomHr from '../components/CustomHr';
 import { useNavigation } from '@react-navigation/native';
-
+import Header from '../components/Header';
 
 let eduAt =[ {id:1, name:'Elementary Level'},{id:2,name:'Elementary Graduate'},{id:3,name:'Vocational'},{id:4,name:'High School Level'},{    id:5, name:' High School Graduate'},{id:6,name:'College Level '},{id:7,name:'College Graduate'},{id:8,name:'Graduate School'},]
 
 const Register = () => {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setconfPassword] = useState('');
@@ -39,6 +40,7 @@ const Register = () => {
   const [prov, setProv] = useState('');
   const [zip, setZip] = useState('');
   const navigation = useNavigation();
+
 
   const onSelect = (item) =>{
     setSelectItem(item);
@@ -79,15 +81,17 @@ const Register = () => {
     console.log('Email:', email);
     console.log('Password:', password);
     alert("You have Successfully Registered!");
-    navigation.navigate("SignInScreen");
+    navigation.navigate("Login");
 
   };
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        
-        <CustomHr label="Account Information"/>
+      <Header height={150}/>
+  
+    <View style={styles.container}>
+  
+     <CustomHr label="Account Information"/>
 
         <CustomInput label="Email" value={email} setValue={setEmail} />
         <CustomInput label="Password" value={password} setValue={setPassword} />
@@ -156,7 +160,7 @@ const Register = () => {
           <Text style={styles.accText}>Already have an account? </Text>
           <Text 
           style={styles.loginText}
-          onPress={() => navigation.navigate("SignInScreen")}
+          onPress={() => navigation.navigate("Login")}
           >Log-in</Text>
         </View>
       </View>
