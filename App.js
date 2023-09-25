@@ -9,12 +9,13 @@ import Home from "./src/screens/Home";
 import SignInScreen from "./src/screens/SignInScreen"
 import Register from "./src/screens/Register";
 import MainNavigationContainer from "./src/components/MNavigationContainer";
-import FamilyPlanning from "./src/screens/FamilyPlanning";
 import Services from "./src/screens/Services";
 import Prenatal from "./src/screens/Prenatal/Prenatal";
 import PrenatalDetails from "./src/screens/Prenatal/PrenatalDetails";
 import PrenatalSession from "./src/screens/Prenatal/PrenatalSession";
-
+import FamilyPlanning from "./src/screens/FamilyPlanning/FamilyPlanning";
+import FamilyPlanningDetails from "./src/screens/FamilyPlanning/FamilyPlanningDetails";
+import FamilyPlanningAssessment from "./src/screens/FamilyPlanning/FamilyPlanningAssessment";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,9 @@ export default function App() {
         <Stack.Screen name="Prenatal" component={Prenatal} options={{headerShown: false}} />
         <Stack.Screen name="Prenatal Results" component={PrenatalDetails} />
         <Stack.Screen name="Prenatal Session" component={PrenatalSession} />
+        <Stack.Screen name="Family Planning" component={FamilyPlanning} />
+        <Stack.Screen name="Family Planning Results" component={FamilyPlanningDetails} /> 
+        <Stack.Screen name="Family Planning Assessment" component={FamilyPlanningAssessment} />
       </Stack.Navigator>
    </NavigationContainer >
   );
