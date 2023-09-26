@@ -2,10 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } fro
 import React from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // You can use a different icon library if you prefer
-import Footer from '../../components/Footer.js';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native';
-import MNavigationContainer from '../../components/MNavigationContainer.js';
+
+import Footer from '../../components/Footer'
 
 const Prenatal = () => {
   const navigation = useNavigation();
@@ -19,41 +18,41 @@ const Prenatal = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-      <View style={styles.body}>
-        <View style={styles.headerContainer}>
-          {/* Table Header */}
-          <View style={styles.header}>
-            <Text style={styles.title}>MY PRENATAL RECORDS</Text>
-          </View>
+        <View style={styles.body}>
+          <View style={styles.headerContainer}>
+            {/* Table Header */}
+            <View style={styles.header}>
+              <Text style={styles.title}>MY PRENATAL RECORDS</Text>
+            </View>
 
-          {/* Table Data */}
-         
+            {/* Table Data */}
           
-           {exams && exams.map((value,indx)=>{
-              return(
-                <Card containerStyle={styles.card} key={indx}>
-                  <TouchableOpacity 
-                    onPress={()=> navigation.navigate("Prenatal Results", value)}>
-                    <View style={{flexDirection:'row'}}>
-                      <View>
-                        <Text 
-                          style={[
-                            styles.cardRow, 
-                            {fontSize:20, fontWeight:'bold'}
-                          ]}>Examination {value.examID}</Text>
-                        <Text style={[styles.cardRow,]}>{value.doc}</Text>
-                        <Text style={[styles.cardRow,]}>{value.date}</Text>
+            
+            {exams && exams.map((value,indx)=>{
+                return(
+                  <Card containerStyle={styles.card} key={indx}>
+                    <TouchableOpacity 
+                      onPress={()=> navigation.navigate("Prenatal Results", value)}>
+                      <View style={{flexDirection:'row'}}>
+                        <View>
+                          <Text 
+                            style={[
+                              styles.cardRow, 
+                              {fontSize:20, fontWeight:'bold'}
+                            ]}>Examination {value.examID}</Text>
+                          <Text style={[styles.cardRow,]}>{value.doc}</Text>
+                          <Text style={[styles.cardRow,]}>{value.date}</Text>
+                        </View>
+                      <Icon style={[styles.icon,{marginLeft:170 ,color:'#88EECC'}]} name='vial' size={25} color='#E0E2E1' />
                       </View>
-                    <Icon style={[styles.icon,{marginLeft:170 ,color:'#88EECC'}]} name='vial' size={25} color='#E0E2E1' />
-                    </View>
-                  </TouchableOpacity>
-                </Card>
-              )
-           })}
+                    </TouchableOpacity>
+                  </Card>
+                )
+            })}
+          </View>
         </View>
-        
-      </View>
       </ScrollView>
+      <Footer />
     </View>
    
   )

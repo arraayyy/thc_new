@@ -1,14 +1,15 @@
 import React, {useState} from "react";
-import { StyleSheet, Text, View, Button, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import MNavigationContainer from "./src/components/MNavigationContainer";
+import MNavigation from "./src/navigations/MNavigation";
+
 
 
 export default function App() {
 
   return (
     <NavigationContainer>
-      <MNavigationContainer />
+      <MNavigation />
    </NavigationContainer >
   );
 }

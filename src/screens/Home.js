@@ -9,12 +9,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Stack = createNativeStackNavigator();
 
-const Home = ({route}) => {
+const Home = () => {
     const [userName, setUserName] = useState();
     const navigation = useNavigation();
 
     const fetchProfile = async () => {
-        var name = await AsyncStorage.getItem('UserName');
+        var name = await AsyncStorage.getItem('UserName') || 'as';
         setUserName(name);
     }
 

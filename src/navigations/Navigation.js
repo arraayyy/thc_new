@@ -1,20 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-
-import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
 
 // Screens
 import Home from '../screens/Home'
 import Services from '../screens/Services'
 import Profile from '../screens/Profile'
+import Prenatal from '../screens/Prenatal/Prenatal'
 
 const homeScreenName = 'Home Tab';
 const servicesScreenName = "Services";
 const profileScreenName = "Profile";
+const prenatalScreenName = "Prenatal";
 
 const Tab = createBottomTabNavigator();
 
@@ -42,14 +40,15 @@ const Navigation = () => {
             tabBarInactiveTintColor: '#E6F5EE',
             tabBarStyle: {
                 backgroundColor: '#9ED5C5',
-                paddingTop: 10,
+                paddingBottom: 10,
+                height: 65,
             }
         })}
     >
         <Tab.Screen name={homeScreenName} component={Home} />
         <Tab.Screen name={servicesScreenName} component={Services} />
         <Tab.Screen name={profileScreenName} component={Profile} />
-        
+        {/* <Tab.Screen name={prenatalScreenName} component={Prenatal} /> */}
     </Tab.Navigator>
   )
 }
@@ -58,7 +57,7 @@ export default Navigation
 
 const styles = StyleSheet.create({
     container: {
-        height: 50,
+        height: 100,
         paddingTop: 10,
         paddingBottom: 10
     }
