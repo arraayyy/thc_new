@@ -38,12 +38,12 @@ const Prenatal = () => {
                           <Text 
                             style={[
                               styles.cardRow, 
-                              {fontSize:20, fontWeight:'bold'}
+                              {fontSize:20, fontWeight:'bold', color: "#44AA92"}
                             ]}>Examination {value.examID}</Text>
                           <Text style={[styles.cardRow,]}>{value.doc}</Text>
                           <Text style={[styles.cardRow,]}>{value.date}</Text>
                         </View>
-                      <Icon style={[styles.icon,{marginLeft:170 ,color:'#88EECC'}]} name='vial' size={25} color='#E0E2E1' />
+                      <Icon style={[styles.icon,{marginLeft:170 ,color:'#44AA92'}]} name='vial' size={25} color='#44AA92' />
                       </View>
                     </TouchableOpacity>
                   </Card>
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
       marginBottom: 20,
       fontWeight:'bold',
     },
-   
     headerContainer: {
       borderColor: '#88EECC',
       borderTopLeftRadius: 10, // Rounded top-left corner
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       padding: 10,
-      backgroundColor: '#88EECC',
+      backgroundColor: '#44AA92',
     },
     cardRow: {
       color:'black'
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
       width: width ,
       borderRadius:15,
       borderWidth:1,
-      borderColor: '#88EECC' 
+      borderColor: '#91E0CE' 
     }
     // You can add more styles for table data rows as needed
   });

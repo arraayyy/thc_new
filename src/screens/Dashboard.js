@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     paddingTop: 5,
-    backgroundColor: '#E6EAE6',
+    backgroundColor: '#E6EDED',
     width: 130,
     height: 110,
     borderRadius: 20,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 70/2,
-    backgroundColor: '#9ED5C5',
+    backgroundColor: '#44AA92',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   iconName:{
     paddingVertical:5,
-    color: '#9ED5C5',
+    color: '#44AA92',
     fontWeight: 'bold'
   }
 })

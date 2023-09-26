@@ -1,16 +1,19 @@
 import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity, Dimensions } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Header from '../components/Header'
 const Services = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={{backgroundColor:'white', height:height}}>
+    <SafeAreaView style={{backgroundColor:'', height:height}}>
       <Header height={80}/>
       <View style={{alignItems: 'center'}}>
           <View style={styles.header}/>
+          <View >
+            {/* <Icon name="briefcase-medical" size={50} color="#9ED5C5" /> */}
+          </View>
           <View style={styles.container}>
                 <TouchableOpacity
                 onPress={() => navigation.navigate("Prenatal")}
@@ -75,24 +78,24 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderColor: '#000',
     width:width-50,
-}, 
-container: { 
-  paddingTop:2,
-},
-servButton: {
-  paddingTop: 5,
-  backgroundColor: '#F9F9F9',
-  width: 200,
-  height: 55,
-  borderRadius: 10,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderWidth:0.5,
-  borderColor:'black'
-}, 
-servText:{
-  paddingVertical:5,
-  color: '#9ED5C5',
-  fontWeight: 'bold'
-}
+  }, 
+  container: { 
+    paddingTop:2,
+  },
+  servButton: {
+    paddingTop: 5,
+    backgroundColor: '#F9F9F9',
+    width: 200,
+    height: 55,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth:0.5,
+    borderColor:'black'
+  }, 
+  servText:{
+    paddingVertical:5,
+    color: '#9ED5C5',
+    fontWeight: 'bold'
+  }
 })

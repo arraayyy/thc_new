@@ -194,10 +194,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '80%', // Set the width of the button container to 80%
     height: 50,
-    borderRadius: 10,
+    borderRadius: 30,
     alignSelf: 'center',
     marginTop: 20,
-    backgroundColor: '#88EECC',
+    backgroundColor: '#15876C',
     justifyContent: 'center',
     alignItems: 'center',
   },

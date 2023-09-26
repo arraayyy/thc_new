@@ -9,10 +9,10 @@ import Register from "../screens/Register";
 import Dashboard from "../screens/Dashboard";
 import Home from "../screens/Home";
 import Services from "../screens/Services";
-import Navigation from "./Navigation";
 
 import Prenatal from "../screens/Prenatal/Prenatal";
 import PrenatalDetails from "../screens/Prenatal/PrenatalDetails";
+import PrenatalSession from "../screens/Prenatal/PrenatalSession";
 
 import Profile from "../screens/Profile";
 
@@ -26,9 +26,11 @@ const MNavigation = () => {
         initialRouteName="Login"
         screenOptions={{
             title: '',
+            headerTintColor: "#44AA92",
             headerStyle:{
-            backgroundColor: '#F2F2F2',
-            color: "#88EECC"
+                backgroundColor: '#F2F2F2',
+                color: "#88EECC",
+                
             },
             headerShadowVisible: false,
             statusBarStyle: "dark",
@@ -42,8 +44,27 @@ const MNavigation = () => {
             <Stack.Screen name="Home" component={Home}/>
             <Stack.Screen name="Services" component={Services}/>
 
-            <Stack.Screen name="Prenatal" component={Prenatal} />
-            <Stack.Screen name="Prenatal Results" component={PrenatalDetails} />
+            <Stack.Screen name="Prenatal" component={Prenatal} options={{headerShown: false}}/>
+            <Stack.Screen name="Prenatal Results" 
+                component={PrenatalDetails}
+                options={{
+                    title:"PRENATAL",
+                    headerTintColor: "#FFF",
+                    headerTitleAlign: 'center',
+                    headerStyle:{
+                        backgroundColor: "#44AA92",
+                    }
+                }} />
+            <Stack.Screen name="Prenatal Session" 
+                component={PrenatalSession}
+                options={{
+                    title:"PRENATAL",
+                    headerTintColor: "#FFF",
+                    headerTitleAlign: 'center',
+                    headerStyle:{
+                        backgroundColor: "#44AA92",
+                    }
+                }} />
 
             <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>

@@ -41,7 +41,7 @@ const Home = () => {
                 onPress={() => navigation.navigate("Services")}
                 style={styles.homeContainer}>
                     <View>
-                    <Icon style={styles.icon} name='briefcase-medical' size={15} color='#E0E2E1' />
+                    <Icon style={styles.icon} name='briefcase-medical' size={15} color='#15876C' />
                     </View>
                     <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
                 </TouchableOpacity>
@@ -49,9 +49,9 @@ const Home = () => {
                 onPress={() => {}}
                 style={styles.homeContainer}>
                     <View>
-                    <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />
+                    <Icon style={styles.icon} name='user-alt' size={15} color='#15876C' />
                     </View>
-                    <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
+                    <Text numberOfLines={1} style={styles.iconName}>PROFILE</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
     },  
     greetingInnerContainer:{
         width:width-50,
-        backgroundColor: "#9ED5C5",
+        backgroundColor: "#44AA92",
         padding: 20,
         borderRadius: 20,
     },
     greetingText:{
-        color: '#FFF'
+        color: '#DDFFF7'
     },
     container: { 
         paddingTop:50,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
       },
       homeContainer: {
         paddingTop: 5,
-        backgroundColor: '#E6EAE6',
+        backgroundColor: '#E6EDED',
         width: 130,
         height: 110,
         borderRadius: 20,
@@ -95,11 +95,11 @@ const styles = StyleSheet.create({
       },
       icon:{
         fontSize: 65,
-        color: '#9ED5C5'
+        color: '#44AA92'
       },
       iconName:{
         paddingVertical:5,
-        color: '#9ED5C5',
+        color: '#44AA92',
         fontWeight: 'bold'
       }
 })
