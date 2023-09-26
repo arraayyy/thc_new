@@ -44,7 +44,7 @@ const Services = () => {
           </View>
           <View style={styles.container}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Prenatal")}
+                onPress={() => navigation.navigate("Medical Checkup")}
                 style={styles.servButton}>
                     <Text style={styles.servText}>Medical Check-up</Text>
                 </TouchableOpacity>

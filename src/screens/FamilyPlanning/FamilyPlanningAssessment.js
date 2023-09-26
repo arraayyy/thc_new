@@ -16,8 +16,8 @@ const PrenatalSession = ({route}) => {
            <Text style={styles.cardTitle}>Session Findings</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Date of Visit:  </Text>{assessment.date}</Text>
-                <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Name of Service Provider:  </Text>{assessment.doc}</Text>
+                <Text style={styles.row}><Text style={{ fontWeight: 'bold' }}>Date of Visit:  </Text>{route.params.date}</Text>
+                <Text style={styles.row}><Text style={{ fontWeight: 'bold' }}>Name of Service Provider:  </Text>{route.params.doctor}</Text>
                 <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Findings:  </Text>{assessment.findings}</Text>
                 <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Method Accepted:  </Text>{assessment.methodAccepted}</Text>
             </View>

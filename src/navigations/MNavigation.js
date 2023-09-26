@@ -18,6 +18,9 @@ import FamilyPlanning from "../screens/FamilyPlanning/FamilyPlanning";
 import FamilyPlanningDetails from "../screens/FamilyPlanning/FamilyPlanningDetails";
 import FamilyPlanningAssessment from "../screens/FamilyPlanning/FamilyPlanningAssessment";
 
+import MedicalCheckup from "../screens/MedicalCheckup/MedicalCheckup";
+import MedicalCheckupDetails from "../screens/MedicalCheckup/MedicalCheckupDetails";
+
 
 import Profile from "../screens/Profile";
 
@@ -74,7 +77,7 @@ const MNavigation = () => {
                 <Stack.Screen name="Family Planning" component={FamilyPlanning} options={{headerShown: false}}/>
                  <Stack.Screen  name="Family Planning Details" component={FamilyPlanningDetails}
                         options={{
-                            title:"PRENATAL",
+                            title:"FAMILY PLANNING",
                             headerTintColor: "#FFF",
                             headerTitleAlign: 'center',
                             headerStyle:{
@@ -83,13 +86,25 @@ const MNavigation = () => {
                         }} />
                 <Stack.Screen name="Family Planning Assessment" component={FamilyPlanningAssessment}
                     options={{
-                        title:"PRENATAL",
+                        title:"FAMILY PLANNING",
                         headerTintColor: "#FFF",
                         headerTitleAlign: 'center',
                         headerStyle:{
                             backgroundColor: "#44AA92",
                         }
                     }}/>
+
+                <Stack.Screen name="Medical Checkup" component={MedicalCheckup} options={{headerShown: false}}/>
+                <Stack.Screen  name="Medical Checkup Details" component={MedicalCheckupDetails}
+                        options={{
+                            title:"MEDICAL CHECKUP",
+                            headerTintColor: "#FFF",
+                            headerTitleAlign: 'center',
+                            headerStyle:{
+                                backgroundColor: "#44AA92",
+                            }
+                        }} />
+
             <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
   );

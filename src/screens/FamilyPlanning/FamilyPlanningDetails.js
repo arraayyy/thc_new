@@ -143,7 +143,7 @@ const FamilyPlanningDetails = ({route}) => {
             {assessment.map((value,indx)=>{
                   return(
                     <Card containerStyle={styles.card}>
-                        <TouchableOpacity onPress={()=> navigation.navigate("Family Planning Assessment",value)}>
+                        <TouchableOpacity onPress={()=> navigation.navigate("Family Planning Assessment", { date: value.date, doctor: value.doc })}>    
                         <View style={{flexDirection:'column'}}>
                             <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
                             <Text style={styles.cardRow}>Assessment {value.examID}</Text>
