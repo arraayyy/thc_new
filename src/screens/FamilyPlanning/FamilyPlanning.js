@@ -46,7 +46,7 @@ const FamilyPlanning = () => {
            {exams.map((value,indx)=>{
               return(
                 <Card containerStyle={styles.card}>
-                <TouchableOpacity onPress={()=> navigation.navigate("Family Planning Results", value)}>
+                <TouchableOpacity onPress={()=> navigation.navigate("Family Planning Details", value)}>
                   <View style={{flexDirection:'row'}}>
                     <View>
                       <Text style={[styles.cardRow, {fontSize:20, fontWeight:'bold'}]}>Examination {value.examID}</Text>

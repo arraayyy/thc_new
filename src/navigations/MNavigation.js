@@ -14,6 +14,11 @@ import Prenatal from "../screens/Prenatal/Prenatal";
 import PrenatalDetails from "../screens/Prenatal/PrenatalDetails";
 import PrenatalSession from "../screens/Prenatal/PrenatalSession";
 
+import FamilyPlanning from "../screens/FamilyPlanning/FamilyPlanning";
+import FamilyPlanningDetails from "../screens/FamilyPlanning/FamilyPlanningDetails";
+import FamilyPlanningAssessment from "../screens/FamilyPlanning/FamilyPlanningAssessment";
+
+
 import Profile from "../screens/Profile";
 
 
@@ -64,8 +69,27 @@ const MNavigation = () => {
                     headerStyle:{
                         backgroundColor: "#44AA92",
                     }
-                }} />
+                }}/>
 
+                <Stack.Screen name="Family Planning" component={FamilyPlanning} options={{headerShown: false}}/>
+                 <Stack.Screen  name="Family Planning Details" component={FamilyPlanningDetails}
+                        options={{
+                            title:"PRENATAL",
+                            headerTintColor: "#FFF",
+                            headerTitleAlign: 'center',
+                            headerStyle:{
+                                backgroundColor: "#44AA92",
+                            }
+                        }} />
+                <Stack.Screen name="Family Planning Assessment" component={FamilyPlanningAssessment}
+                    options={{
+                        title:"PRENATAL",
+                        headerTintColor: "#FFF",
+                        headerTitleAlign: 'center',
+                        headerStyle:{
+                            backgroundColor: "#44AA92",
+                        }
+                    }}/>
             <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
   );
