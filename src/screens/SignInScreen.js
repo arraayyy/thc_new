@@ -19,7 +19,7 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={{backgroundColor: '', minHeight:"100%"}}>
+    <View style={{backgroundColor: '', minHeight:"100%", marginTop: 75}}>
       <Header height={150}/>
       <View style={styles.container}>  
         

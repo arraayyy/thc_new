@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import Header from "../components/Header";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Dashboard = () => {
   const navigation = useNavigation();
@@ -13,6 +14,11 @@ const Dashboard = () => {
     { key: 3, name: 'Cahrl Loyloy', gender: "Male" },
     { key: 4, name: 'Marvin Navarro', gender: "Male" },
   ]);
+
+  const fetchProfile = (user) => {
+    AsyncStorage.setItem('UserName', user.name);
+    navigation.navigate("Home");
+  }
 
   return (
     <SafeAreaView>
@@ -26,7 +32,7 @@ const Dashboard = () => {
             data={profiles}
             renderItem={({item}) => (
               <TouchableOpacity
-                onPress={() => navigation.navigate("Home", item)}
+                onPress={() => fetchProfile(item)}
                 style={styles.profileContainer}>
                   <View style={styles.profileIconContainer}>
                     <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />

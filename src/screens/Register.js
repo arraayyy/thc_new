@@ -86,7 +86,7 @@ const Register = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={{marginTop:25}}>
       <Header height={150}/>
   
     <View style={styles.container}>

@@ -1,15 +1,27 @@
 import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { useNavigation } from '@react-navigation/native';
 import Header from '../components/Header'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Stack = createNativeStackNavigator();
 
 const Home = ({route}) => {
+    const [userName, setUserName] = useState();
     const navigation = useNavigation();
+
+    const fetchProfile = async () => {
+        var name = await AsyncStorage.getItem('UserName');
+        setUserName(name);
+    }
+
+    useEffect(() => {
+        fetchProfile();
+    },[]);
+
     return (
     <SafeAreaView>
         <Header height={80}/>
@@ -18,7 +30,7 @@ const Home = ({route}) => {
                 <View style={styles.greetingInnerContainer}>
                     <Text 
                         numberOfLines={1} 
-                        style={styles.greetingText}>Hello {route.params.name}</Text>
+                        style={styles.greetingText}>Hello {userName}</Text>
                     <Text 
                         numberOfLines={2} 
                         style={styles.greetingText}>Welcome To Talamban Health Connect Access Our Services</Text>

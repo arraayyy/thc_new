@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // You can use a different icon library if you prefer
 import Footer from '../components/Footer';
-import Navigation from '../components/Navigation';
+import Navigation from '../navigations/Navigation';
 
 const FamilyPlanning = () => {
   return (

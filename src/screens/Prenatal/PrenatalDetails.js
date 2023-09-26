@@ -6,48 +6,54 @@ import { useNavigation } from '@react-navigation/native';
 
 const PrenatalDetails = ({route}) => {
   const navigation = useNavigation();
- let patient = 
- {
-   
-     husband:"John Smith Doe",
-     husOCP:"Security Guard",
-     age: 24,
-     birthdate: "09-10-1999",
-     occupation: "N/A",
-     address: "Minoza St. Tigbao, Talamban, Cebu City",
-     gravida:"N/A",
-     para:"N/A",
-     NoFT:"N/A",
-     NoAb:"N/A",
-     NoPr:"N/A",
-     NoCBA:"3",
-     NoLC:" 2",
-     NoStill:"N/A",
-     LMP:"N/A",
-     DateLD:"N/A",
-     TypeLD:"N/A",
-     mensflow:"N/A",
-     hydmole:"N/A",
-     HEP:"N/A",
-     HLP:"N/A",
-     DIA:"N/A",
-     ill:"Cough",
-     algr:"lorems ipsum lorem",
-     PH:"Health Center",
-     TTS:{
-         TT1:"03-04-23",
-         TT2:"03-04-23",
-         TT3:"03-04-23",
-         TT4:"03-04-23",
-         TT5:"03-04-23",
-     },
-     Urine:"Normal",
-     CBC:"Normal",
-     BT:"Normal",
-     HBS:"Normal",
-     PPC:"N/A",
- };
- let session =[{examID:1, doc:"Dr.Doe", date:'01-23-2023'},{examID:2, doc:"Dr.Jane", date:'02-24-2023'},{examID:3, doc:"Dr.Smith", date:'03-25-2023'},{examID:4, doc:"Dr.John", date:'04-26-2023'}];
+  let patient = 
+  {
+    
+      husband:"John Smith Doe",
+      husOCP:"Security Guard",
+      age: 24,
+      birthdate: "09-10-1999",
+      occupation: "N/A",
+      address: "Minoza St. Tigbao, Talamban, Cebu City",
+      gravida:"N/A",
+      para:"N/A",
+      NoFT:"N/A",
+      NoAb:"N/A",
+      NoPr:"N/A",
+      NoCBA:"3",
+      NoLC:" 2",
+      NoStill:"N/A",
+      LMP:"N/A",
+      DateLD:"N/A",
+      TypeLD:"N/A",
+      mensflow:"N/A",
+      hydmole:"N/A",
+      HEP:"N/A",
+      HLP:"N/A",
+      DIA:"N/A",
+      ill:"Cough",
+      algr:"lorems ipsum lorem",
+      PH:"Health Center",
+      TTS:{
+          TT1:"03-04-23",
+          TT2:"03-04-23",
+          TT3:"03-04-23",
+          TT4:"03-04-23",
+          TT5:"03-04-23",
+      },
+      Urine:"Normal",
+      CBC:"Normal",
+      BT:"Normal",
+      HBS:"Normal",
+      PPC:"N/A",
+  };
+  let session =[
+    {examID:1, doc:"Dr.Doe", date:'01-23-2023'},
+    {examID:2, doc:"Dr.Jane", date:'02-24-2023'},
+    {examID:3, doc:"Dr.Smith", date:'03-25-2023'},
+    {examID:4, doc:"Dr.John", date:'04-26-2023'}
+  ];
+
     return (
     <ScrollView style={styles.container}>
      <View style={styles.body}>
@@ -136,7 +142,7 @@ const PrenatalDetails = ({route}) => {
         </View> 
             {session.map((value,indx)=>{
                   return(
-                    <Card containerStyle={styles.card}>
+                    <Card containerStyle={styles.card} key={indx}>
                         <TouchableOpacity onPress={()=> navigation.navigate("Prenatal Session",value)}>
                         <View style={{flexDirection:'column'}}>
                             <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
