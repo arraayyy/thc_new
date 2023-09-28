@@ -51,14 +51,14 @@ const Services = () => {
           </View>
           <View style={styles.container}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Prenatal")}
+                onPress={() => navigation.navigate("Hematology")}
                 style={styles.servButton}>
                     <Text style={styles.servText}>Hematology Test</Text>
                 </TouchableOpacity>
           </View>
           <View style={styles.container}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Prenatal")}
+                onPress={() => navigation.navigate("Urinalysis")}
                 style={styles.servButton}>
                     <Text style={styles.servText}>Urinalysis Test</Text>
                 </TouchableOpacity>

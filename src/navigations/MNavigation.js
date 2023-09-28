@@ -21,8 +21,16 @@ import FamilyPlanningAssessment from "../screens/FamilyPlanning/FamilyPlanningAs
 import MedicalCheckup from "../screens/MedicalCheckup/MedicalCheckup";
 import MedicalCheckupDetails from "../screens/MedicalCheckup/MedicalCheckupDetails";
 
+import Urinalysis from "../screens/Urinalysis/Urinalysis"
+import UrinalysisDetails from "../screens/Urinalysis/UrinalysisDetails";
+
+import Hematology from "../screens/Hematology/Hematology";
+import HematologyDetails from "../screens/Hematology/HematologyDetails";
 
 import Profile from "../screens/Profile";
+
+
+
 
 
 const Stack = createNativeStackNavigator();
@@ -104,6 +112,29 @@ const MNavigation = () => {
                                 backgroundColor: "#44AA92",
                             }
                         }} />
+
+                <Stack.Screen name="Urinalysis" component={Urinalysis} options={{headerShown: false}}/>
+                <Stack.Screen  name="Urinalysis Details" component={UrinalysisDetails}
+                        options={{
+                            title:"URINALYSIS",
+                            headerTintColor: "#FFF",
+                            headerTitleAlign: 'center',
+                            headerStyle:{
+                                backgroundColor: "#44AA92",
+                            }
+                        }} />
+
+            <Stack.Screen name="Hematology" component={Hematology} options={{headerShown: false}}/>
+            <Stack.Screen  name="Hematology Details" component={HematologyDetails}
+                        options={{
+                            title:"URINALYSIS",
+                            headerTintColor: "#FFF",
+                            headerTitleAlign: 'center',
+                            headerStyle:{
+                                backgroundColor: "#44AA92",
+                            }
+                        }} />
+
 
             <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
