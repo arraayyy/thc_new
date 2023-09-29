@@ -26,11 +26,15 @@ import UrinalysisDetails from "../screens/Urinalysis/UrinalysisDetails";
 
 import Hematology from "../screens/Hematology/Hematology";
 import HematologyDetails from "../screens/Hematology/HematologyDetails";
+import Immunization from "../screens/Immunization/Immunization";
+import ImmunizationDetails from "../screens/Immunization/ImmunizationDetails";
+import ImmunizationSession from "../screens/Immunization/ImmunizationSession";
+
+import Dental from "../screens/Dental/Dental";
+import DentalDetails from "../screens/Dental/DentalDetails";
+
 
 import Profile from "../screens/Profile";
-
-
-
 
 
 const Stack = createNativeStackNavigator();
@@ -81,6 +85,43 @@ const MNavigation = () => {
                         backgroundColor: "#44AA92",
                     }
                 }}/>
+
+            <Stack.Screen name="Immunization" component={Immunization} options={{headerShown: false}}/>
+            <Stack.Screen name="Immunization Details" 
+                component={ImmunizationDetails}
+                options={{
+                    title:"Immunization",
+                    headerTintColor: "#FFF",
+                    headerTitleAlign: 'center',
+                    headerStyle:{
+                        backgroundColor: "#44AA92",
+                    }
+                }} />
+                <Stack.Screen name="Immunization Session" 
+                component={ImmunizationSession}
+                options={{
+                    title:"Immunization",
+                    headerTintColor: "#FFF",
+                    headerTitleAlign: 'center',
+                    headerStyle:{
+                        backgroundColor: "#44AA92",
+                    }
+                }}/>
+
+            <Stack.Screen name="Dental" component={Dental} options={{headerShown: false}}/>
+            <Stack.Screen name="Dental Details" 
+                component={DentalDetails}
+                options={{
+                    title:"Dental",
+                    headerTintColor: "#FFF",
+                    headerTitleAlign: 'center',
+                    headerStyle:{
+                        backgroundColor: "#44AA92",
+                    }
+                }} />
+            
+
+
 
                 <Stack.Screen name="Family Planning" component={FamilyPlanning} options={{headerShown: false}}/>
                  <Stack.Screen  name="Family Planning Details" component={FamilyPlanningDetails}

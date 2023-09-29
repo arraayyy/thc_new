@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity, Dimensions,PixelRatio } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -7,11 +7,11 @@ import Header from '../components/Header'
 const Services = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={{backgroundColor:'', height:height}}>
+    <SafeAreaView style={{ height:height}}>
       <Header height={80}/>
       <View style={{alignItems: 'center'}}>
           <View style={styles.header}/>
-          <View >
+          <View View style={{paddingTop:30}}>
             {/* <Icon name="briefcase-medical" size={50} color="#9ED5C5" /> */}
           </View>
           <View style={styles.container}>
@@ -23,7 +23,7 @@ const Services = () => {
           </View>
           <View style={styles.container}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Prenatal")}
+                onPress={() => navigation.navigate("Immunization")}
                 style={styles.servButton}>
                     <Text style={styles.servText}>Immunization</Text>
                 </TouchableOpacity>
@@ -37,7 +37,7 @@ const Services = () => {
           </View>
           <View style={styles.container}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Prenatal")}
+                onPress={() => navigation.navigate("Dental")}
                 style={styles.servButton}>
                     <Text style={styles.servText}>Dental</Text>
                 </TouchableOpacity>
@@ -71,6 +71,8 @@ const Services = () => {
 export default Services
 const width = Dimensions.get('window').width -40;
 const height = Dimensions.get('window').height -40;
+const fontScale = PixelRatio.getFontScale();
+const getFontSize = size => size / fontScale;
 const styles = StyleSheet.create({
    header:{
     marginTop:20,
@@ -85,8 +87,8 @@ const styles = StyleSheet.create({
   servButton: {
     paddingTop: 5,
     backgroundColor: '#F9F9F9',
-    width: 200,
-    height: 55,
+    width: width-150,
+    height: height-720,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
   servText:{
     paddingVertical:5,
     color: '#9ED5C5',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize:getFontSize(17),
   }
 })

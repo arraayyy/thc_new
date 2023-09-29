@@ -1,4 +1,4 @@
-import { View, Text, ScrollView ,StyleSheet, TouchableOpacity, Dimensions} from 'react-native'
+import { View, Text, ScrollView ,StyleSheet, TouchableOpacity, Dimensions,PixelRatio} from 'react-native'
 import React from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -141,7 +141,7 @@ const PrenatalDetails = ({route}) => {
                     <Text style={styles.cardRow}>Session {value.examID}</Text>
                     <Text style={styles.cardRow}>{value.doc}</Text>
                     <Text style={styles.cardRow}>{value.date}</Text>
-                    <Icon style={[styles.icon,{color:'white'}]} name='angle-right' size={23} color='#E0E2E1' />
+                    <Icon style={[styles.icon]} name='angle-right' size={23} color='#E0E2E1' />
                     </View>
                 </View>
                 </TouchableOpacity>
@@ -156,6 +156,8 @@ const PrenatalDetails = ({route}) => {
 export default PrenatalDetails
 
 const width = Dimensions.get('window').width -40;
+const fontScale = PixelRatio.getFontScale();
+const getFontSize = size => size / fontScale;
 const styles = StyleSheet.create({
   container:{
     backgroundColor:'white',
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
         elevation: 5, 
   }, 
   cardRow:{
-    fontSize:18, 
+    fontSize:getFontSize(15), 
     color:'#44AA92',
     fontWeight:'bold',
     justifyContent: 'center'
