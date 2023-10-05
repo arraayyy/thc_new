@@ -1,4 +1,4 @@
-import { View, Text, ScrollView ,StyleSheet, TouchableOpacity} from 'react-native'
+import { View, Text, ScrollView ,StyleSheet, TouchableOpacity, Dimensions,PixelRatio} from 'react-native'
 import React from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -69,70 +69,68 @@ const MedicalCheckupDetails = ({route}) => {
       );
 }
 
+const width = Dimensions.get('window').width -40;
+const fontScale = PixelRatio.getFontScale();
+const getFontSize = size => size / fontScale;
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:'white',
-    },
-    body: {
-        padding: 15,
-       
-      },
-      title: {
-        color: '#88EECC',
-        fontSize: 30,
-        marginBottom: 20,
-        
-       
-      },
-     
-      titleBox: {
-        backgroundColor:'white',
-        borderRadius:5,
-        marginTop: 20,
-        alignItems:'center',
-        shadowColor:'black',
-        shadowOffset:
-            {width: 0,
-            height: 2,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-      },
-      cardTitle:{
-        color: 'black',
-        fontSize: 20,
-        textAlign:'center',
-        padding:20,
-      },
-      lineStyle:{
-        borderWidth: 0.1,
-        backgroundColor:'black',
-        height:0.5,
-        width:'100%'
-   },
-   cardBody:{
-     padding:30
-   },
-   card:{
-    backgroundColor:'#88EECC',
+  container:{
+    backgroundColor:'white',
+  },
+  body: {
+    padding: 15,
+    
+  },
+  title: {
+    color: '#88EECC',
+    fontSize: 30,
+    marginBottom: 20,
+  },
+  titleBox: {
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems:'center',
+    // shadowColor:'black',
+    // shadowOffset:
+    //     {width: 0,
+    //     height: 2,},
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+    // elevation: 5,
+  },
+  cardTitle:{
+    color: 'black',
+    fontSize: 20,
+    padding:20,
+  },
+  lineStyle:{
+    width:width-70,
+    borderWidth: 0.1,
+    backgroundColor:'black',
+    height: 1,
+  },
+  cardBody:{
+    padding:30,
+  },
+  card:{
+    backgroundColor:'#91E0CE',
     marginLeft:0,
-    width:350 ,
+    width: width ,
     borderRadius:10,
     borderWidth:1,
-    borderColor: '#F9F9F9',
-    shadowColor:'black',
+    shadowColor:'#566e66',
         shadowOffset:
             {width: 0,
-            height: 2,},
+            height: 1,},
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5, 
   }, 
   cardRow:{
-    fontSize:16, 
-    color:'white',
-    fontWeight:'bold'
-  }
+    fontSize:getFontSize(15), 
+    color:'#44AA92',
+    fontWeight:'bold',
+    justifyContent: 'center'
+  } 
 })
 
 export default MedicalCheckupDetails;
