@@ -3,6 +3,7 @@ import React from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
+import servicesDetails from '../../styles/ServicesDetails';
 
 const FamilyPlanningDetails = ({route}) => {
     const navigation = useNavigation();
@@ -68,16 +69,16 @@ const FamilyPlanningDetails = ({route}) => {
     ];
 
     return (
-        <ScrollView style={styles.container}>
-     <View style={styles.body}>
+        <ScrollView style={servicesDetails.container}>
+     <View style={servicesDetails.body}>
         <View style={{marginTop: 20,paddingLeft:10}}>
-            <Text style={styles.title}>EXAMINATION {route.params.examID}</Text>
+            <Text style={servicesDetails.title}>EXAMINATION {route.params.examID}</Text>
         </View>
-        <View style={[styles.titleBox]}>
+        <View style={[servicesDetails.titleBox]}>
 
-           <Text style={styles.cardTitle}>Personal Information</Text>
-           <View style = {styles.lineStyle} />
-            <View style={styles.cardBody}>
+           <Text style={servicesDetails.cardTitle}>Personal Information</Text>
+           <View style = {servicesDetails.lineStyle} />
+            <View style={servicesDetails.cardBody}>
                 <Text><Text style={{fontWeight:'bold'}}>Name :  </Text>{patient.name}</Text>
                 <Text><Text style={{fontWeight:'bold'}}>Age: </Text>{patient.age}</Text>
                 <Text><Text style={{fontWeight:'bold'}}>Birthdate: </Text>{patient.birthdate}</Text>
@@ -97,10 +98,10 @@ const FamilyPlanningDetails = ({route}) => {
             </View>
         </View>
 
-        <View style={[styles.titleBox]}>
-           <Text style={styles.cardTitle}>Obstetrical History</Text>
-           <View style = {styles.lineStyle} />
-            <View style={[styles.cardBody]} >
+        <View style={[servicesDetails.titleBox]}>
+           <Text style={servicesDetails.cardTitle}>Obstetrical History</Text>
+           <View style = {servicesDetails.lineStyle} />
+            <View style={[servicesDetails.cardBody]} >
                     <Text><Text style={{fontWeight:'bold'}}>Gravida :  </Text>{patient.gravida}</Text>
                     <Text ><Text style={{fontWeight:'bold'}}>Para "(Parity)": </Text>{patient.para}</Text>
                     <Text ><Text style={{fontWeight:'bold'}}>No. of Full Term :  </Text>{patient.NumFT}</Text>
@@ -119,10 +120,10 @@ const FamilyPlanningDetails = ({route}) => {
                 </View>
             </View>
 
-            <View style={[styles.titleBox]}>
-                <Text style={styles.cardTitle}>Physical Examination</Text>
-                <View style = {styles.lineStyle} />
-                <View style={styles.cardBody}>
+            <View style={[servicesDetails.titleBox]}>
+                <Text style={servicesDetails.cardTitle}>Physical Examination</Text>
+                <View style = {servicesDetails.lineStyle} />
+                <View style={servicesDetails.cardBody}>
                     <Text><Text style={{fontWeight:'bold'}}>Weight : </Text>{patient.weight}</Text>
                     <Text><Text style={{fontWeight:'bold'}}>Height: </Text>{patient.height}</Text>
                     <Text><Text style={{fontWeight:'bold'}}>Blood Pressure: </Text>{patient.BP}</Text>
@@ -138,18 +139,18 @@ const FamilyPlanningDetails = ({route}) => {
              </View>
              
          <View style={{marginTop: 20,paddingLeft:10}}>
-            <Text style={[styles.title,{fontSize:20, fontWeight:'bold'}]}>FAMILY PLANNING ASSESSMENTS</Text>
+            <Text style={[servicesDetails.title,{fontSize:20, fontWeight:'bold'}]}>FAMILY PLANNING ASSESSMENTS</Text>
         </View> 
             {assessment.map((value,indx)=>{
                   return(
-                    <Card containerStyle={styles.card}>
+                    <Card containerStyle={servicesDetails.card}>
                         <TouchableOpacity onPress={()=> navigation.navigate("Family Planning Assessment", { date: value.date, doctor: value.doc })}>    
                         <View style={{flexDirection:'column'}}>
                             <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
-                            <Text style={styles.cardRow}>Assessment {value.examID}</Text>
-                            <Text style={styles.cardRow}>{value.doc}</Text>
-                            <Text style={styles.cardRow}>{value.date}</Text>
-                            <Icon style={[styles.icon,{color:'white'}]} name='angle-right' size={30} color='#E0E2E1' />
+                            <Text style={servicesDetails.cardRow}>Assessment {value.examID}</Text>
+                            <Text style={servicesDetails.cardRow}>{value.doc}</Text>
+                            <Text style={servicesDetails.cardRow}>{value.date}</Text>
+                            <Icon style={[servicesDetails.icon,{color:'white'}]} name='angle-right' size={30} color='#3e4240' />
                             </View>
                         </View>
                         </TouchableOpacity>
@@ -160,134 +161,5 @@ const FamilyPlanningDetails = ({route}) => {
         </ScrollView>
       );
 }
-
-// const styles = StyleSheet.create({
-//     container:{
-//         backgroundColor:'white',
-//     },
-//     body: {
-//         padding: 15,
-       
-//       },
-//       title: {
-//         color: '#88EECC',
-//         fontSize: 30,
-//         marginBottom: 20,
-        
-       
-//       },
-     
-//       titleBox: {
-//         backgroundColor:'white',
-//         borderRadius:5,
-//         marginTop: 20,
-//         alignItems:'center',
-//         shadowColor:'black',
-//         shadowOffset:
-//             {width: 0,
-//             height: 2,},
-//         shadowOpacity: 0.25,
-//         shadowRadius: 3.84,
-//         elevation: 5,
-//       },
-//       cardTitle:{
-//         color: 'black',
-//         fontSize: 20,
-//         textAlign:'center',
-//         padding:20,
-//       },
-//       lineStyle:{
-//         borderWidth: 0.1,
-//         backgroundColor:'black',
-//         height:0.5,
-//         width:'100%'
-//    },
-//    cardBody:{
-//      padding:30
-//    },
-//    card:{
-//     backgroundColor:'#88EECC',
-//     marginLeft:0,
-//     width:350 ,
-//     borderRadius:10,
-//     borderWidth:1,
-//     borderColor: '#F9F9F9',
-//     shadowColor:'black',
-//         shadowOffset:
-//             {width: 0,
-//             height: 2,},
-//         shadowOpacity: 0.25,
-//         shadowRadius: 3.84,
-//         elevation: 5, 
-//   }, 
-//   cardRow:{
-//     fontSize:16, 
-//     color:'white',
-//     fontWeight:'bold'
-//   }
-
-const width = Dimensions.get('window').width -40;
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = size => size / fontScale;
-const styles = StyleSheet.create({
-  container:{
-    backgroundColor:'white',
-  },
-  body: {
-    padding: 15,
-    
-  },
-  title: {
-    color: '#88EECC',
-    fontSize: 30,
-    marginBottom: 20,
-  },
-  titleBox: {
-    borderRadius: 5,
-    marginTop: 10,
-    alignItems:'center',
-    // shadowColor:'black',
-    // shadowOffset:
-    //     {width: 0,
-    //     height: 2,},
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-    // elevation: 5,
-  },
-  cardTitle:{
-    color: 'black',
-    fontSize: 20,
-    padding:20,
-  },
-  lineStyle:{
-    width:width-70,
-    borderWidth: 0.1,
-    backgroundColor:'black',
-    height: 1,
-  },
-  cardBody:{
-    padding:30,
-  },
-  card:{
-    backgroundColor:'#91E0CE',
-    marginLeft:0,
-    width: width ,
-    borderRadius:10,
-    borderWidth:1,
-    shadowColor:'#566e66',
-        shadowOffset:
-            {width: 0,
-            height: 1,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5, 
-  }, 
-  cardRow:{
-    fontSize:getFontSize(15), 
-    color:'#44AA92',
-    fontWeight:'bold',
-    justifyContent: 'center'
-  } 
-})
 
 export default FamilyPlanningDetails;

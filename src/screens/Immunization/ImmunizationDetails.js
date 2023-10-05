@@ -3,6 +3,7 @@ import React from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
+import servicesDetails from '../../styles/ServicesDetails';
 
 const ImmunizationDetails = ({route}) => {
   const navigation = useNavigation();
@@ -52,15 +53,15 @@ const ImmunizationDetails = ({route}) => {
   ];
 
     return (
-    <ScrollView style={styles.container}>
-      <View style={styles.body}>
+    <ScrollView style={servicesDetails.container}>
+      <View style={servicesDetails.body}>
         <View style={{marginTop: 20,paddingLeft:10}}>
-          <Text style={styles.title}>EXAMINATION {route.params.examID}</Text>
+          <Text style={servicesDetails.title}>EXAMINATION {route.params.examID}</Text>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Personal Information</Text>
-          <View style = {styles.lineStyle} />
-          <View style={styles.cardBody}>
+        <View style={[servicesDetails.titleBox]}>
+          <Text style={servicesDetails.cardTitle}>Personal Information</Text>
+          <View style = {servicesDetails.lineStyle} />
+          <View style={servicesDetails.cardBody}>
               <Text><Text style={{fontWeight:'bold'}}>Name : </Text>{patient.fname + " "+ patient.mname + " " + patient.lname}</Text>
               <Text><Text style={{fontWeight:'bold'}}>Sex: </Text>{patient.sex}</Text>
               <Text><Text style={{fontWeight:'bold'}}>Date of Birth: </Text>{patient.birthdate}</Text>
@@ -84,10 +85,10 @@ const ImmunizationDetails = ({route}) => {
               <Text><Text style={{fontWeight:'bold'}}>Date of New Born Screening: </Text>{patient.donbs}</Text>
           </View>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Vaccine</Text>
-          <View style = {styles.lineStyle} />
-          <View style={styles.cardBody}>
+        <View style={[servicesDetails.titleBox]}>
+          <Text style={servicesDetails.cardTitle}>Vaccine</Text>
+          <View style = {servicesDetails.lineStyle} />
+          <View style={servicesDetails.cardBody}>
             <Text><Text style={{fontWeight:'bold'}}>BCG:  </Text>{patient.Vac.BCG}</Text>
             <Text><Text style={{fontWeight:'bold'}}>Hep BV: </Text>{patient.Vac.HEPBV}</Text>
             <Text><Text style={{fontWeight:'bold'}}>PCV 1: </Text>{patient.Vac.PCV1}</Text>
@@ -104,18 +105,18 @@ const ImmunizationDetails = ({route}) => {
           </View>
         </View>
         <View style={{marginTop: 20,paddingLeft:10}}>
-          <Text style={[styles.title,{fontSize:20, fontWeight:'bold'}]}>SESSION FINDINGS</Text>
+          <Text style={[servicesDetails.title,{fontSize:20, fontWeight:'bold'}]}>SESSION FINDINGS</Text>
         </View> 
         {session.map((value,indx)=>{
           return(
-            <Card containerStyle={styles.card} key={indx}>
+            <Card containerStyle={servicesDetails.card} key={indx}>
                 <TouchableOpacity onPress={()=> navigation.navigate("Immunization Session",value)}>
                 <View style={{flexDirection:'column'}}>
                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
-                    <Text style={styles.cardRow}>Session {value.examID}</Text>
-                    <Text style={styles.cardRow}>{value.doc}</Text>
-                    <Text style={styles.cardRow}>{value.date}</Text>
-                    <Icon style={[styles.icon]} name='angle-right' size={23} color='#E0E2E1' />
+                    <Text style={servicesDetails.cardRow}>Session {value.examID}</Text>
+                    <Text style={servicesDetails.cardRow}>{value.doc}</Text>
+                    <Text style={servicesDetails.cardRow}>{value.date}</Text>
+                    <Icon style={[servicesDetails.icon]} name='angle-right' size={23} color='#3e4240' />
                     </View>
                 </View>
                 </TouchableOpacity>
@@ -128,67 +129,3 @@ const ImmunizationDetails = ({route}) => {
 }
 
 export default ImmunizationDetails
-
-const width = Dimensions.get('window').width -40;
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = size => size / fontScale;
-const styles = StyleSheet.create({
-  container:{
-    backgroundColor:'white',
-  },
-  body: {
-    padding: 15,
-    
-  },
-  title: {
-    color: '#88EECC',
-    fontSize: 30,
-    marginBottom: 20,
-  },
-  titleBox: {
-    borderRadius: 5,
-    marginTop: 10,
-    alignItems:'center',
-    // shadowColor:'black',
-    // shadowOffset:
-    //     {width: 0,
-    //     height: 2,},
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-    // elevation: 5,
-  },
-  cardTitle:{
-    color: 'black',
-    fontSize: 20,
-    padding:20,
-  },
-  lineStyle:{
-    width:width-70,
-    borderWidth: 0.1,
-    backgroundColor:'black',
-    height: 1,
-  },
-  cardBody:{
-    padding:30,
-  },
-  card:{
-    backgroundColor:'#91E0CE',
-    marginLeft:0,
-    width: width ,
-    borderRadius:10,
-    borderWidth:1,
-    shadowColor:'#566e66',
-        shadowOffset:
-            {width: 0,
-            height: 1,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5, 
-  }, 
-  cardRow:{
-    fontSize:getFontSize(15), 
-    color:'#44AA92',
-    fontWeight:'bold',
-    justifyContent: 'center'
-  } 
-})

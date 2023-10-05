@@ -1,6 +1,6 @@
 import { View, Text, ScrollView ,StyleSheet,  Dimensions,PixelRatio} from 'react-native'
 import React from 'react'
-
+import servicesDetails from '../../styles/ServicesDetails';
 
 const DentalDetails = ({route}) => {
   const patient = 
@@ -42,15 +42,15 @@ const DentalDetails = ({route}) => {
     };
 
     return (
-    <ScrollView style={styles.container}>
-      <View style={styles.body}>
+    <ScrollView style={servicesDetails.container}>
+      <View style={servicesDetails.body}>
         <View style={{marginTop: 20,paddingLeft:10}}>
-          <Text style={styles.title}>EXAMINATION {route.params.examID}</Text>
+          <Text style={servicesDetails.title}>EXAMINATION {route.params.examID}</Text>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Personal Information</Text>
-          <View style = {styles.lineStyle} />
-          <View style={styles.cardBody}>
+        <View style={[servicesDetails.titleBox]}>
+          <Text style={servicesDetails.cardTitle}>Personal Information</Text>
+          <View style = {servicesDetails.lineStyle} />
+          <View style={servicesDetails.cardBody}>
               <Text><Text style={{fontWeight:'bold'}}>Name :  </Text>{patient.fname + " "+ patient.mname + " " + patient.lname}</Text>
               <Text><Text style={{fontWeight:'bold'}}>Sex: </Text>{patient.sex}</Text>
               <Text><Text style={{fontWeight:'bold'}}>Date of Birth: </Text>{patient.birthdate}</Text>
@@ -60,10 +60,10 @@ const DentalDetails = ({route}) => {
               <Text><Text style={{fontWeight:'bold'}}>Address: </Text>{patient.address}</Text>
           </View>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Oral Health Condition</Text>
-          <View style = {styles.lineStyle} />
-          <View style={[styles.cardBody]} >
+        <View style={[servicesDetails.titleBox]}>
+          <Text style={servicesDetails.cardTitle}>Oral Health Condition</Text>
+          <View style = {servicesDetails.lineStyle} />
+          <View style={[servicesDetails.cardBody]} >
             <Text><Text style={{fontWeight:'bold'}}>Date of Oral Examination:  </Text>{patient.doe}</Text>
             <Text ><Text style={{fontWeight:'bold'}}>Dental Caries: </Text>{patient.dc}</Text>
                
@@ -91,27 +91,27 @@ const DentalDetails = ({route}) => {
             
           </View>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Physical Examnination</Text>
-          <View style = {styles.lineStyle} />
-          <View style={styles.cardBody}>
+        <View style={[servicesDetails.titleBox]}>
+          <Text style={servicesDetails.cardTitle}>Physical Examnination</Text>
+          <View style = {servicesDetails.lineStyle} />
+          <View style={servicesDetails.cardBody}>
             <Text><Text style={{fontWeight:'bold'}}>Blood Pressure:  </Text>{patient.bp}</Text>
             <Text><Text style={{fontWeight:'bold'}}>Pulse Rate: </Text>{patient.pr}</Text>
           </View>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Medical History</Text>
-          <View style = {styles.lineStyle} />
-          <View style={styles.cardBody}>
+        <View style={[servicesDetails.titleBox]}>
+          <Text style={servicesDetails.cardTitle}>Medical History</Text>
+          <View style = {servicesDetails.lineStyle} />
+          <View style={servicesDetails.cardBody}>
             <Text><Text style={{fontWeight:'bold'}}>Previous Illness :  </Text>{patient.ill}</Text>
             <Text><Text style={{fontWeight:'bold'}}>Allergy : </Text>{patient.all}</Text>
             <Text><Text style={{fontWeight:'bold'}}>Previous Hospitalization: </Text>{patient.hos}</Text>
           </View>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Dietary Habits</Text>
-          <View style = {styles.lineStyle} />
-          <View style={styles.cardBody}>
+        <View style={[servicesDetails.titleBox]}>
+          <Text style={servicesDetails.cardTitle}>Dietary Habits</Text>
+          <View style = {servicesDetails.lineStyle} />
+          <View style={servicesDetails.cardBody}>
             <Text><Text style={{fontWeight:'bold'}}>Sugar Sweetened Beverages/Food:  </Text>{patient.ssbf}</Text>
             <Text><Text style={{fontWeight:'bold'}}>Frequency of taking Alcohol: </Text>{patient.fta}</Text>
             <Text><Text style={{fontWeight:'bold'}}>Frequency of taking Tobacco:</Text>{patient.ftt}</Text>
@@ -124,66 +124,66 @@ const DentalDetails = ({route}) => {
 
 export default DentalDetails
 
-const width = Dimensions.get('window').width -40;
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = size => size / fontScale;
-const styles = StyleSheet.create({
-  container:{
-    backgroundColor:'white',
-  },
-  body: {
-    padding: 15,
+// const width = Dimensions.get('window').width -40;
+// const fontScale = PixelRatio.getFontScale();
+// const getFontSize = size => size / fontScale;
+// const styles = StyleSheet.create({
+//   container:{
+//     backgroundColor:'white',
+//   },
+//   body: {
+//     padding: 15,
     
-  },
-  title: {
-    color: '#88EECC',
-    fontSize: 30,
-    marginBottom: 20,
-  },
-  titleBox: {
-    borderRadius: 5,
-    marginTop: 10,
-    alignItems:'center',
-    // shadowColor:'black',
-    // shadowOffset:
-    //     {width: 0,
-    //     height: 2,},
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-    // elevation: 5,
-  },
-  cardTitle:{
-    color: 'black',
-    fontSize: 20,
-    padding:20,
-  },
-  lineStyle:{
-    width:width-70,
-    borderWidth: 0.1,
-    backgroundColor:'black',
-    height: 1,
-  },
-  cardBody:{
-    padding:30,
-  },
-  card:{
-    backgroundColor:'#91E0CE',
-    marginLeft:0,
-    width: width ,
-    borderRadius:10,
-    borderWidth:1,
-    shadowColor:'#566e66',
-        shadowOffset:
-            {width: 0,
-            height: 1,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5, 
-  }, 
-  cardRow:{
-    fontSize:getFontSize(15), 
-    color:'#44AA92',
-    fontWeight:'bold',
-    justifyContent: 'center'
-  } 
-})
+//   },
+//   title: {
+//     color: '#88EECC',
+//     fontSize: 30,
+//     marginBottom: 20,
+//   },
+//   titleBox: {
+//     borderRadius: 5,
+//     marginTop: 10,
+//     alignItems:'center',
+//     // shadowColor:'black',
+//     // shadowOffset:
+//     //     {width: 0,
+//     //     height: 2,},
+//     // shadowOpacity: 0.25,
+//     // shadowRadius: 3.84,
+//     // elevation: 5,
+//   },
+//   cardTitle:{
+//     color: 'black',
+//     fontSize: 20,
+//     padding:20,
+//   },
+//   lineStyle:{
+//     width:width-70,
+//     borderWidth: 0.1,
+//     backgroundColor:'black',
+//     height: 1,
+//   },
+//   cardBody:{
+//     padding:30,
+//   },
+//   card:{
+//     backgroundColor:'#91E0CE',
+//     marginLeft:0,
+//     width: width ,
+//     borderRadius:10,
+//     borderWidth:1,
+//     shadowColor:'#566e66',
+//         shadowOffset:
+//             {width: 0,
+//             height: 1,},
+//         shadowOpacity: 0.25,
+//         shadowRadius: 3.84,
+//         elevation: 5, 
+//   }, 
+//   cardRow:{
+//     fontSize:getFontSize(15), 
+//     color:'#44AA92',
+//     fontWeight:'bold',
+//     justifyContent: 'center'
+//   } 
+// })
