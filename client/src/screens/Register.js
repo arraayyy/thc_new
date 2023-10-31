@@ -98,7 +98,7 @@ const Register = () => {
     const user_type = acc_type = "Resident";
     const acc_status = "Pending";
     try {
-      const response = await axios.post('/register', {
+      const response = await axios.post('http://10.0.2.2:8001/account//register', {
               email, phone: contactNo, user_type,first_name, acc_type,last_name, middle_name,relationship,password,acc_status,
               gender, birthDate, birthPlace, educAttain, occupation, contactNo,civilStatus,
               nationality, street, barangay, municipality, zipCode

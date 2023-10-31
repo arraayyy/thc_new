@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -10,12 +11,27 @@ const SignInScreen = () => {
 
   const navigation = useNavigation();
 
-  const handleLogin = () => {
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    
     // Implement your login logic here
     console.log('Email:', email);
     console.log('Password:', password);
+    try {
+    const response = await axios.post('http://10.0.2.2:8001/account/login', {
+      email, password
+      
+    });
 
-    navigation.navigate("Dashboard");
+    if(response.status === 200){
+      alert("You have Successfully Logged In");
+
+      navigation.navigate("Dashboard");
+    }
+  } catch (error) {
+      console.log(error);
+     
+  }
   };
 
   return (
@@ -29,6 +45,7 @@ const SignInScreen = () => {
           style={styles.input}
           onChangeText={text => setEmail(text)}
           value={email}
+          setValue={setEmail}
         />
         
         {/* Label for Password */}
@@ -38,6 +55,7 @@ const SignInScreen = () => {
           secureTextEntry={true}
           onChangeText={text => setPassword(text)}
           value={password}
+          setValue={setPassword}
         />
         
         <TouchableOpacity

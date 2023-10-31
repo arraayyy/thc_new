@@ -148,7 +148,7 @@ router.post("/login", async (req, res) => {
         if(!user){
             retValMsg = "Account Not Found";
         } else{
-            if(user.acc_type === "Worker"){
+            if(user.acc_type === "Resident"){
                 const isPasswordValid = user.password == loginPassword;
                 if(!isPasswordValid){
                     retValMsg = "Incorrect Password... Try Again";
