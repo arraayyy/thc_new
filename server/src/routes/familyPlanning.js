@@ -9,7 +9,7 @@ import { FamilyPlanningAssessmentModel } from "../models/FamilyPlanningAssessmen
 function getAge(date){
     const today = new Date();
     const birthDate = new Date(date);
-    const age = today.getFullYear() - birthDate.getFullYear();
+    let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
 
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
@@ -34,7 +34,7 @@ router.post("/add/:id", async (req, res) => {
             const medicalHistoryInstance = new MedicalHistoryModel(req.body);
             await medicalHistoryInstance.save();
 
-            const serviceInstance = new FamilyPlanningModel({...req.body, spouseAge:age});
+            const serviceInstance = new FamilyPlanningModel({...req.body, spouseAge: getAge(req.body.spouseDoB)});
             await serviceInstance.save();
             await FamilyPlanningModel.findOneAndUpdate(
                 { _id: serviceInstance._id },

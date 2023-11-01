@@ -7,8 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Header from '../components/Header'
 const Services = () => {
   const navigation = useNavigation();
-  const route = useRoute();
-  const profileId = route.params?.profileId;
+  
 
   const onPrenatal = (profile_id) => {
     navigation.navigate("Prenatal", { profileId: profile_id});
@@ -23,7 +22,7 @@ const Services = () => {
           </View>
           <View style={styles.container}>
                 <TouchableOpacity
-                onPress={() => onPrenatal(profileId)}
+                onPress={() => navigation.navigate("Prenatal")}
                 style={styles.servButton}>
                     <Text style={styles.servText}>Prenatal</Text>
                 </TouchableOpacity>

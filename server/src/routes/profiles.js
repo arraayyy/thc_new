@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import CryptoJS from 'crypto-js';
 import { ProfileModel } from "../models/Profile.js";
 import { AccountModel } from "../models/Accounts.js";
 
@@ -15,6 +16,19 @@ function getAge(date){
     }
 
     return age;  
+}
+
+function encryptCRPYTO(passwordPlainText){
+    var secretKey = process.env.SECRET_KEY;
+    var ciphertext = CryptoJS.AES.encrypt(passwordPlainText, secretKey).toString();
+    return ciphertext;
+}
+
+function decryptCRPYTO(ciphertext){
+    var secretKey = process.env.SECRET_KEY;
+    var bytes  = CryptoJS.AES.decrypt(ciphertext, secretKey);
+    var originalText = bytes.toString(CryptoJS.enc.Utf8);
+    return originalText;
 }
 
 const router = express.Router();
@@ -114,8 +128,9 @@ router.get("/medicalrecords/:id", async (req, res) => {
 router.patch("/updateprofile/:id", async (req, res) => {
     const profId = req.params.id;
     try {
+        const encryptPass = encryptCRPYTO(req.body.password)
         const data = await ProfileModel.findOneAndUpdate({_id: profId}, req.body, {new:true});
-        const accdata = await AccountModel.findOneAndUpdate({profile: profId}, req.body, {new:true});
+        const accdata = await AccountModel.findOneAndUpdate({profile: profId}, {...req.body, password: encryptPass}, {new:true});
         res.json({data, accdata, message: "Profile Successfuly Updated"});
     } catch (error) {  
         res.json(error);
@@ -144,6 +159,23 @@ router.patch("/worker/edit/:profid", async (req, res) => {
     }
 })
 
+// UPDATE SPECIFIC RESIDENT STATUS
+router.patch("/resident/edit/:profid", async (req, res) => {
+    const profId = req.params.profid;
+
+    try {
+        const data = await ProfileModel.findOneAndUpdate(
+            { _id: profId },
+            { prof_status: req.body.prof_status },
+            // Ensure that the updated document is returned
+        );
+
+        res.json({message: "Resident Successfuly Updated", data})
+    } catch (error) {
+        res.json(error);
+    }
+})
+
 // UPDATE SPECIFIC RESIDENT STATUS: APPROVE
 router.patch("/resident/approve/:profid", async (req, res) => {
     const profid = req.params.profid
@@ -165,6 +197,31 @@ router.patch("/resident/disapprove/:profid", async (req, res) => {
         res.json({message: "Resident Successfuly Disapproved/Inactivated"})
     } catch (error) {
         res.json(error)
+    }
+})
+
+// AUTOMATICALLY INACTIVE PROFILE WHEN NOT USED FOR MORE THAN 5 YEARS
+router.patch("/profstatus/checker", async (req, res) => {
+
+    try {
+        const profileData = await ProfileModel.find({});
+        profileData.map( async (profile) => {
+            const today = new Date();
+            const yearDifference = today.getFullYear() - profile.updatedAt.getFullYear();
+
+            if(yearDifference >= 5){
+                await ProfileModel.findByIdAndUpdate(
+                    {_id: profile._id}, 
+                    {
+                        prof_status: "Inactive"
+                    }
+                )
+            }
+        })
+        
+        res.json("Successfully Check all Profile Activation");
+    } catch (error) {
+        res.json(error);
     }
 })
 

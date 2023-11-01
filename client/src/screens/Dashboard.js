@@ -16,11 +16,11 @@ const Dashboard = () => {
 
   const getProfiles = async () => {
     const acctId = await AsyncStorage.getItem("accountId");
-    console.log("accountId",acctId);
+    
     try {
       const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
       setProfiles(response.data.profile);
-      console.log(response.data.profile)
+      
     } catch (error) {
       console.error(error);
     }
@@ -29,7 +29,8 @@ const Dashboard = () => {
   const fetchProfile = async (user) => {
     try {
       await AsyncStorage.setItem('UserName', user.first_name);
-      navigation.navigate("Home", { profileId: user._id });
+      await AsyncStorage.setItem('ProfileId', user._id);
+      navigation.navigate("Home");
     } catch (error) {
       console.error(error);
     }

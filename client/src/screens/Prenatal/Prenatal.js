@@ -5,21 +5,37 @@ import Icon from 'react-native-vector-icons/FontAwesome5'; // You can use a diff
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import Footer from '../../components/Footer'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Prenatal = () => {
   const [records,setRecords]= useState([]);
-  const route = useRoute();
-  const profileId = route.params?.profileId;
+  const [profile_id,setProfileId]= useState("");
+  
   const navigation = useNavigation();
   
-  console.log("Profile Id :", profileId);
+  
   
   useEffect(() => {
-    patientRecords();
+    getProfileId();
   }, [])
+  
+  const getProfileId = async () => {
+    try {
+      const profileId = await AsyncStorage.getItem('ProfileId');
+      if (profileId) {
+        setProfileId(profileId)
+        console.log("profileId: ", profileId)
+        patientRecords(profileId);
+      } else {
+        // Handle the case where profileId is not found in AsyncStorage
+        console.error('ProfileId not found in AsyncStorage');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-
-  const patientRecords = async () => {
+  const patientRecords = async (profileId) => {
     try {
       const response = await axios.get(`http://10.0.2.2:8001/maternalhealth/${profileId}`);
       setRecords(response.data.medical_records);
@@ -28,12 +44,16 @@ const Prenatal = () => {
       console.error(error);
   }
 }
+
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   const date = new Date(dateString);
   return date.toLocaleDateString(undefined, options);
 };
 
+const onPrenatalRecord =(recordid)=>{
+  navigation.navigate("Prenatal Results", {recordId: recordid})
+}
 
   return (
     <View style={styles.container}>
@@ -53,18 +73,18 @@ const formatDate = (dateString) => {
                 return(
                   <Card containerStyle={styles.card} key={indx}>
                     <TouchableOpacity 
-                      onPress={()=> navigation.navigate("Prenatal Results", value)}>
+                      onPress={()=> onPrenatalRecord( value.service_id._id, profile_id )}>
                       <View style={{flexDirection:'row'}}>
                         <View>
                           <Text 
                             style={[
                               styles.cardRow, 
                               {fontSize:20, fontWeight:'bold', color: "#44AA92"}
-                            ]}>Examination {value.service_id._id}</Text>
+                            ]}>Examination {value.service_id._id.slice(-6)}</Text>
                           <Text style={[styles.cardRow,]}>Dr.{value.service_id.attendedBy}</Text>
-                          <Text style={[styles.cardRow,]}>{formatDate(value.service_id.createdAt)}</Text>
+                          <Text style={[styles.cardRow,]}>{formatDate(value.service_id.updatedAt)}</Text>
                         </View>
-                      <Icon style={[styles.icon,{marginLeft:30 ,color:'#44AA92'}]} name='vial' size={25} color='#44AA92' />
+                      <Icon style={[styles.icon,{marginLeft:100 ,color:'#44AA92'}]} name='vial' size={25} color='#44AA92' />
                       </View>
                     </TouchableOpacity>
                   </Card>

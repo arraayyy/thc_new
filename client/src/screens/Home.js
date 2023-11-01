@@ -25,13 +25,7 @@ const Home = () => {
         fetchName();
     },[]);
     
-    const onServices = (profile_id) => {
-        navigation.navigate("Services", { profileId: profile_id });
-    }
-
-    const onProfile = (profile_id) => {
-        navigation.navigate("Profile", { profileId: profile_id });
-    }
+    
     return (
     <SafeAreaView>
         <Header height={80}/>
@@ -48,7 +42,7 @@ const Home = () => {
             </View>
             <View style={styles.container} numColumns={2}>
                 <TouchableOpacity
-                onPress={() => onServices(profileId)}
+                onPress={() => navigation.navigate("Services")}
                 style={styles.homeContainer}>
                     <View>
                     <Icon style={styles.icon} name='briefcase-medical' size={15} color='#15876C' />
@@ -56,7 +50,7 @@ const Home = () => {
                     <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => onProfile(profileId)}
+                  onPress={() => navigation.navigate("Profile")}
                 style={styles.homeContainer}>
                     <View>
                     <Icon style={styles.icon} name='user-alt' size={15} color='#15876C' />

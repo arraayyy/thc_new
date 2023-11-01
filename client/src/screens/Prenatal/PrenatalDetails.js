@@ -1,121 +1,213 @@
 import { View, Text, ScrollView ,StyleSheet, TouchableOpacity, Dimensions,PixelRatio} from 'react-native'
-import React from 'react'
+import React, { useState, useEffect }from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const PrenatalDetails = ({route}) => {
+const PrenatalDetails = () => {
   const navigation = useNavigation();
-  let patient = 
-  {
+  const route = useRoute();
+  const profileId = route.params?.profileId;
+  const recordId = route.params?.recordId;
+  const [profiles, setProfiles] = useState([]);
+  const [husband, setHusband] = useState([]);
+  const [patientInfo, setPatientInformation] = useState([]);
+  const [prenatalInfo, setPrenatalInformation] = useState([]);
+
+  useEffect(() => {
+    getProfiles();
+    getPrenatalDetails();
+    },[])
+  
+   
+  
+  const getProfiles = async () => {
+    const acctId = await AsyncStorage.getItem("accountId");
     
-      husband:"John Smith Doe",
-      husOCP:"Security Guard",
-      age: 24,
-      birthdate: "09-10-1999",
-      occupation: "N/A",
-      address: "Minoza St. Tigbao, Talamban, Cebu City",
-      gravida:"N/A",
-      para:"N/A",
-      NoFT:"N/A",
-      NoAb:"N/A",
-      NoPr:"N/A",
-      NoCBA:"3",
-      NoLC:" 2",
-      NoStill:"N/A",
-      LMP:"N/A",
-      DateLD:"N/A",
-      TypeLD:"N/A",
-      mensflow:"N/A",
-      hydmole:"N/A",
-      HEP:"N/A",
-      HLP:"N/A",
-      DIA:"N/A",
-      ill:"Cough",
-      algr:"lorems ipsum lorem",
-      PH:"Health Center",
-      TTS:{
-          TT1:"03-04-23",
-          TT2:"03-04-23",
-          TT3:"03-04-23",
-          TT4:"03-04-23",
-          TT5:"03-04-23",
-      },
-      Urine:"Normal",
-      CBC:"Normal",
-      BT:"Normal",
-      HBS:"Normal",
-      PPC:"N/A",
-  };
-  let session =[
-    {examID:1, doc:"Dr.Doe", date:'01-23-2023'},
-    {examID:2, doc:"Dr.Jane", date:'02-24-2023'},
-    {examID:3, doc:"Dr.Smith", date:'03-25-2023'},
-    {examID:4, doc:"Dr.John", date:'04-26-2023'}
-  ];
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      setProfiles(response.data.profile);
+      
+      const fetchPatientInfo = await axios.get(`http://10.0.2.2:8001/profile/${profileId}`);
+      setPatientInformation(fetchPatientInfo.data);
+     
+      const checkIfFather = (profiles) => {
+        return profiles.relationship === "Father";
+      }
+  
+      const fatherProfiles = response.data.profile.filter(checkIfFather);
+  
+      if (fatherProfiles.length > 0) {
+        setHusband(fatherProfiles)
+       
+      } else {
+        console.log("No profiles with relationship 'Father'");
+        setHusband([])
+      }
+
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+      const getPrenatalDetails = async () => {
+          try {
+            const response = await axios.get(`http://10.0.2.2:8001/maternalhealth/getrecord/${profileId}/${recordId}`);
+            setPrenatalInformation(response.data.record);
+        } catch (error) {
+            console.error(error);
+        }
+      }
+   
+      
+      const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString(undefined, options);
+      };
+      
+      let patient = 
+        {
+            Urine:"Normal",
+            CBC:"Normal",
+            BT:"Normal",
+            HBS:"Normal",
+            PPC:"N/A",
+        };
+      
+      const onPrenatalSession=(sessionid)=>{
+          navigation.navigate("Prenatal Session",{sessionId :sessionid})
+      }
 
     return (
     <ScrollView style={styles.container}>
       <View style={styles.body}>
         <View style={{marginTop: 20,paddingLeft:10}}>
-          <Text style={styles.title}>EXAMINATION {route.params.examID}</Text>
+          <Text style={styles.title}>EXAMINATION {recordId.slice(-6)}</Text>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Personal Information</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-              <Text><Text style={{fontWeight:'bold'}}>Husband's Name :  </Text>{patient.husband}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Husband's Occupation: </Text>{patient.husOCP}</Text>
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Name:</Text>
+                <Text style={styles.info}>
+                  {patientInfo.first_name} {patientInfo.middle_name} {patientInfo.last_name}
+                </Text>
+            </View>
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Age:</Text>
+              <Text style={styles.info}>{patientInfo.age}</Text>
+            </View>
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Birthdate: </Text>
+              <Text style={styles.info}>{formatDate(patientInfo.birthDate)}</Text>
+            </View>
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Place of Birth: </Text>
+              <Text style={styles.info}>{patientInfo.birthPlace}</Text>
+            </View>
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Occupation: </Text>
+              <Text style={styles.info}>{patientInfo.occupation}</Text>
+            </View>
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Address: </Text>
+                <Text style={styles.info}>{patientInfo.street + " " + patientInfo.barangay + " " + patientInfo.municipality + " " + patientInfo.zipCode}</Text>
+              </View>
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Husband's Name:</Text>
+                <Text style={styles.info}>
+                  {husband.length > 0
+                    ? `${husband[0].first_name} ${husband[0].middle_name} ${husband[0].last_name}`
+                    : 'N/A'}
+                </Text>
+              </View>
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Husband's Occupation:</Text>
+              <Text style={styles.info}>
+                {husband.length > 0 ? husband[0].occupation : 'N/A'}
+              </Text>
+            </View>
+ 
           </View>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Obstetrical Information</Text>
           <View style = {styles.lineStyle} />
           <View style={[styles.cardBody]} >
-            <Text><Text style={{fontWeight:'bold'}}>Gravida :  </Text>{patient.gravida}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>Para "(Parity)": </Text>{patient.para}</Text>
-               
-            <Text><Text style={{fontWeight:'bold'}}>No. of Full Term :  </Text>{patient.NoFT}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>No. of Abortion : </Text>{patient.NoAb}</Text>
-               
-            <Text><Text style={{fontWeight:'bold'}}>No. of Premature :  </Text>{patient.NoPr}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>No of Children Born : </Text>{patient.NoCBA}</Text>
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Gravida:</Text>
+                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numGravida}</Text>
+              </View>
+
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Para "(Parity)":</Text>
+                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numPara}</Text>
+              </View>
+
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>No. of Full Term:</Text>
+                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numFullterm}</Text>
+              </View>
+
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>No. of Abortion:</Text>
+                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numOfAbortion}</Text>
+              </View>
+
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>No. of Premature:</Text>
+                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numPremature}</Text>
+              </View>
+
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>No of Children Born Alive:</Text>
+                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numBornAlive}</Text>
+              </View>
                 
-            <Text><Text style={{fontWeight:'bold'}}>No. of Living Children:  </Text>{patient.NoLC}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>No of Stillbirths: </Text>{patient.NoStill}</Text>
+            <Text><Text style={{fontWeight:'bold'}}>No. of Living Children:  </Text>{prenatalInfo?.obstetricalHistory?.numOfLivingChild}</Text>
+            <Text ><Text style={{fontWeight:'bold'}}>No of Stillbirths: </Text>{prenatalInfo?.obstetricalHistory?.numOfStillBirth}</Text>
+            <Text ><Text style={{fontWeight:'bold'}}>Number of Large Babies : </Text>{prenatalInfo?.obstetricalHistory?.numberOfLargeBabies}</Text>
                 
-            <Text><Text style={{fontWeight:'bold'}}>Date of Last Delivery :  </Text>{patient.DateLD}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>Type of Last Delivery: </Text>{patient.TypeLD}</Text>
-                
-            <Text><Text style={{fontWeight:'bold'}}>Menstrual Flow :  </Text>{patient.mensflow}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>Hydatidiform mole: </Text>{patient.hydmole}</Text>
-               
-            <Text><Text style={{fontWeight:'bold'}}>History of Ectopic Pregnancy:  </Text>{patient.HEP}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>History of Large Babies : </Text>{patient.HLP}</Text>
-                
-            <Text><Text style={{fontWeight:'bold'}}>Diabetes:  </Text>{patient.DIA}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>LMP : </Text>{patient.LMP}</Text>
+            <Text><Text style={{fontWeight:'bold'}}>Date of Last Delivery :  </Text>{formatDate(prenatalInfo?.obstetricalHistory?.dateOfLastDelivery)}</Text>
+            <Text ><Text style={{fontWeight:'bold'}}>Type of Last Delivery: </Text>{prenatalInfo?.obstetricalHistory?.typeOfLastDelivery}</Text>
+            
+            <Text ><Text style={{fontWeight:'bold'}}>Last Menstrual Period : </Text>{formatDate(prenatalInfo?.obstetricalHistory?.lastMenstrualPeriod)}</Text>    
+            <Text><Text style={{fontWeight:'bold'}}>Menstrual Flow :  </Text>{prenatalInfo?.obstetricalHistory?.menstrualFlow}</Text>
+           
+            <Text ><Text style={{fontWeight:'bold'}}>Hydatidiform mole: </Text>{prenatalInfo?.obstetricalHistory?.hydatidiformMole? 'Yes' : 'No'}</Text>  
+            <Text><Text style={{fontWeight:'bold'}}> History of Ectopic Pregnancy:  </Text>{prenatalInfo?.obstetricalHistory?.ectopicPregnancy? 'Yes' : 'No'}</Text>
+            <Text ><Text style={{fontWeight:'bold'}}> History of Dysmenorrhea : </Text>{prenatalInfo?.obstetricalHistory?.dysmenorrhea? 'Yes' : 'No'}</Text>   
+            <Text><Text style={{fontWeight:'bold'}}> Diabetes:  </Text>{prenatalInfo?.obstetricalHistory?.diabetes?'Yes' : 'No'}</Text>
+            
           </View>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Medical History</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-            <Text><Text style={{fontWeight:'bold'}}>Previous Illness :  </Text>{patient.ill}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Allergy : </Text>{patient.algr}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Previous Hospitalization: </Text>{patient.PH}</Text>
+            <Text><Text style={{fontWeight:'bold'}}>Previous Illness :  </Text>{prenatalInfo?.medicalHistory?.illness? prenatalInfo.medicalHistory.illness: "N/A"}</Text>
+            <Text><Text style={{fontWeight:'bold'}}>Allergy : </Text>{prenatalInfo?.medicalHistory?.allergy? prenatalInfo.medicalHistory.allergy: "N/A"}</Text>
+            <Text><Text style={{fontWeight:'bold'}}>Previous Hospitalization: </Text>{prenatalInfo?.medicalHistory?.hospitalization? prenatalInfo.medicalHistory.hospitalization: "N/A"}</Text>
           </View>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Tetanus Toxoid Status</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-            <Text><Text style={{fontWeight:'bold'}}>Tetanus Toxoid 1 :  </Text>{patient.TTS.TT1}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Tetanus Toxoid 2: </Text>{patient.TTS.TT2}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Tetanus Toxoid 3: </Text>{patient.TTS.TT3}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Tetanus Toxoid 4: </Text>{patient.TTS.TT4}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Tetanus Toxoid 5: </Text>{patient.TTS.TT5}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>FIM: </Text></Text>
+          {
+            prenatalInfo.tetanusToxoidStatus&& prenatalInfo.tetanusToxoidStatus.map((rec, idx) => {
+                      if (rec._id != null) {
+                      return (
+                        <Text><Text style={{fontWeight:'bold'}}>{rec.vaccine_name} :  </Text>&nbsp;&nbsp;{formatDate(rec.dateGiven)}</Text>
+                        );
+                      }
+                                                              
+                    })
+            }
           </View>
         </View>
         <View style={[styles.titleBox]}>
@@ -132,22 +224,22 @@ const PrenatalDetails = ({route}) => {
         <View style={{marginTop: 20,paddingLeft:10}}>
           <Text style={[styles.title,{fontSize:20, fontWeight:'bold'}]}>SESSION FINDINGS</Text>
         </View> 
-        {session.map((value,indx)=>{
-          return(
-            <Card containerStyle={styles.card} key={indx}>
-                <TouchableOpacity onPress={()=> navigation.navigate("Prenatal Session",value)}>
+        {prenatalInfo.maternalHealthAssessment && prenatalInfo.maternalHealthAssessment.map((rec, idx) => {
+           if (rec._id != null) {
+            return (
+            <Card containerStyle={styles.card} key={idx}>
+                <TouchableOpacity onPress={()=> onPrenatalSession(rec._id)}>
                 <View style={{flexDirection:'column'}}>
                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
-                    <Text style={styles.cardRow}>Session {value.examID}</Text>
-                    <Text style={styles.cardRow}>{value.doc}</Text>
-                    <Text style={styles.cardRow}>{value.date}</Text>
-                    <Icon style={[styles.icon]} name='angle-right' size={23} color='#E0E2E1' />
+                    <Text style={styles.cardRow}>Session {rec._id.slice(-6)}</Text>
+                    <Text style={styles.cardRow}>{formatDate(rec.createdAt)}</Text>
+                    <Icon style={[styles.icon]} name='angle-right' size={23}  />
                     </View>
                 </View>
                 </TouchableOpacity>
             </Card>
           )
-        })}
+        }})}
       </View>
     </ScrollView>
   )
@@ -155,16 +247,16 @@ const PrenatalDetails = ({route}) => {
 
 export default PrenatalDetails
 
-const width = Dimensions.get('window').width -40;
+const width = Dimensions.get('window').width - 40;
 const fontScale = PixelRatio.getFontScale();
-const getFontSize = size => size / fontScale;
+const getFontSize = (size) => size / fontScale;
+
 const styles = StyleSheet.create({
-  container:{
-    backgroundColor:'white',
+  container: {
+    backgroundColor: '#F6F6F6',
   },
   body: {
     padding: 15,
-    
   },
   title: {
     color: '#88EECC',
@@ -172,49 +264,53 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   titleBox: {
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 10,
-    alignItems:'center',
-    // shadowColor:'black',
-    // shadowOffset:
-    //     {width: 0,
-    //     height: 2,},
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-    // elevation: 5,
+    backgroundColor: 'white',
+    padding: 15,
+    elevation: 3,
   },
-  cardTitle:{
-    color: 'black',
+  cardTitle: {
+    color: '#44AA92',
     fontSize: 20,
-    padding:20,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderColor: '#E0E2E1',
   },
-  lineStyle:{
-    width:width-70,
-    borderWidth: 0.1,
-    backgroundColor:'black',
-    height: 1,
+  cardBody: {
+    paddingVertical: 10,
   },
-  cardBody:{
-    padding:30,
+  card: {
+    backgroundColor: '#91E0CE',
+    marginTop: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#44AA92',
+    shadowColor: '#566e66',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  card:{
-    backgroundColor:'#91E0CE',
-    marginLeft:0,
-    width: width ,
-    borderRadius:10,
-    borderWidth:1,
-    shadowColor:'#566e66',
-        shadowOffset:
-            {width: 0,
-            height: 1,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5, 
-  }, 
-  cardRow:{
-    fontSize:getFontSize(15), 
-    color:'#44AA92',
-    fontWeight:'bold',
-    justifyContent: 'center'
-  } 
-})
+  cardRow: {
+    fontSize: getFontSize(15),
+    color: '#44AA92',
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  icon: {
+    color: '#E0E2E1',
+  },
+  infoSection: {
+    marginBottom: 10,
+  },
+  label: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#44AA92',
+    marginBottom: 5,
+  },
+  info: {
+    fontSize: 16,
+  },
+});

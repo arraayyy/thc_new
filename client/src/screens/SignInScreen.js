@@ -24,8 +24,7 @@ const SignInScreen = () => {
       if (response.data.accountId) {    
         alert("You have Successfully Logged In");
           await AsyncStorage.setItem("accountId", response.data.accountId);
-           await AsyncStorage.setItem("profileId", response.data.profileId);
-        navigation.navigate('Dashboard'); // Uncomment this line if you have a Dashboard screen
+        navigation.navigate('Dashboard');
        
       } else {
         alert(response.data);
