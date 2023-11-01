@@ -26,9 +26,13 @@ const Dashboard = () => {
     }
   }
 
-  const fetchProfile = (user) => {
-    AsyncStorage.setItem('UserName', user.first_name);
-    navigation.navigate("Home");
+  const fetchProfile = async (user) => {
+    try {
+      await AsyncStorage.setItem('UserName', user.first_name);
+      navigation.navigate("Home", { profileId: user._id });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

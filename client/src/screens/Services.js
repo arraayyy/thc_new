@@ -1,11 +1,18 @@
 import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity, Dimensions,PixelRatio } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 import Header from '../components/Header'
 const Services = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const profileId = route.params?.profileId;
+
+  const onPrenatal = (profile_id) => {
+    navigation.navigate("Prenatal", { profileId: profile_id});
+  }
   return (
     <SafeAreaView style={{ height:height}}>
       <Header height={80}/>
@@ -16,7 +23,7 @@ const Services = () => {
           </View>
           <View style={styles.container}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Prenatal")}
+                onPress={() => onPrenatal(profileId)}
                 style={styles.servButton}>
                     <Text style={styles.servText}>Prenatal</Text>
                 </TouchableOpacity>

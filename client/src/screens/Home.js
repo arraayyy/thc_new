@@ -6,22 +6,32 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import { useNavigation } from '@react-navigation/native';
 import Header from '../components/Header'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import { useRoute } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 
 const Home = () => {
     const [userName, setUserName] = useState();
     const navigation = useNavigation();
+    const route = useRoute();
+    const profileId = route.params?.profileId;
 
-    const fetchProfile = async () => {
+
+    const fetchName = async () => {
         var name = await AsyncStorage.getItem('UserName') || 'as';
         setUserName(name);
     }
 
     useEffect(() => {
-        fetchProfile();
+        fetchName();
     },[]);
+    
+    const onServices = (profile_id) => {
+        navigation.navigate("Services", { profileId: profile_id });
+    }
 
+    const onProfile = (profile_id) => {
+        navigation.navigate("Profile", { profileId: profile_id });
+    }
     return (
     <SafeAreaView>
         <Header height={80}/>
@@ -38,7 +48,7 @@ const Home = () => {
             </View>
             <View style={styles.container} numColumns={2}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate("Services")}
+                onPress={() => onServices(profileId)}
                 style={styles.homeContainer}>
                     <View>
                     <Icon style={styles.icon} name='briefcase-medical' size={15} color='#15876C' />
@@ -46,7 +56,7 @@ const Home = () => {
                     <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                onPress={() => {}}
+                  onPress={() => onProfile(profileId)}
                 style={styles.homeContainer}>
                     <View>
                     <Icon style={styles.icon} name='user-alt' size={15} color='#15876C' />
