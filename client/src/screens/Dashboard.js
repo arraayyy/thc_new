@@ -1,19 +1,25 @@
 import { Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
+import axios from 'axios';
 import Header from "../components/Header";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Dashboard = () => {
   const navigation = useNavigation();
-  const [profiles, setProfiles] = useState([
-    { key: 1, name: 'Joan Cartilla', gender: "Female" },
-    { key: 2, name: 'Roe Ann Codoy', gender: "Female" },
-    { key: 3, name: 'Cahrl Loyloy', gender: "Male" },
-    { key: 4, name: 'Marvin Navarro', gender: "Male" },
-  ]);
+  const [profiles, setProfiles] = useState([]);
+  useEffect(() => {
+    getProfiles();
+    
+},[])
+
+  const getProfiles = async () => {
+    const acctId = await AsyncStorage.getItem("accountId");
+    console.log("accountId",acctId);
+    const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`); 
+    console.log(response.data.profile);
+  }
 
   const fetchProfile = (user) => {
     AsyncStorage.setItem('UserName', user.name);

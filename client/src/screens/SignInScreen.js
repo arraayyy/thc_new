@@ -3,35 +3,39 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
+
 const SignInScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginEmail, setloginEmail] = useState("");
+  const [loginPassword, setloginPassword] = useState("");
 
   const navigation = useNavigation();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    
-    // Implement your login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+  const handleLogin = async () => {
+  
+    console.log('loginEmail:', loginEmail);
+    console.log('loginPassword:', loginPassword);
+
     try {
-    const response = await axios.post('http://10.0.2.2:8001/account/login', {
-      email, password
-      
-    });
+      const response = await axios.post('http://10.0.2.2:8001/account/login', { loginEmail, loginPassword });
 
-    if(response.status === 200){
-      alert("You have Successfully Logged In");
-
-      navigation.navigate("Dashboard");
+      if (response.data.accountId) {    
+        alert("You have Successfully Logged In");
+          await AsyncStorage.setItem("accountId", response.data.accountId);
+           await AsyncStorage.setItem("profileId", response.data.profileId);
+        navigation.navigate('Dashboard'); // Uncomment this line if you have a Dashboard screen
+       
+      } else {
+        alert(response.data);
+        console.log(response.data)
+      }
+    
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-      console.log(error);
-     
-  }
+    
   };
 
   return (
@@ -39,23 +43,23 @@ const SignInScreen = () => {
       <Header height={150}/>
       <View style={styles.container}>  
         
-        {/* Label for Email */}
+        {/* Label for loginEmail */}
         <Text style={[styles.label, { color: '#AEAEAE' }]}>Email</Text>
         <TextInput
           style={styles.input}
-          onChangeText={text => setEmail(text)}
-          value={email}
-          setValue={setEmail}
+          onChangeText={text => setloginEmail(text)}
+          value={loginEmail}
+          setValue={setloginEmail}
         />
         
-        {/* Label for Password */}
+        {/* Label for loginPassword */}
         <Text style={[styles.label, { color: '#AEAEAE' }]}>Password</Text>
         <TextInput
           style={styles.input}
           secureTextEntry={true}
-          onChangeText={text => setPassword(text)}
-          value={password}
-          setValue={setPassword}
+          onChangeText={text => setloginPassword(text)}
+          value={loginPassword}
+          setValue={setloginPassword}
         />
         
         <TouchableOpacity

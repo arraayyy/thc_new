@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import { View,
         Text,
         TextInput, 
@@ -92,13 +92,12 @@ const Register = () => {
     setFemale(true);
     setgender('Female');
   }
-  
-  const handleRegister  = async (event) => {
-    event.preventDefault()
+  const handleRegister = async () => {
     const user_type = acc_type = "Resident";
     const acc_status = "Pending";
+  
     try {
-      const response = await axios.post('http://10.0.2.2:8001/account//register', {
+      const response = await axios.post('http://10.0.2.2:8001/account/register', {
               email, phone: contactNo, user_type,first_name, acc_type,last_name, middle_name,relationship,password,acc_status,
               gender, birthDate, birthPlace, educAttain, occupation, contactNo,civilStatus,
               nationality, street, barangay, municipality, zipCode
@@ -110,17 +109,14 @@ const Register = () => {
          
           navigation.navigate("Login");
       }
-      //console.log(email,first_name, last_name, middle_name,password,gender,birthDate, birthPlace, educAttain, occupation, contactNo,civilStatus,nationality,relationship, acc_type,user_type,street, barangay, municipality, zipCode)
-  } catch (error) {
-      console.log(error);
-  }
-
+    } catch (error) {
+      alert("An unexpected error occurred");
+      console.error(error);
+    }
   };
 
 
-//   const addWorkerSubmit = async (event) => {
-//     event.preventDefault()
-    
+
     
 
 
