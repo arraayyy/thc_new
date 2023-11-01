@@ -1,26 +1,56 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } from 'react-native';
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // You can use a different icon library if you prefer
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation, useRoute  } from '@react-navigation/native';
 import Footer from '../../components/Footer'
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Dental = () => {
-  
-  const recordsList = async () => {
-    const [records, setRecords] = useState([]);
-    try {
-        const fetchDR = await axios.get(`/oralhealth/${residentid}`);
-        setRecords(fetchDR.data.medical_records);
-        console.log(fetchDR);
-    } catch (error) {
-        console.log(error);
-    }
-}
-  
+  const [records, setRecords] = useState([]);
+  const route = useRoute();
+  const [profile_id,setProfileId]= useState("");
   const navigation = useNavigation();
 
+  useEffect(() => {
+    getProfileId();
+  }, [])
+
+  const onDentalRecord =(recordid)=>{
+    navigation.navigate("Dental Details", {recordId: recordid})
+  }
+
+  const getProfileId = async () => {
+    try {
+      const profileId = await AsyncStorage.getItem('ProfileId');
+      if (profileId) {
+        setProfileId(profileId)
+        console.log("profileId: ", profileId)
+        patientRecords(profileId);
+      } else {
+        // Handle the case where profileId is not found in AsyncStorage
+        console.error('ProfileId not found in AsyncStorage');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const patientRecords = async (profileId) => {
+    try {
+        const response = await axios.get(`http://10.0.2.2:8001/oralhealth/${profileId}`);
+        setRecords(response.data.medical_records);
+    } catch (error) {
+        console.error(error);
+    }
+  }
+ 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
   
 
   return (
@@ -32,37 +62,38 @@ const Dental = () => {
             <View style={styles.header}>
               <Text style={styles.title}>MY DENTAL RECORDS</Text>
             </View>
-
+  
             {/* Table Data */}
-          
-            
-            {exams && exams.map((value,indx)=>{
-                return(
-                  <Card containerStyle={styles.card} key={indx}>
-                    <TouchableOpacity 
-                      onPress={()=> navigation.navigate("Dental Details", value)}>
-                      <View style={{flexDirection:'row'}}>
-                        <View>
-                          <Text 
-                            style={[
-                              styles.cardRow, 
-                              {fontSize:20, fontWeight:'bold', color: "#44AA92"}
-                            ]}>Examination {value.examID}</Text>
-                          <Text style={[styles.cardRow,]}>{value.doc}</Text>
-                          <Text style={[styles.cardRow,]}>{value.date}</Text>
+            {records && records.length > 0 ? (
+              records.map((value, indx) => {
+                if (value.service_id !== null && value.service_id.recordStat !== false) {
+                  return (
+                    <Card containerStyle={styles.card} key={indx}>
+                      <TouchableOpacity onPress={() => onDentalRecord(profile_id)}>
+                        <View style={{ flexDirection: 'row' }}>
+                          <View>
+                            <Text style={[
+                              styles.cardRow,
+                              { fontSize: 20, fontWeight: 'bold', color: "#44AA92" }
+                            ]}>Examination {value.service_id._id.slice(-6)}</Text>
+                            <Text style={[styles.cardRow]}>Dr.{value.service_id.serviceProvider}</Text>
+                            <Text style={[styles.cardRow]}>{formatDate(value.service_id.createdAt)}</Text>
+                          </View>
+                          <Icon style={[styles.icon, { marginLeft: 100, color: '#44AA92' }]} name='vial' size={25} color='#44AA92' />
                         </View>
-                      <Icon style={[styles.icon,{marginLeft:170 ,color:'#44AA92'}]} name='vial' size={25} color='#44AA92' />
-                      </View>
-                    </TouchableOpacity>
-                  </Card>
-                )
-            })}
+                      </TouchableOpacity>
+                    </Card>
+                  )
+                }
+              })
+            ) : (
+              <Text>No Records Found</Text>
+            )}
           </View>
         </View>
       </ScrollView>
       <Footer />
     </View>
-   
   )
 }
 

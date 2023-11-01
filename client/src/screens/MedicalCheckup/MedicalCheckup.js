@@ -1,67 +1,104 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, } from 'react-native';
-import React from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // You can use a different icon library if you prefer
 import Footer from '../../components/Footer.js';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MedicalCheckup = () => {
+  const [records, setRecords] = useState([]);
+  const route = useRoute();
+  const [profile_id,setProfileId]= useState("");
   const navigation = useNavigation();
-  let exams =[
-    {
-      examID:1, 
-      doc:"Dr.Doe", 
-      date:'01-23-2023'
-    },
-    {
-      examID:2, 
-      doc:"Dr.Jane", 
-      date:'02-24-2023'
-    },
-  ];
+
+  useEffect(() => {
+    getProfileId();
+  }, [])
+
+  const onMCRecord =(recordid)=>{
+    navigation.navigate("Medical Checkup Details", {recordId: recordid})
+  }
+
+  const getProfileId = async () => {
+    try {
+      const profileId = await AsyncStorage.getItem('ProfileId');
+      if (profileId) {
+        setProfileId(profileId)
+        console.log("profileId: ", profileId)
+        patientRecords(profileId);
+      } else {
+        // Handle the case where profileId is not found in AsyncStorage
+        console.error('ProfileId not found in AsyncStorage');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const patientRecords = async (profileId) => {
+    try {
+        const response = await axios.get(`http://10.0.2.2:8001/hematology/${profileId}`);
+        setRecords(response.data.medical_records);
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
-      <View style={styles.body}>
-        <View style={styles.headerContainer}>
-          {/* Table Header */}
-          <View style={styles.header}>
-            <Text style={styles.title}>MY MEDICAL CHECKUP RECORDS</Text>
+        <View style={styles.body}>
+          <View style={styles.headerContainer}>
+            {/* Table Header */}
+            <View style={styles.header}>
+              <Text style={styles.title}>MY MEDICAL CHECKUP RECORDS</Text>
+            </View>
+  
+            {/* Table Data */}
+            {records && records.length > 0 ? (
+              records.map((value, indx) => {
+                if (value.service_id !== null && value.service_id.recordStat !== false) {
+                  return (
+                    <Card containerStyle={styles.card} key={indx}>
+                      <TouchableOpacity onPress={() => onMCRecord(profile_id)}>
+                        <View style={{ flexDirection: 'row' }}>
+                          <View>
+                            <Text style={[
+                              styles.cardRow,
+                              { fontSize: 20, fontWeight: 'bold', color: "#44AA92" }
+                            ]}>Examination {value.service_id._id.slice(-6)}</Text>
+                            <Text style={[styles.cardRow]}>Dr.{value.service_id.serviceProvider}</Text>
+                            <Text style={[styles.cardRow]}>{formatDate(value.service_id.createdAt)}</Text>
+                          </View>
+                          <Icon style={[styles.icon, { marginLeft: 100, color: '#44AA92' }]} name='vial' size={25} color='#44AA92' />
+                        </View>
+                      </TouchableOpacity>
+                    </Card>
+                  )
+                }
+              })
+            ) : (
+              <Text>No Records Found</Text>
+            )}
           </View>
-
-          {/* Table Data */}
-         
-          
-           {exams.map((value,indx)=>{
-              return(
-                <Card containerStyle={styles.card}>
-                <TouchableOpacity onPress={()=> navigation.navigate("Medical Checkup Details", value)}>
-                  <View style={{flexDirection:'row'}}>
-                    <View>
-                      <Text style={[styles.cardRow, {fontSize:20, fontWeight:'bold'}]}>Examination {value.examID}</Text>
-                      <Text style={[styles.cardRow,]}>{value.doc}</Text>
-                      <Text style={[styles.cardRow,]}>{value.date}</Text>
-                    </View>
-                  <Icon style={[styles.icon,{marginLeft:150 ,color:'#88EECC'}]} name='house-user' size={50} color='#E0E2E1' />
-                  </View>
-                </TouchableOpacity>
-                </Card>
-              )
-           })}
         </View>
-        
-      </View>
       </ScrollView>
-    <Footer />
-     {/* <Navigation /> */}
+      <Footer />
     </View>
-   
   )
 }
 
 export default MedicalCheckup
 
+const width = Dimensions.get('window').width -40;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -98,7 +135,7 @@ const styles = StyleSheet.create({
     card:{
       backgroundColor:'#F9F9F9',
       marginLeft:0,
-      width:360 ,
+      width:width ,
       borderRadius:15,
       borderWidth:1,
       borderColor: '#88EECC' 
