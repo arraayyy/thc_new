@@ -17,12 +17,17 @@ const Dashboard = () => {
   const getProfiles = async () => {
     const acctId = await AsyncStorage.getItem("accountId");
     console.log("accountId",acctId);
-    const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`); 
-    console.log(response.data.profile);
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      setProfiles(response.data.profile);
+      console.log(response.data.profile)
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const fetchProfile = (user) => {
-    AsyncStorage.setItem('UserName', user.name);
+    AsyncStorage.setItem('UserName', user.first_name);
     navigation.navigate("Home");
   }
 
@@ -34,7 +39,7 @@ const Dashboard = () => {
           <FlatList 
             numColumns={2}
             columnWrapperStyle = {{ justifyContent: 'space-evenly', marginBottom: 20}}
-            keyExtractor={(item) => item.key}
+            keyExtractor={(item) =>  item._id}
             data={profiles}
             renderItem={({item}) => (
               <TouchableOpacity
@@ -43,7 +48,7 @@ const Dashboard = () => {
                   <View style={styles.profileIconContainer}>
                     <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />
                   </View>
-                  <Text numberOfLines={1} style={styles.iconName}>{item.name}</Text>
+                  <Text numberOfLines={1} style={styles.iconName}>{item.first_name + " " + (item.middle_name).charAt(0) + ". " + item.last_name + " "}</Text>
               </TouchableOpacity>
               
             )}
