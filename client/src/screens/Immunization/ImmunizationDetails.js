@@ -183,7 +183,7 @@ const ImmunizationDetails = () => {
         {patientRecords.childHealthAssessment && patientRecords.childHealthAssessment.map((rec, idx) => {
            if (rec._id != null) {
             return (
-            <Card containerStyle={styles.card} key={idx}>
+            <Card containerStyle={styles.card} key={rec._id}>
                 <TouchableOpacity onPress={()=> onImmunizationSession(rec._id)}>
                 <View style={{flexDirection:'column'}}>
                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>

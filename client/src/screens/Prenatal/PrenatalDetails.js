@@ -279,7 +279,7 @@ const PrenatalDetails = () => {
         {prenatalInfo.maternalHealthAssessment && prenatalInfo.maternalHealthAssessment.map((rec, idx) => {
            if (rec._id != null) {
             return (
-            <Card containerStyle={styles.card} key={idx}>
+            <Card containerStyle={styles.card} key={rec._id}>
                 <TouchableOpacity onPress={()=> onPrenatalSession(rec._id)}>
                 <View style={{flexDirection:'column'}}>
                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
