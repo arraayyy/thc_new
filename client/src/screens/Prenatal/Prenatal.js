@@ -13,8 +13,6 @@ const Prenatal = () => {
   
   const navigation = useNavigation();
   
-  
-  
   useEffect(() => {
     getProfileId();
   }, [])

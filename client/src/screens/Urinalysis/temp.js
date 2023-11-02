@@ -87,8 +87,8 @@ const UrinalysisDetails = () => {
         <Text style={styles.cardTitle}>Microscopic Examination</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text><Text style={styles.label}>Red Blood Cells:  </Text>{urinalysisInfo.redBloodCellLevel}</Text>
-                <Text><Text style={styles.label}>Pus Cells: </Text>{urinalysisInfo.pusLevel}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Red Blood Cells:  </Text>{urinalysisInfo.redBloodCellLevel}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Pus Cells: </Text>{urinalysisInfo.pusLevel}</Text>
             </View>
         </View>
 
@@ -96,11 +96,11 @@ const UrinalysisDetails = () => {
         <Text style={styles.cardTitle}>Crystals</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text><Text style={styles.label}>Calcium Oxalates:  </Text>{urinalysisInfo.calciumOxaletes}</Text>
-                <Text><Text style={styles.label}>Amorphous Urates: </Text>{urinalysisInfo.amorphousUrates}</Text>
-                <Text><Text style={styles.label}>Uric Acid: </Text>{urinalysisInfo.uricAcid}</Text>
-                <Text><Text style={styles.label}>Amorphous Phosphates: </Text>{urinalysisInfo.amorphousPhosphates}</Text>
-                <Text><Text style={styles.label}>Triple Phosphates:  </Text>{urinalysisInfo.triplePhosphate}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Calcium Oxalates:  </Text>{urinalysisInfo.calciumOxaletes}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Amorphous Urates: </Text>{urinalysisInfo.amorphousUrates}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Uric Acid: </Text>{urinalysisInfo.uricAcid}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Amorphous Phosphates: </Text>{urinalysisInfo.amorphousPhosphates}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Triple Phosphates:  </Text>{urinalysisInfo.triplePhosphate}</Text>
             </View>
         </View>
 
@@ -108,11 +108,11 @@ const UrinalysisDetails = () => {
         <Text style={styles.cardTitle}>Miscellaneous Structures</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text><Text style={styles.label}>Squamous Epithelial Cells:  </Text>{urinalysisInfo.squamousEpithelialCells}</Text>
-                <Text><Text style={styles.label}>Round Epithelial Cells: </Text>{urinalysisInfo.roundEpithelialCells}</Text>
-                <Text><Text style={styles.label}>Bacteria:  </Text>{urinalysisInfo.bacteria}</Text>
-                <Text><Text style={styles.label}>Mucus Threads: </Text>{urinalysisInfo.mucusThreads}</Text>
-                <Text><Text style={styles.label}>Yeast Cells:  </Text>{urinalysisInfo.yeastCells}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Squamous Epithelial Cells:  </Text>{urinalysisInfo.squamousEpithelialCells}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Round Epithelial Cells: </Text>{urinalysisInfo.roundEpithelialCells}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Bacteria:  </Text>{urinalysisInfo.bacteria}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Mucus Threads: </Text>{urinalysisInfo.mucusThreads}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Yeast Cells:  </Text>{urinalysisInfo.yeastCells}</Text>
             </View>
         </View>
        
@@ -121,7 +121,7 @@ const UrinalysisDetails = () => {
         <Text style={styles.cardTitle}>Remarks</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text><Text style={styles.label}>  </Text>{urinalysisInfo.remarks}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>  </Text>{urinalysisInfo.remarks}</Text>
             </View>
         </View>
        
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
       },
 
       label:{
-        color: '#8EC3B0',
+        color: '#44AA92',
         fontWeight:'bold',
         justifyContent:'flex-start'
       },
