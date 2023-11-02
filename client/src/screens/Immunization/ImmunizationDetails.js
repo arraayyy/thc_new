@@ -1,127 +1,201 @@
 import { View, Text, ScrollView ,StyleSheet, TouchableOpacity, Dimensions,PixelRatio} from 'react-native'
-import React from 'react'
+import React,{ useState, useEffect } from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const ImmunizationDetails = ({route}) => {
+const ImmunizationDetails = () => {
   const navigation = useNavigation();
-  const patient = 
-    {
-        fname: "John",
-        lname: "Doe",
-        mname: "Smith",
-        age: 24,
-        birthdate: "09-10-1999",
-        sex:"Male",
-        address: "Minoza St. Tigbao, Talamban, Cebu City",
-        bo:"2nd",
-        POD:"Hospital Gov't/Private",
-        motName:"Jane Smith Doe",
-        motAge:"24 years old",
-        motOcc:"N/A",
-        motCon:"09876543210",
-        fatName:"John Smith Doe",
-        fatAge:"24 years old",
-        fatOcc:"Security Guard",
-        fatCon:"09876543210",
-        bw:"2.4 kgs",
-        tof:"Breast Feeding",
-        donbs:"09-20-1999",
-        Vac:{
-            BCG:"03-04-23",
-            HEPBV:"03-04-23",
-            PCV1:"03-04-23",
-            PCV2:"03-04-23",
-            PCV3:"03-04-23",
-            OPV1:"03-04-23",
-            OPV2:"03-04-23",
-            OPV3:"03-04-23",
-            AMV:"03-04-23",
-            PENTA1:"03-04-23",
-            PENTA2:"03-04-23",
-            PENTA3:"03-04-23",
-            MMR:"03-04-23",
+  const route = useRoute();
+  const profileId = route.params?.profileId;
+  const recordId = route.params?.recordId;
+  const [childInfo, setChildInfo] = useState([]);
+  const [patientRecords, setPatientRec] = useState([]);
+  const [motherInfo, setMotherInfo] = useState([]);
+  const [fatherInfo, setFatherInfo] = useState([]);
+  
+  const [guardianInfo, setGuardianInfo] = useState([]);
+
+  useEffect(() => {
+    getProfiles();
+    getPrenatalDetails();
+    },[])
+  
+   //console.log("profileid: ",profileId)
+   //console.log("recordid: ",recordId)
+  
+  const getProfiles = async () => {
+    const acctId = await AsyncStorage.getItem("accountId");
+   
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      //console.log("response.data: ",response.data.profile)
+      const profiles = response.data.profile;
+      const motherProfile = profiles.find(profile => profile.relationship === "Mother");
+      const fatherProfile = profiles.find(profile => profile.relationship === "Father");
+      const guardianProfile = profiles.find(profile => profile.relationship === "Guardian");
+      setMotherInfo(motherProfile || {});
+      setFatherInfo(fatherProfile || {});
+      setGuardianInfo(guardianProfile || {});    
+      
+      const fetchPatientInfo = await axios.get(`http://10.0.2.2:8001/profile/${profileId}`);
+          setChildInfo(fetchPatientInfo.data);
+
+          } catch (error) {
+            console.error(error);
+          }
         }
-    };
-  const session =[
-    {examID:1, doc:"Dr.Doe", date:'01-23-2023'},
-    {examID:2, doc:"Dr.Jane", date:'02-24-2023'},
-    {examID:3, doc:"Dr.Smith", date:'03-25-2023'},
-    {examID:4, doc:"Dr.John", date:'04-26-2023'}
-  ];
+
+      const getPrenatalDetails = async () => {
+          try {
+            const response = await axios.get(`http://10.0.2.2:8001/childhealth/getrecord/${recordId}`);
+            setPatientRec(response.data);
+            
+        } catch (error) {
+            console.error(error);
+        }
+      }
+   
+      
+      const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString(undefined, options);
+      };
+      
+      
+      const onImmunizationSession=(sessionid)=>{
+          navigation.navigate("Immunization Session",{sessionId :sessionid})
+      }
 
     return (
     <ScrollView style={styles.container}>
       <View style={styles.body}>
         <View style={{marginTop: 20,paddingLeft:10}}>
-          <Text style={styles.title}>EXAMINATION {route.params.examID}</Text>
+          <Text style={styles.title}>EXAMINATION {recordId.slice(-6)}</Text>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Personal Information</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-              <Text><Text style={{fontWeight:'bold'}}>Name : </Text>{patient.fname + " "+ patient.mname + " " + patient.lname}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Sex: </Text>{patient.sex}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Date of Birth: </Text>{patient.birthdate}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Address: </Text>{patient.address}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Birth Order: </Text>{patient.bo}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Place of Delivery: </Text>{patient.POD}</Text>
-            
-              <Text><Text style={{fontWeight:'bold'}}>Mother’s Name: </Text>{patient.motName}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Mother’s Age: </Text>{patient.motAge}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Mother’s Occupation: </Text>{patient.motOcc}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Mother’s Contact: </Text>{patient.motCon}</Text>
-             
-              <Text><Text style={{fontWeight:'bold'}}>Father’s Name: </Text>{patient.fatName}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Father’s Age: </Text>{patient.fatAge}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Father’s Occupation: </Text>{patient.fatOcc}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Father’s Contact: </Text>{patient.fatCon}</Text>
-              
-              
-              <Text><Text style={{fontWeight:'bold'}}>Birth Weight: </Text>{patient.bw}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Type of Feeding: </Text>{patient.tof}</Text>
-              <Text><Text style={{fontWeight:'bold'}}>Date of New Born Screening: </Text>{patient.donbs}</Text>
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Name: </Text>
+              <Text style={styles.info}>{childInfo.first_name + " "+ childInfo.middle_name + " " + childInfo.last_name}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Gender: </Text>
+              <Text style={styles.info}>{childInfo.gender}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Date of Birth: </Text>
+              <Text style={styles.info}>{formatDate(childInfo.birthDate)}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Address: </Text>
+              <Text style={styles.info}>{childInfo.street + " " + childInfo.barangay + " " + childInfo.municipality + " " + childInfo.zipCode}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Place of Delivery: </Text>
+              <Text style={styles.info}>{patientRecords.placeOfDelivery}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Mother’s Name: </Text>
+              <Text style={styles.info}>{motherInfo.first_name + " "+ motherInfo.middle_name + " " + motherInfo.last_name}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Mother’s Age: </Text>
+              <Text style={styles.info}>{motherInfo.age}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Mother’s Occupation: </Text>
+              <Text style={styles.info}>{motherInfo.occupation}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Mother’s Contact: </Text>
+              <Text style={styles.info}>{motherInfo.contactNo}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Father’s Name: </Text>
+              <Text style={styles.info}>{fatherInfo.first_name + " "+ fatherInfo.middle_name + " " + fatherInfo.last_name}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Father’s Age: </Text>
+              <Text style={styles.info}>{fatherInfo.age}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Father’s Occupation: </Text>
+              <Text style={styles.info}>{fatherInfo.occupation}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Father’s Contact: </Text>
+              <Text style={styles.info}>{fatherInfo.contactNo}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Birth Weight: </Text>
+              <Text style={styles.info}>{patientRecords.birthWeight}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Type of Feeding: </Text>
+              <Text style={styles.info}>{patientRecords.typeOfFeeding}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Date of Newborn Screening: </Text>
+              <Text style={styles.info}>{formatDate(patientRecords.dateOfNewbornScreening)}</Text>
+            </View>
           </View>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Vaccine</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-            <Text><Text style={{fontWeight:'bold'}}>BCG:  </Text>{patient.Vac.BCG}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Hep BV: </Text>{patient.Vac.HEPBV}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>PCV 1: </Text>{patient.Vac.PCV1}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>PCV 2: </Text>{patient.Vac.PCV2}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>PCV 3: </Text>{patient.Vac.PCV3}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>OPV 1: </Text>{patient.Vac.OPV1}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>OPV 2: </Text>{patient.Vac.OPV2}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>OPV 3: </Text>{patient.Vac.OPV3}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>AMV: </Text>{patient.Vac.AMV}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>PENTA 1: </Text>{patient.Vac.PENTA1}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>PENTA 2: </Text>{patient.Vac.PENTA2}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>PENTA 3: </Text>{patient.Vac.PENTA3}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>MMR: </Text>{patient.Vac.MMR}</Text>
+          {
+            patientRecords.childHealthVaccine && patientRecords.childHealthVaccine.map((rec, idx) => {
+                      if (rec._id != null) {
+                      return (
+                        <Text><Text style={{fontWeight:'bold'}}>{rec.vaccine_name} :  </Text>&nbsp;&nbsp;{formatDate(rec.dateGiven)}</Text>
+                        );
+                      }
+                                                              
+                    })
+            }
           </View>
         </View>
         <View style={{marginTop: 20,paddingLeft:10}}>
           <Text style={[styles.title,{fontSize:20, fontWeight:'bold'}]}>SESSION FINDINGS</Text>
         </View> 
-        {session.map((value,indx)=>{
-          return(
-            <Card containerStyle={styles.card} key={indx}>
-                <TouchableOpacity onPress={()=> navigation.navigate("Immunization Session",value)}>
+        {patientRecords.childHealthAssessment && patientRecords.childHealthAssessment.map((rec, idx) => {
+           if (rec._id != null) {
+            return (
+            <Card containerStyle={styles.card} key={idx}>
+                <TouchableOpacity onPress={()=> onImmunizationSession(rec._id)}>
                 <View style={{flexDirection:'column'}}>
                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
-                    <Text style={styles.cardRow}>Session {value.examID}</Text>
-                    <Text style={styles.cardRow}>{value.doc}</Text>
-                    <Text style={styles.cardRow}>{value.date}</Text>
-                    <Icon style={[styles.icon]} name='angle-right' size={23} color='#E0E2E1' />
+                    <Text style={styles.cardRow}>Session {rec._id.slice(-6)}</Text>
+                    <Text style={styles.cardRow}>{formatDate(rec.updatedAt)}</Text>
+                    <Icon style={[styles.icon]} name='angle-right' size={23}  />
                     </View>
                 </View>
                 </TouchableOpacity>
             </Card>
           )
-        })}
+        }})}
       </View>
     </ScrollView>
   )
@@ -129,16 +203,16 @@ const ImmunizationDetails = ({route}) => {
 
 export default ImmunizationDetails
 
-const width = Dimensions.get('window').width -40;
+const width = Dimensions.get('window').width - 40;
 const fontScale = PixelRatio.getFontScale();
-const getFontSize = size => size / fontScale;
+const getFontSize = (size) => size / fontScale;
+
 const styles = StyleSheet.create({
-  container:{
-    backgroundColor:'white',
+  container: {
+    backgroundColor: 'white',
   },
   body: {
     padding: 15,
-    
   },
   title: {
     color: '#88EECC',
@@ -146,49 +220,55 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   titleBox: {
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 10,
-    alignItems:'center',
-    // shadowColor:'black',
-    // shadowOffset:
-    //     {width: 0,
-    //     height: 2,},
-    // shadowOpacity: 0.25,
-    // shadowRadius: 3.84,
-    // elevation: 5,
+    backgroundColor: 'white',
+    padding: 15,
+    elevation: 3,
+    
   },
-  cardTitle:{
-    color: 'black',
+  cardTitle: {
+    color: '#44AA92',
     fontSize: 20,
-    padding:20,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderColor: '#E0E2E1',
   },
-  lineStyle:{
-    width:width-70,
-    borderWidth: 0.1,
-    backgroundColor:'black',
-    height: 1,
+  cardBody: {
+    paddingVertical: 10,
+    
   },
-  cardBody:{
-    padding:30,
+  card: {
+    backgroundColor: '#91E0CE',
+    marginTop: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#44AA92',
+    shadowColor: '#566e66',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  card:{
-    backgroundColor:'#91E0CE',
-    marginLeft:0,
-    width: width ,
-    borderRadius:10,
-    borderWidth:1,
-    shadowColor:'#566e66',
-        shadowOffset:
-            {width: 0,
-            height: 1,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5, 
-  }, 
-  cardRow:{
-    fontSize:getFontSize(15), 
-    color:'#44AA92',
-    fontWeight:'bold',
-    justifyContent: 'center'
-  } 
+  cardRow: {
+    fontSize: getFontSize(15),
+    color: '#44AA92',
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  icon: {
+    color: '#44AA92',
+  },
+  infoSection: {
+    marginBottom: 10,
+  },
+  label: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#44AA92',
+    marginBottom: 5,
+  },
+  info: {
+    fontSize: 16,
+  },
 })

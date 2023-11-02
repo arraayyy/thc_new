@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } fro
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // You can use a different icon library if you prefer
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Footer from '../../components/Footer'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -51,8 +51,8 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString(undefined, options);
 };
 
-const onPrenatalRecord =(recordid)=>{
-  navigation.navigate("Prenatal Results", {recordId: recordid})
+const onPrenatalRecord =(recordid ,profile_id)=>{
+  navigation.navigate("Prenatal Results", {recordId: recordid, profileId:profile_id})
 }
 
   return (
@@ -73,7 +73,7 @@ const onPrenatalRecord =(recordid)=>{
                 return(
                   <Card containerStyle={styles.card} key={indx}>
                     <TouchableOpacity 
-                      onPress={()=> onPrenatalRecord( value.service_id._id, profile_id )}>
+                      onPress={()=> onPrenatalRecord( value.service_id._id , profile_id)}>
                       <View style={{flexDirection:'row'}}>
                         <View>
                           <Text 

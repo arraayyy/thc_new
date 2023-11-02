@@ -1,19 +1,57 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, } from 'react-native';
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // You can use a different icon library if you prefer
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
 import Footer from '../../components/Footer'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Immunization = () => {
   const navigation = useNavigation();
-  let exams =[
-    {examID:1, doc:"Dr.Doe", date:'01-23-2023'},
-    {examID:2, doc:"Dr.Jane", date:'02-24-2023'},
-    {examID:3, doc:"Dr.Smith", date:'03-25-2023'},
-    {examID:4, doc:"Dr.John", date:'04-26-2023'}
-  ];
+  const [records,setRecords]= useState([]);
+  const [profile_id,setProfileId]= useState("");
+  useEffect(() => {
+    getProfileId();
+  }, [])
+  
+  const getProfileId = async () => {
+    try {
+      const profileId = await AsyncStorage.getItem('ProfileId');
+      if (profileId) {
+        setProfileId(profileId)
+        console.log("profileId: ", profileId)
+        patientRecords(profileId);
+      } else {
+        // Handle the case where profileId is not found in AsyncStorage
+        console.error('ProfileId not found in AsyncStorage');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const patientRecords = async (profileId) => {
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/childhealth//${profileId}`);
+      setRecords(response.data.medical_records);
+      
+  } catch (error) {
+      // Handle the error here
+      console.error(error);
+  }};
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
+  
+  const onImmunizationRecord =(recordid, profile_id)=>{
+    navigation.navigate("Immunization Details", {recordId: recordid, profileId: profile_id})
+  }
+
+
 
   return (
     <View style={styles.container}>
@@ -28,26 +66,27 @@ const Immunization = () => {
             {/* Table Data */}
           
             
-            {exams && exams.map((value,indx)=>{
+            {records && records.map((value,indx)=>{
+               if(value.service_id !== null && value.service_id.recordStat !== false){
                 return(
                   <Card containerStyle={styles.card} key={indx}>
                     <TouchableOpacity 
-                      onPress={()=> navigation.navigate("Immunization Details", value)}>
+                      onPress={()=> onImmunizationRecord( value.service_id._id, profile_id )}>
                       <View style={{flexDirection:'row'}}>
                         <View>
                           <Text 
                             style={[
                               styles.cardRow, 
                               {fontSize:20, fontWeight:'bold', color: "#44AA92"}
-                            ]}>Examination {value.examID}</Text>
-                          <Text style={[styles.cardRow,]}>{value.doc}</Text>
-                          <Text style={[styles.cardRow,]}>{value.date}</Text>
+                            ]}>Examination {value.service_id._id.slice(-6)}</Text>
+                          
+                          <Text style={[styles.cardRow,]}>{formatDate(value.service_id.updatedAt)}</Text>
                         </View>
-                      <Icon style={[styles.icon,{marginLeft:170 ,color:'#44AA92'}]} name='vial' size={25} color='#44AA92' />
+                      <Icon style={[styles.icon,{marginLeft:100 ,color:'#44AA92'}]} name='vial' size={25} color='#44AA92' />
                       </View>
                     </TouchableOpacity>
                   </Card>
-                )
+                )}
             })}
           </View>
         </View>
