@@ -12,24 +12,10 @@ const Hematology = () => {
   const route = useRoute();
   const [profile_id,setProfileId]= useState("");
   const navigation = useNavigation();
- // const [patient, setPatient] = useState("");
 
   useEffect(() => {
     getProfileId();
   }, [])
-
-  // const handleViewExaminations = (patient) => {
-  //   navigate(`/hematology/${patient._id}`,
-  //     {
-  //       state:   
-  //         {
-  //           patientdata: patient
-  //         }
-  //     });
-  // }
-  const onHematologyRecord =(recordid)=>{
-    navigation.navigate("Hematology Details", {recordId: recordid})
-  }
 
   const getProfileId = async () => {
     try {
@@ -62,6 +48,9 @@ const Hematology = () => {
     return date.toLocaleDateString(undefined, options);
   };
   
+  const onHematologyRecord =(recordid)=>{
+    navigation.navigate("Hematology Details", {recordId: recordid, profileId:profile_id})
+  }
   
   return (
     <View style={styles.container}>
@@ -79,7 +68,7 @@ const Hematology = () => {
                 if (value.service_id !== null && value.service_id.recordStat !== false) {
                   return (
                     <Card containerStyle={styles.card} key={indx}>
-                      <TouchableOpacity onPress={() => onHematologyRecord(profile_id)}>
+                      <TouchableOpacity onPress={() => onHematologyRecord(value.service_id._id , profile_id)}>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={[

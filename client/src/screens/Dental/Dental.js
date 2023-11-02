@@ -17,10 +17,6 @@ const Dental = () => {
     getProfileId();
   }, [])
 
-  const onDentalRecord =(recordid)=>{
-    navigation.navigate("Dental Details", {recordId: recordid})
-  }
-
   const getProfileId = async () => {
     try {
       const profileId = await AsyncStorage.getItem('ProfileId');
@@ -52,6 +48,9 @@ const Dental = () => {
     return date.toLocaleDateString(undefined, options);
   };
   
+  const onDentalRecord =(recordid)=>{
+    navigation.navigate("Dental Details", {recordId: recordid, profileId:profile_id})
+  }
 
   return (
     <View style={styles.container}>
@@ -69,7 +68,7 @@ const Dental = () => {
                 if (value.service_id !== null && value.service_id.recordStat !== false) {
                   return (
                     <Card containerStyle={styles.card} key={indx}>
-                      <TouchableOpacity onPress={() => onDentalRecord(profile_id)}>
+                      <TouchableOpacity onPress={() => onDentalRecord(value.service_id._id , profile_id)}>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={[

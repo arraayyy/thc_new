@@ -273,6 +273,7 @@ const PrenatalDetails = () => {
             <Text><Text style={{fontWeight:'bold'}}>Previous Pregnancy Complications: </Text>{patient.PPC}</Text>
           </View>
         </View>
+        
         <View style={{marginTop: 20,paddingLeft:10}}>
           <Text style={[styles.title,{fontSize:20, fontWeight:'bold'}]}>SESSION FINDINGS</Text>
         </View> 

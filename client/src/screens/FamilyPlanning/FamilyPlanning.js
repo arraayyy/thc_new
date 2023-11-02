@@ -17,10 +17,6 @@ const FamilyPlanning = () => {
     getProfileId();
   }, [])
 
-  const onFamilyPlanningRecord =(recordid)=>{
-    navigation.navigate("Family Planning Details", {recordId: recordid})
-  }
-
   const getProfileId = async () => {
     try {
       const profileId = await AsyncStorage.getItem('ProfileId');
@@ -52,6 +48,10 @@ const FamilyPlanning = () => {
     return date.toLocaleDateString(undefined, options);
   };
 
+  const onFamilyPlanningRecord =(recordid)=>{
+    navigation.navigate("Family Planning Details", {recordId: recordid, profileId:profile_id})
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -68,7 +68,7 @@ const FamilyPlanning = () => {
                 if (value.service_id !== null && value.service_id.recordStat !== false) {
                   return (
                     <Card containerStyle={styles.card} key={indx}>
-                      <TouchableOpacity onPress={() => onFamilyPlanningRecord(profile_id)}>
+                      <TouchableOpacity onPress={() => onFamilyPlanningRecord( value.service_id._id , profile_id)}>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={[

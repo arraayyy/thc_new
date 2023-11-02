@@ -169,7 +169,7 @@ const MNavigation = () => {
             <Stack.Screen name="Hematology" component={Hematology} options={{headerShown: false}}/>
             <Stack.Screen  name="Hematology Details" component={HematologyDetails}
                         options={{
-                            title:"URINALYSIS",
+                            title:"HEMATOLOGY",
                             headerTintColor: "#FFF",
                             headerTitleAlign: 'center',
                             headerStyle:{

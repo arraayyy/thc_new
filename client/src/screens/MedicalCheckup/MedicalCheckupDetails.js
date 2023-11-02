@@ -1,48 +1,76 @@
 import { View, Text, ScrollView ,StyleSheet, TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const MedicalCheckupDetails = ({route}) => {
-    const navigation = useNavigation();
-    let patient = {
-        name: "Roe Ann Codoy",
-        sex: "Female",
-        birthdate: "09-10-1999",
-        age: 32,
-        occupation: "Doctor",
-        address: "Minoza St. Tigbao, Talamban, Cebu City",
-        findings: "Normal heart rate, Normal blood pressure",
-        presc: "Paracetamol",
+const MedicalCheckupDetails = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const profileId = route.params?.profileId;
+  const recordId = route.params?.recordId;
+  const [profiles, setProfiles] = useState([]);
+  const [patientInfo, setPatientInfo] = useState([]);
+  const [medicalCheckupInfo, setMedicalCheckupInfo] = useState([]);
+  
+  useEffect(() => {
+    getProfiles();
+    getMedicalCheckupDetails();
+  }, [])
+
+  const getProfiles = async () => {
+    const acctId = await AsyncStorage.getItem("accountId");
+    
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      setProfiles(response.data.profile);
+      
+      const fetchPatientInfo = await axios.get(`http://10.0.2.2:8001/profile/${profileId}`);
+      setPatientInfo(fetchPatientInfo.data);
+     
+      const checkIfFather = (profiles) => {
+        return profiles.relationship === "Father";
+      }
+
+    } catch (error) {
+        console.error(error);
     }
+  }
 
-    let exam =[
-        {
-            examID:1, doc:"Dr.Doe", date:'01-23-2023'
-        },
-        {
-            examID:2, doc:"Dr.Jane", date:'02-24-2023'
-        },
-    ];
+  const getMedicalCheckupDetails = async () => {
+    try {
+        const response = await axios.get(`http://10.0.2.2:8001/medicalcheckup/getrecord/${profileId}/${recordId}`);
+        setMedicalCheckupInfo(response.data.record);
+    } catch (error) {
+        console.error(error);
+    }
+  }
 
-    return (
-        <ScrollView style={styles.container}>
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
+
+  return (
+    <ScrollView style={styles.container}>
      <View style={styles.body}>
         <View style={{marginTop: 20,paddingLeft:10}}>
-            <Text style={styles.title}>EXAMINATION {route.params.examID}</Text>
+            <Text style={styles.title}>EXAMINATION {recordId.slice(-6)}</Text>
         </View>
         <View style={[styles.titleBox]}>
 
            <Text style={styles.cardTitle}>Personal Information</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text><Text style={{fontWeight:'bold'}}>Name:  </Text>{patient.name}</Text>
-                <Text><Text style={{fontWeight:'bold'}}>Sex: </Text>{patient.sex}</Text>
-                <Text><Text style={{fontWeight:'bold'}}>Birthdate: </Text>{patient.birthdate}</Text>
-                <Text><Text style={{fontWeight:'bold'}}>Age: </Text>{patient.age}</Text>
-                <Text><Text style={{fontWeight:'bold'}}>Occupation: </Text>{patient.occupation}</Text>
-                <Text><Text style={{fontWeight:'bold'}}>Address: </Text>{patient.address}</Text>
+                <Text><Text style={styles.label}>Name:  </Text>{patientInfo.name}</Text>
+                <Text><Text style={styles.label}>Sex: </Text>{patientInfo.sex}</Text>
+                <Text><Text style={styles.label}>Birthdate: </Text>{patientInfo.birthdate}</Text>
+                <Text><Text style={styles.label}>Age: </Text>{patientInfo.age}</Text>
+                <Text><Text style={styles.label}>Occupation: </Text>{patientInfo.occupation}</Text>
+                <Text><Text style={styles.label}>Address: </Text>{patientInfo.address}</Text>
             </View>
         </View>
 
@@ -51,14 +79,14 @@ const MedicalCheckupDetails = ({route}) => {
             <View style={styles.lineStyle} />
             <View style={[styles.cardBody]}>
                 <Text>
-                <Text style={{ fontWeight: 'bold' }}>Findings: </Text>
-                {patient.findings}
+                <Text style={styles.label}>Findings: </Text>
+                  {medicalCheckupInfo.findings}
                 </Text>
 
                 {/* Add margin at the bottom of "Findings" text */}
                 <Text style={{ marginTop: 20 }}>
-                <Text style={{ fontWeight: 'bold' }}>Prescription: </Text>
-                {patient.presc}
+                <Text style={styles.label}>Recommendation: </Text>
+                  {medicalCheckupInfo.recommendation}
                 </Text>
             </View>
         </View>
@@ -70,50 +98,63 @@ const MedicalCheckupDetails = ({route}) => {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:'white',
-    },
-    body: {
-        padding: 15,
-       
-      },
-      title: {
-        color: '#88EECC',
-        fontSize: 30,
-        marginBottom: 20,
-        
-       
-      },
+  container:{
+    backgroundColor:'white',
+  },
+
+  body: {
+     padding: 15,
+  },
+
+  title: {
+    color: '#88EECC',
+    fontSize: 30,
+    marginBottom: 20,
+    fontWeight: 'bold',
+  },
+
+  label:{
+    color: '#8EC3B0',
+    fontWeight:'bold',
+    justifyContent:'flex-start'
+  },
      
-      titleBox: {
-        backgroundColor:'white',
-        borderRadius:5,
-        marginTop: 20,
-        alignItems:'center',
-        shadowColor:'black',
-        shadowOffset:
-            {width: 0,
-            height: 2,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+  titleBox: {
+    backgroundColor:'white',
+    borderRadius:5,
+    marginTop: 20,
+    alignItems:'center',
+    shadowColor:'black',
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
       },
-      cardTitle:{
-        color: 'black',
-        fontSize: 20,
-        textAlign:'center',
-        padding:20,
-      },
-      lineStyle:{
-        borderWidth: 0.1,
-        backgroundColor:'black',
-        height:0.5,
-        width:'100%'
-   },
-   cardBody:{
-     padding:30
-   },
-   card:{
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
+  cardTitle:{
+    fontSize: 20,
+    textAlign:'center',
+    color:'#44AA92',
+    padding:20,
+    fontWeight:'bold'
+  },
+
+  lineStyle:{
+    borderWidth: 0.1,
+    backgroundColor:'black',
+    height:0.5,
+    width:'100%'
+  },
+
+  cardBody:{
+    padding:30
+  },
+
+  card:{
     backgroundColor:'#88EECC',
     marginLeft:0,
     width:350 ,
@@ -121,13 +162,16 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderColor: '#F9F9F9',
     shadowColor:'black',
-        shadowOffset:
-            {width: 0,
-            height: 2,},
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5, 
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
+      },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, 
   }, 
+
   cardRow:{
     fontSize:16, 
     color:'white',

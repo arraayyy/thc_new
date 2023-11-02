@@ -17,10 +17,6 @@ const MedicalCheckup = () => {
     getProfileId();
   }, [])
 
-  const onMCRecord =(recordid)=>{
-    navigation.navigate("Medical Checkup Details", {recordId: recordid})
-  }
-
   const getProfileId = async () => {
     try {
       const profileId = await AsyncStorage.getItem('ProfileId');
@@ -39,7 +35,7 @@ const MedicalCheckup = () => {
 
   const patientRecords = async (profileId) => {
     try {
-        const response = await axios.get(`http://10.0.2.2:8001/hematology/${profileId}`);
+        const response = await axios.get(`http://10.0.2.2:8001/medicalcheckup/${profileId}`);
         setRecords(response.data.medical_records);
     } catch (error) {
         console.error(error);
@@ -51,6 +47,10 @@ const MedicalCheckup = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, options);
   };
+
+  const onMCRecord =(recordid)=>{
+    navigation.navigate("Medical Checkup Details", {recordId: recordid, profileId:profile_id})
+  }
 
   return (
     <View style={styles.container}>
@@ -68,7 +68,7 @@ const MedicalCheckup = () => {
                 if (value.service_id !== null && value.service_id.recordStat !== false) {
                   return (
                     <Card containerStyle={styles.card} key={indx}>
-                      <TouchableOpacity onPress={() => onMCRecord(profile_id)}>
+                      <TouchableOpacity onPress={() => onMCRecord(value.service_id._id , profile_id)}>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={[
