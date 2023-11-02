@@ -129,7 +129,7 @@ router.post("/register", async (req, res) => {
         await newProf.save()
 
         const profId = newProf._id;
-        const newAcc = new AccountModel({acc_type, email, phone, password, acc_status, profile: profId});
+        const newAcc = new AccountModel({acc_type, email, phone, password : encryptCRPYTO(password), acc_status, profile: profId});
         await newAcc.save();
 
         res.json({message: "Account Successfully Created"});

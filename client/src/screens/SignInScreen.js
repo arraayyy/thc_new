@@ -5,12 +5,14 @@ import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const SignInScreen = () => {
   const [loginEmail, setloginEmail] = useState("");
   const [loginPassword, setloginPassword] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
+  
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -43,23 +45,34 @@ const SignInScreen = () => {
       <View style={styles.container}>  
         
         {/* Label for loginEmail */}
-        <Text style={[styles.label, { color: '#AEAEAE' }]}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setloginEmail(text)}
-          value={loginEmail}
-          setValue={setloginEmail}
-        />
         
-        {/* Label for loginPassword */}
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label, { color: '#AEAEAE' }]}>Email</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={text => setloginEmail(text)}
+            value={loginEmail}
+            setValue={setloginEmail}
+          />
+        </View>
         <Text style={[styles.label, { color: '#AEAEAE' }]}>Password</Text>
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          onChangeText={text => setloginPassword(text)}
-          value={loginPassword}
-          setValue={setloginPassword}
-        />
+        <View style={[styles.inputContainer, styles.passwordContainer]}>          
+          <TextInput
+            style={styles.passwordInput}
+            secureTextEntry={!showPassword}
+            onChangeText={text => setloginPassword(text)}
+            value={loginPassword}
+            setValue={setloginPassword}
+          />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Icon
+              name={showPassword ? 'eye' : 'eye-slash'}
+              size={20}
+              color="#AEAEAE"
+              style={{ marginRight: 10 }}
+            />
+          </TouchableOpacity>
+        </View>
         
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -75,7 +88,8 @@ const SignInScreen = () => {
           </TouchableOpacity>
           </View>
       </View>
-    </View>
+     </View> 
+    
     
   );
 };
@@ -133,6 +147,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#88EECC',
   },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 16,
+    paddingLeft: 10,
+    marginLeft:37,
+    width: '80%',
+    
+  },
+  passwordInput: {
+    flex: 1,
+    height: 40,
+    
+    },
+  
 });
 
 export default SignInScreen;

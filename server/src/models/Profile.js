@@ -25,7 +25,8 @@ const ProfileSchema = new mongoose.Schema({
     },
     middle_name: {
         type: String,
-        required: true
+        required: false,
+        default: null, 
     },
     gender:{
         type: String,

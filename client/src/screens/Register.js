@@ -41,7 +41,6 @@ const Register = () => {
   const [street, setstreet] = useState('');
   const [barangay, setBarangay] = useState('');
   const [municipality, setmunicipality] = useState('');
-  const [prov, setProv] = useState('');
   const [zipCode, setzipCode] = useState('');
   const [birthPlace, setbirthPlace] = useState('');
   const [occupation, setoccupation] = useState('');
@@ -92,33 +91,69 @@ const Register = () => {
     setFemale(true);
     setgender('Female');
   }
+
+  const setZipCodeValue = (value) => {
+   
+    if (!isNaN(value)) {
+      setzipCode(value.toString()); 
+    }
+  }
+
   const handleRegister = async () => {
+    const requiredFields = [
+      email, contactNo, first_name, last_name,
+      relationship, password, gender, birthDate, birthPlace,
+      educAttain, occupation, civilStatus, nationality, street, barangay,
+      municipality, zipCode
+    ];
+  
+    for (const field of requiredFields) {
+      if (!field) {
+        alert("Please fill in all fields.");
+        return;
+      }
+    }
+  
+    if (barangay.toLowerCase() !== "talamban") {
+      alert("Barangay must be 'Talamban'.");
+      return;
+    }
+  
+    if (municipality.toLowerCase() !== "cebu city") {
+      alert("Municipality must be 'Cebu City'.");
+      return;
+    }
+  
+    if (zipCode !== "6000") {
+      alert("Zip Code must be 6000.");
+      return;
+    }
+  
+    if (password !== confirmpassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+  
     const user_type = acc_type = "Resident";
     const acc_status = "Pending";
+   
   
     try {
       const response = await axios.post('http://10.0.2.2:8001/account/register', {
-              email, phone: contactNo, user_type,first_name, acc_type,last_name, middle_name,relationship,password,acc_status,
-              gender, birthDate, birthPlace, educAttain, occupation, contactNo,civilStatus,
-              nationality, street, barangay, municipality, zipCode
-          },
-      ); 
-
-      if(response.status === 200){
-          alert("You have Successfully Registered!");
-         
-          navigation.navigate("Login");
+        email, phone: contactNo, user_type, first_name, acc_type, last_name, middle_name, relationship, password, acc_status,
+        gender, birthDate, birthPlace, educAttain, occupation, contactNo, civilStatus,
+        nationality, street, barangay, municipality, zipCode
+      });
+     
+      if (response.status === 200) {
+        alert("You have Successfully Registered!");
+        navigation.navigate("Login");
       }
     } catch (error) {
       alert("An unexpected error occurred");
       console.error(error);
     }
   };
-
-
-
-    
-
 
   return (
     <ScrollView style={{marginTop:25}}>
@@ -129,8 +164,19 @@ const Register = () => {
      <CustomHr label="Account Information"/>
 
         <CustomInput label="Email" value={email} setValue={setEmail} />
-        <CustomInput label="Password" value={password} setValue={setPassword} />
-        <CustomInput label="Confirm Password" value={confirmpassword} setValue={setconfPassword} />
+        <CustomInput
+          label="Password"
+          value={password}
+          setValue={setPassword}
+          isPassword={true} // Pass the isPassword prop
+        />
+
+        <CustomInput
+          label="Confirm Password"
+          value={confirmpassword}
+          setValue={setconfPassword}
+          isPassword={true} // Pass the isPassword prop
+        />
         
         <CustomHr label="Personal Information"/> 
         
@@ -138,7 +184,7 @@ const Register = () => {
         <CustomInput label="Middle Name" value={middle_name} setValue={setmiddle_name} />
         <CustomInput label="Last Name" value={last_name} setValue={setlast_name} /> 
         
-        <Text style={[styles.label, { color: '#AEAEAE' }]}>gender</Text>
+        <Text style={[styles.label, { color: '#AEAEAE' }]}>Gender</Text>
           <View style={styles.check}>
             <CheckBox title="MALE" center  checked={male} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={genderMale}/>
             <CheckBox title="FEMALE" center checked={female} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={genderFemale}/>
@@ -191,9 +237,8 @@ const Register = () => {
 
         <CustomInput label="House Number,Street/street" value={street} setValue={setstreet} />
         <CustomInput label="Barangay" value={barangay} setValue={setBarangay} />
-        <CustomInput label="Municipality" value={municipality} setValue={setmunicipality} />
-        <CustomInput label="Province" value={prov} setValue={setProv} />
-        <CustomInput label="zipCode Code" value={zipCode} setValue={setzipCode} />
+        <CustomInput label="Municipality (e.g.Cebu City)" value={municipality} setValue={setmunicipality} />
+        <CustomInput label="ZipCode" value={zipCode} setValue={setZipCodeValue} />
 
         <TouchableOpacity
           style={styles.buttonContainer}
