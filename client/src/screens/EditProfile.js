@@ -3,12 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const EditProfile = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [middleName, setMiddleName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
+  const [birthDate, setBirthDate] = useState(new Date()); // Initialize birthDate with a Date object
   const [birthPlace, setBirthPlace] = useState('');
   const [civilStatus, setCivilStatus] = useState('');
   const [gender, setGender] = useState('');
@@ -22,19 +23,18 @@ const EditProfile = () => {
   const [zipCode, setZipCode] = useState('');
 
   const [updateStatus, setUpdateStatus] = useState('');
-
+  const [showDatePicker, setShowDatePicker] = useState(false); // To toggle date picker visibility
 
   useEffect(() => {
     initialProfileInfo();
-  }, [updateStatus]); // Add updateStatus to the dependency array
-  
+  }, [updateStatus]);
+
   useEffect(() => {
     if (updateStatus) {
       // Reload the screen
       navigation.replace('Profile');
     }
   }, [updateStatus, navigation]);
-  
 
   const initialProfileInfo = async () => {
     const profId = await AsyncStorage.getItem('ProfileId');
@@ -45,7 +45,7 @@ const EditProfile = () => {
       setFirstName(profileData.first_name);
       setLastName(profileData.last_name);
       setMiddleName(profileData.middle_name);
-      setBirthDate(profileData.birthDate);
+      setBirthDate(new Date(profileData.birthDate)); // Format the date from the server
       setBirthPlace(profileData.birthPlace);
       setCivilStatus(profileData.civilStatus);
       setGender(profileData.gender);
@@ -57,7 +57,6 @@ const EditProfile = () => {
       setBarangay(profileData.barangay);
       setMunicipality(profileData.municipality);
       setZipCode(String(profileData.zipCode));
-
     } catch (error) {
       console.log(error);
     }
@@ -68,11 +67,16 @@ const EditProfile = () => {
 
     if (profId) {
       try {
+        // Format the selected date to a string in the desired format
+        const formattedDate = `${birthDate.getFullYear()}-${(birthDate.getMonth() + 1)
+          .toString()
+          .padStart(2, '0')}-${birthDate.getDate().toString().padStart(2, '0')}`;
+
         const updatedData = {
           first_name: firstName,
           last_name: lastName,
           middle_name: middleName,
-          birthDate: birthDate,
+          birthDate: formattedDate,
           birthPlace: birthPlace,
           civilStatus: civilStatus,
           gender: gender,
@@ -97,194 +101,209 @@ const EditProfile = () => {
     }
   };
 
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
 
   const handleBack = () => {
-    navigation.goBack(); 
+    navigation.goBack();
   };
 
   return (
     <ScrollView style={styles.container}>
-        <View style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.title}>EDIT PROFILE</Text>
 
         <View style={styles.formContainer}>
-            <Text style={styles.label}>First Name</Text>
-            <TextInput
+          <Text style={styles.label}>First Name</Text>
+          <TextInput
             style={styles.input}
             value={firstName}
             onChangeText={(text) => setFirstName(text)}
-            />
+          />
 
-            <Text style={styles.label}>Last Name</Text>
-            <TextInput
+          <Text style={styles.label}>Last Name</Text>
+          <TextInput
             style={styles.input}
             value={lastName}
             onChangeText={(text) => setLastName(text)}
-            />
+          />
 
-            <Text style={styles.label}>Middle Name</Text>
-            <TextInput
+          <Text style={styles.label}>Middle Name</Text>
+          <TextInput
             style={styles.input}
             value={middleName}
             onChangeText={(text) => setMiddleName(text)}
-            />
+          />
 
-            <Text style={styles.label}>Gender</Text>
-            <TextInput
+          <Text style={styles.label}>Gender</Text>
+          <TextInput
             style={styles.input}
             value={gender}
             onChangeText={(text) => setGender(text)}
-            />
+          />
 
-            <Text style={styles.label}>Birthdate</Text>
-            <TextInput
-            style={styles.input}
-            value={birthDate}
-            onChangeText={(text) => setBirthDate(text)}
+          <Text style={styles.label}>Birthdate</Text>
+          <TouchableOpacity // Open the date picker on touch
+            style={styles.datePickerContainer}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <Text>{birthDate.toDateString()}</Text>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker // Conditionally render the date picker
+              value={birthDate}
+              mode="date"
+              display="spinner"
+              onChange={(event, selectedDate) => {
+                setShowDatePicker(false); // Close the date picker
+                if (selectedDate) {
+                  setBirthDate(selectedDate);
+                }
+              }}
             />
+          )}
 
-            <Text style={styles.label}>Educational Attainment</Text>
-            <TextInput
+          <Text style={styles.label}>Educational Attainment</Text>
+          <TextInput
             style={styles.input}
             value={educAttain}
             onChangeText={(text) => setEducAttain(text)}
-            />
+          />
 
-            <Text style={styles.label}>Occupation</Text>
-            <TextInput
+          <Text style={styles.label}>Occupation</Text>
+          <TextInput
             style={styles.input}
             value={occupation}
             onChangeText={(text) => setOccupation(text)}
-            />
+          />
 
-            <Text style={styles.label}>Contact Number</Text>
-            <TextInput
+          <Text style={styles.label}>Contact Number</Text>
+          <TextInput
             style={styles.input}
             value={contactNo}
             onChangeText={(text) => setContactNo(text)}
-            />
+          />
 
-            <Text style={styles.label}>Nationality</Text>
-            <TextInput
+          <Text style={styles.label}>Nationality</Text>
+          <TextInput
             style={styles.input}
             value={nationality}
             onChangeText={(text) => setNationality(text)}
-            />
+          />
 
-            <Text style={styles.label}>Street</Text>
-            <TextInput
+          <Text style={styles.label}>Street</Text>
+          <TextInput
             style={styles.input}
             value={street}
             onChangeText={(text) => setStreet(text)}
-            />
+          />
 
-            <Text style={styles.label}>Barangay</Text>
-            <TextInput
+          <Text style={styles.label}>Barangay</Text>
+          <TextInput
             style={styles.input}
             value={barangay}
             onChangeText={(text) => setBarangay(text)}
-            />
+          />
 
-            <Text style={styles.label}>Municipality</Text>
-            <TextInput
+          <Text style={styles.label}>Municipality</Text>
+          <TextInput
             style={styles.input}
             value={municipality}
             onChangeText={(text) => setMunicipality(text)}
-            />
+          />
 
-            <Text style={styles.label}>Zipcode</Text>
-            <TextInput
-              style={styles.input}
-              value={zipCode}
-              onChangeText={(text) => setZipCode(text)}
-            />
-
-
-            {/* <Text style={styles.label}>Profile Password</Text>
-            <TextInput
+          <Text style={styles.label}>Zipcode</Text>
+          <TextInput
             style={styles.input}
-            secureTextEntry
-            onChangeText={(text) =>
-                setFormData({ ...formData, profilePassword: text })
-            }
-            /> */}
+            value={zipCode}
+            onChangeText={(text) => setZipCode(text)}
+          />
 
-            {/* Centered and Styled Buttons */}
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-                <Text style={styles.backButtonText}>Back</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveButtonText}>Save</Text>
-                </TouchableOpacity>
-            </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+              <Text style={styles.saveButtonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        </View>
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-      backgroundColor: 'white',
-    },
-    title: {
-      fontSize: 24,
-      color: '#9ED5C5',
-      marginBottom: 20,
-      textAlign: 'center',
-    },
-    formContainer: {
-      flex: 1,
-    },
-    label: {
-      fontSize: 16,
-      color: '#1BC592',
-      marginBottom: 5,
-    },
-    input: {
-      borderWidth: 1,
-      borderColor: '#29C999',
-      borderRadius: 5,
-      marginBottom: 10,
-      padding: 10,
-    },
-    buttonContainer: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      marginTop: 20,
-    },
-    backButton: {
-      backgroundColor: 'white',
-      borderWidth: 1,
-      borderColor: '#29C999',
-      borderRadius: 5,
-      paddingVertical: 15,
-      paddingHorizontal: 30,
-      marginHorizontal: 10,
-      shadowColor: 'rgba(0, 0, 0, 0.25)',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 1,
-      shadowRadius: 4,
-    },
-    backButtonText: {
-      color: 'black',
-      textAlign: 'center',
-    },
-    saveButton: {
-      backgroundColor: '#29C999',
-      borderRadius: 5,
-      paddingVertical: 15,
-      paddingHorizontal: 30,
-      marginHorizontal: 10,
-    },
-    saveButtonText: {
-      color: 'white',
-      textAlign: 'center',
-    },
-  });
-  
-  export default EditProfile;
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: 'white',
+  },
+  title: {
+    fontSize: 24,
+    color: '#9ED5C5',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  formContainer: {
+    flex: 1,
+  },
+  label: {
+    fontSize: 16,
+    color: '#1BC592',
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#29C999',
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 10,
+  },
+  datePickerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#29C999',
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 10,
+  },
+  birthdateText: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  backButton: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#29C999',
+    borderRadius: 5,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginHorizontal: 10,
+    shadowColor: 'rgba(0, 0, 0, 0.25)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  backButtonText: {
+    color: 'black',
+    textAlign: 'center',
+  },
+  saveButton: {
+    backgroundColor: '#29C999',
+    borderRadius: 5,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginHorizontal: 10,
+  },
+  saveButtonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+});
+
+export default EditProfile;
