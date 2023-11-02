@@ -15,7 +15,7 @@ const EditAcc = () => {
   return (
     <ScrollView style={styles.container}>
         <View style={styles.container}>
-        <Text style={styles.title}>EDIT PROFILE</Text>
+        <Text style={styles.title}>EDIT ACCOUNT</Text>
 
         <View style={styles.formContainer}>
             <Text style={styles.label}>Email</Text>

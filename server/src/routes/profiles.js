@@ -128,9 +128,9 @@ router.get("/medicalrecords/:id", async (req, res) => {
 router.patch("/updateprofile/:id", async (req, res) => {
     const profId = req.params.id;
     try {
-        const encryptPass = encryptCRPYTO(req.body.password)
+        //const encryptPass = encryptCRPYTO(req.body.password)
         const data = await ProfileModel.findOneAndUpdate({_id: profId}, req.body, {new:true});
-        const accdata = await AccountModel.findOneAndUpdate({profile: profId}, {...req.body, password: encryptPass}, {new:true});
+        //const accdata = await AccountModel.findOneAndUpdate({profile: profId}, {...req.body, password: encryptPass}, {new:true});
         res.json({data, accdata, message: "Profile Successfuly Updated"});
     } catch (error) {  
         res.json(error);
