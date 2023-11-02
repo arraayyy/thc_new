@@ -16,6 +16,7 @@ const PrenatalDetails = () => {
   const [patientInfo, setPatientInformation] = useState([]);
   const [prenatalInfo, setPrenatalInformation] = useState([]);
 
+
   useEffect(() => {
     getProfiles();
     getPrenatalDetails();
@@ -56,6 +57,7 @@ const PrenatalDetails = () => {
           try {
             const response = await axios.get(`http://10.0.2.2:8001/maternalhealth/getrecord/${profileId}/${recordId}`);
             setPrenatalInformation(response.data.record);
+           
         } catch (error) {
             console.error(error);
         }
@@ -168,31 +170,81 @@ const PrenatalDetails = () => {
                 <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numBornAlive}</Text>
               </View>
                 
-            <Text><Text style={{fontWeight:'bold'}}>No. of Living Children:  </Text>{prenatalInfo?.obstetricalHistory?.numOfLivingChild}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>No of Stillbirths: </Text>{prenatalInfo?.obstetricalHistory?.numOfStillBirth}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>Number of Large Babies : </Text>{prenatalInfo?.obstetricalHistory?.numberOfLargeBabies}</Text>
-                
-            <Text><Text style={{fontWeight:'bold'}}>Date of Last Delivery :  </Text>{formatDate(prenatalInfo?.obstetricalHistory?.dateOfLastDelivery)}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}>Type of Last Delivery: </Text>{prenatalInfo?.obstetricalHistory?.typeOfLastDelivery}</Text>
-            
-            <Text ><Text style={{fontWeight:'bold'}}>Last Menstrual Period : </Text>{formatDate(prenatalInfo?.obstetricalHistory?.lastMenstrualPeriod)}</Text>    
-            <Text><Text style={{fontWeight:'bold'}}>Menstrual Flow :  </Text>{prenatalInfo?.obstetricalHistory?.menstrualFlow}</Text>
-           
-            <Text ><Text style={{fontWeight:'bold'}}>Hydatidiform mole: </Text>{prenatalInfo?.obstetricalHistory?.hydatidiformMole? 'Yes' : 'No'}</Text>  
-            <Text><Text style={{fontWeight:'bold'}}> History of Ectopic Pregnancy:  </Text>{prenatalInfo?.obstetricalHistory?.ectopicPregnancy? 'Yes' : 'No'}</Text>
-            <Text ><Text style={{fontWeight:'bold'}}> History of Dysmenorrhea : </Text>{prenatalInfo?.obstetricalHistory?.dysmenorrhea? 'Yes' : 'No'}</Text>   
-            <Text><Text style={{fontWeight:'bold'}}> Diabetes:  </Text>{prenatalInfo?.obstetricalHistory?.diabetes?'Yes' : 'No'}</Text>
-            
+              <View style={styles.infoSection}>
+              <Text style={styles.label}>No. of Living Children: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numOfLivingChild}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>No of Stillbirths: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numOfStillBirth}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Number of Large Babies: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numberOfLargeBabies}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Date of Last Delivery: </Text>
+              <Text style={styles.info}>{formatDate(prenatalInfo?.obstetricalHistory?.dateOfLastDelivery)}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Type of Last Delivery: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.typeOfLastDelivery}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Last Menstrual Period: </Text>
+              <Text style={styles.info}>{formatDate(prenatalInfo?.obstetricalHistory?.lastMenstrualPeriod)}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Menstrual Flow: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.menstrualFlow}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Hydatidiform mole: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.hydatidiformMole ? 'Yes' : 'No'}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>History of Ectopic Pregnancy: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.ectopicPregnancy ? 'Yes' : 'No'}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>History of Dysmenorrhea: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.dysmenorrhea ? 'Yes' : 'No'}</Text>
+            </View>
+
+            <View style={styles.infoSection}>
+              <Text style={styles.label}>Diabetes: </Text>
+              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.diabetes ? 'Yes' : 'No'}</Text>
+            </View>
           </View>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Medical History</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-            <Text><Text style={{fontWeight:'bold'}}>Previous Illness :  </Text>{prenatalInfo?.medicalHistory?.illness? prenatalInfo.medicalHistory.illness: "N/A"}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Allergy : </Text>{prenatalInfo?.medicalHistory?.allergy? prenatalInfo.medicalHistory.allergy: "N/A"}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Previous Hospitalization: </Text>{prenatalInfo?.medicalHistory?.hospitalization? prenatalInfo.medicalHistory.hospitalization: "N/A"}</Text>
-          </View>
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Previous Illness: </Text>
+                <Text style={styles.info}>{prenatalInfo?.medicalHistory?.illness ? prenatalInfo.medicalHistory.illness : "N/A"}</Text>
+              </View>
+
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Allergy: </Text>
+                <Text style={styles.info}>{prenatalInfo?.medicalHistory?.allergy ? prenatalInfo.medicalHistory.allergy : "N/A"}</Text>
+              </View>
+
+              <View style={styles.infoSection}>
+                <Text style={styles.label}>Previous Hospitalization: </Text>
+                <Text style={styles.info}>{prenatalInfo?.medicalHistory?.hospitalization ? prenatalInfo.medicalHistory.hospitalization : "N/A"}</Text>
+              </View>
+            </View>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Tetanus Toxoid Status</Text>
@@ -227,7 +279,7 @@ const PrenatalDetails = () => {
         {prenatalInfo.maternalHealthAssessment && prenatalInfo.maternalHealthAssessment.map((rec, idx) => {
            if (rec._id != null) {
             return (
-            <Card containerStyle={styles.card} key={idx}>
+            <Card containerStyle={styles.card} key={rec._id}>
                 <TouchableOpacity onPress={()=> onPrenatalSession(rec._id)}>
                 <View style={{flexDirection:'column'}}>
                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
@@ -253,7 +305,7 @@ const getFontSize = (size) => size / fontScale;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F6F6F6',
+    backgroundColor: 'white',
   },
   body: {
     padding: 15,
@@ -269,6 +321,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 15,
     elevation: 3,
+    
   },
   cardTitle: {
     color: '#44AA92',
@@ -279,6 +332,7 @@ const styles = StyleSheet.create({
   },
   cardBody: {
     paddingVertical: 10,
+    
   },
   card: {
     backgroundColor: '#91E0CE',
