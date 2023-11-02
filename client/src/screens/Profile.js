@@ -1,9 +1,41 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const ProfileScreen = () => {
+  const [profileData, setProfileData] = useState({});
+  const [accountData, setAccountData] = useState({});
+
+  useEffect(()=>{
+    profileInformation();
+    accountInformation();
+  },[])
+
+  const profileInformation = async () => {
+    const profId = await AsyncStorage.getItem('ProfileId');
+
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/profile/${profId}`)
+      setProfileData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const accountInformation = async () => {
+    const accId = await AsyncStorage.getItem('accountId');
+
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/account/specaccount/${accId}`);
+      setAccountData(response.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const navigation = useNavigation();
   const navigateToEditProfile = () => {
     navigation.navigate('EditProfile'); 
@@ -29,15 +61,17 @@ const ProfileScreen = () => {
           source={require('../../assets/user.png')}
           style={styles.userIcon}
         /> */}
-        <Text style={[styles.userName, { color: 'white' }]}>Jane Doe</Text>
+        <Text style={[styles.userName, { color: 'white' }]}>{profileData.first_name + " " + profileData.middle_name + " " + profileData.last_name}</Text>
         <View style={styles.userInfo}>
           <Icon name="envelope" size={20} color="white" style={styles.emailIcon} />
-          <Text style={[styles.email, { color: 'white' }]}>jane.doe@example.com</Text>
+          <Text style={[styles.email, { color: 'white' }]}>{accountData.email? accountData.email: "N/A"}</Text>
         </View>
         <View style={styles.verification}>
           <View style={styles.verificationCircle}>
-            <Icon name="check-circle" size={20} color="#9ED5C5" style={styles.checkIcon} />
-            <Text style={styles.verifiedText}>Verified Resident</Text>
+            {profileData.prof_status === "Active" ?(
+              <Icon name="check-circle" size={20} color="#9ED5C5" style={styles.checkIcon} />
+            ):null}
+            <Text style={styles.verifiedText}>{profileData.prof_status === 'Active' ? 'Verified Resident' : 'Unverified Resident'}</Text>
           </View>
         </View>
       </View>
@@ -48,31 +82,35 @@ const ProfileScreen = () => {
         <View style={styles.userInfoContainer}>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Gender:</Text>
-            <Text style={styles.userInfoValue}>Female</Text>
+            <Text style={styles.userInfoValue}>{profileData.gender?profileData.gender: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Age:</Text>
-            <Text style={styles.userInfoValue}>30</Text>
+            <Text style={styles.userInfoValue}>{profileData.age?profileData.age+ "  Years Old": "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Education:</Text>
-            <Text style={styles.userInfoValue}>Master's Degree</Text>
+            <Text style={styles.userInfoValue}>{profileData.educAttain?profileData.educAttain: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Occupation:</Text>
-            <Text style={styles.userInfoValue}>Software Developer</Text>
+            <Text style={styles.userInfoValue}>{profileData.occupation?profileData.occupation: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Contact:</Text>
-            <Text style={styles.userInfoValue}>123-456-7890</Text>
+            <Text style={styles.userInfoValue}>{profileData.contactNo?profileData.contactNo: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Nationality:</Text>
-            <Text style={styles.userInfoValue}>US</Text>
+            <Text style={styles.userInfoValue}>{profileData.nationality?profileData.nationality: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Address:</Text>
-            <Text style={styles.userInfoValue}>123 Main St, City, Country</Text>
+            <Text style={styles.userInfoValue}>{profileData.street + " " + profileData.barangay}</Text>
+          </View>
+          <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoLabel}></Text>
+            <Text style={styles.userInfoValue}>{profileData.municipality + " " + profileData.zipCode}</Text>
           </View>
         </View>
       </View>
