@@ -17,10 +17,6 @@ const Urinalysis = () => {
     getProfileId();
   }, [])
 
-  const onUrinalysisRecord =(recordid)=>{
-    navigation.navigate("Urinalysis Details", {recordId: recordid})
-  }
-
   const getProfileId = async () => {
     try {
       const profileId = await AsyncStorage.getItem('ProfileId');
@@ -38,12 +34,12 @@ const Urinalysis = () => {
   };
 
   const patientRecords = async (profileId) => {
-    try {
-      const response = await axios.get(`http://10.0.2.2:8001/urinalysis/${profileId}`);
-      setRecords(response.data.medical_records);
-  } catch (error) {
-      console.error(error);
-  }
+      try {
+        const response = await axios.get(`http://10.0.2.2:8001/urinalysis/${profileId}`);
+        setRecords(response.data.medical_records);
+    } catch (error) {
+        console.error(error);
+    }
   }
 
   const formatDate = (dateString) => {
@@ -51,6 +47,10 @@ const Urinalysis = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, options);
   };
+
+  const onUrinalysisRecord =(recordid)=>{
+    navigation.navigate("Urinalysis Details", {recordId: recordid, profileId:profile_id})
+  }
 
   return (
     <View style={styles.container}>
@@ -63,12 +63,13 @@ const Urinalysis = () => {
             </View>
   
             {/* Table Data */}
+
             {records && records.length > 0 ? (
               records.map((value, indx) => {
                 if (value.service_id !== null && value.service_id.recordStat !== false) {
                   return (
                     <Card containerStyle={styles.card} key={indx}>
-                      <TouchableOpacity onPress={() => onUrinalysisRecord(profile_id)}>
+                      <TouchableOpacity onPress={() => onUrinalysisRecord(value.service_id._id , profile_id)}>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={[
@@ -88,6 +89,7 @@ const Urinalysis = () => {
             ) : (
               <Text>No Records Found</Text>
             )}
+
           </View>
         </View>
       </ScrollView>
