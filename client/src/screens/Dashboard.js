@@ -1,6 +1,6 @@
 import { Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import React, { useState} from 'react'
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import axios from 'axios';
 import Header from "../components/Header";
@@ -9,10 +9,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Dashboard = () => {
   const navigation = useNavigation();
   const [profiles, setProfiles] = useState([]);
-  useEffect(() => {
-    getProfiles();
-    
-},[])
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      getProfiles();
+    }, [])
+  );
 
   const getProfiles = async () => {
     const acctId = await AsyncStorage.getItem("accountId");
@@ -35,31 +37,42 @@ const Dashboard = () => {
       console.error(error);
     }
   }
+  const navigateToAddProfile = () => {
+    navigation.navigate('AddProfile'); 
+  };
 
   return (
     <SafeAreaView>
       <Header height={150}/>
       <View style={{alignItems: 'center'}}>
         <View style={styles.container}>
-          <FlatList 
+          <FlatList
             numColumns={2}
-            columnWrapperStyle = {{ justifyContent: 'space-evenly', marginBottom: 20}}
-            keyExtractor={(item) =>  item._id}
+            columnWrapperStyle={{ justifyContent: 'space-evenly', marginBottom: 20 }}
+            keyExtractor={(item) => item._id}
             data={profiles}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => fetchProfile(item)}
                 style={styles.profileContainer}>
-                  <View style={styles.profileIconContainer}>
-                    <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />
-                  </View>
-                  <Text numberOfLines={1} style={styles.iconName}>{item.first_name + " " + (item.middle_name).charAt(0) + ". " + item.last_name + " "}</Text>
+                <View style={styles.profileIconContainer}>
+                  <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />
+                </View>
+                <Text numberOfLines={1} style={styles.iconName}>{item.first_name + " " + (item.middle_name).charAt(0) + "  " + item.last_name + " "}</Text>
               </TouchableOpacity>
-              
             )}
           />
+         
+            <TouchableOpacity
+              onPress={() => navigateToAddProfile()}
+              style={styles.addButton}>
+              <View style={styles.profileIconContainer}>
+                <Icon style={{ fontSize: 25 }} name='user-plus' size={15} color='#E0E2E1' />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      
     </SafeAreaView>
   )
 }
@@ -99,5 +112,20 @@ const styles = StyleSheet.create({
     paddingVertical:5,
     color: '#44AA92',
     fontWeight: 'bold'
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 50,
+    height: 50,
+    backgroundColor: '#44AA92',
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+  },
+  addIcon: {
+    fontSize: 20,
   }
 })

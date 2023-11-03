@@ -115,6 +115,7 @@ router.get("/fetchaccount/:profid", async (req, res) => {
 // ADDING NEW ACCOUNT TOGETHER WITH A FIRST PROFILE
 router.post("/register", async (req, res) => {
     const age = getAge(req.body.birthDate);
+    let retValMsg;
     const {
         acc_type, email, phone, password, acc_status,
         prof_status, relationship, user_type, first_name, last_name, middle_name, gender, birthDate, birthPlace, educAttain, occupation, contactNo, civilStatus, nationality, street, barangay, municipality, zipCode
@@ -122,17 +123,19 @@ router.post("/register", async (req, res) => {
     
     try {
         const user = await AccountModel.findOne({ email });
-        if(user){
-            return res.json({message: "Account Already exist"});
+        if(!user){
+            const newProf = new ProfileModel({prof_status, relationship, user_type, first_name, last_name, middle_name, gender, age, birthDate, birthPlace, educAttain, occupation, contactNo, civilStatus, nationality, street, barangay, municipality, zipCode});
+            await newProf.save()
+
+            const profId = newProf._id;
+            const newAcc = new AccountModel({acc_type, email, phone, password : encryptCRPYTO(password), acc_status, profile: profId});
+            await newAcc.save();
+            retValMsg = "Account Successfully Created";
+        }else{
+            retValMsg= "Account Already exist";
         }
-        const newProf = new ProfileModel({prof_status, relationship, user_type, first_name, last_name, middle_name, gender, age, birthDate, birthPlace, educAttain, occupation, contactNo, civilStatus, nationality, street, barangay, municipality, zipCode});
-        await newProf.save()
-
-        const profId = newProf._id;
-        const newAcc = new AccountModel({acc_type, email, phone, password : encryptCRPYTO(password), acc_status, profile: profId});
-        await newAcc.save();
-
-        res.json({message: "Account Successfully Created"});
+        
+        return res.json(retValMsg);
     } catch (error) {
         console.log(error);
     }

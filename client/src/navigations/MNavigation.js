@@ -37,6 +37,7 @@ import DentalDetails from "../screens/Dental/DentalDetails";
 import Profile from "../screens/Profile";
 import EditProfile from "../screens/EditProfile";
 import EditAcc from "../screens/EditAccount";
+import AddProfile from "../screens/AddProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -181,6 +182,7 @@ const MNavigation = () => {
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="EditAcc" component={EditAcc} />
+            <Stack.Screen name="AddProfile" component={AddProfile} />
 
 
       </Stack.Navigator>

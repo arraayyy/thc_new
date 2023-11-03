@@ -114,21 +114,6 @@ const Register = () => {
       }
     }
   
-    if (barangay.toLowerCase() !== "talamban") {
-      alert("Barangay must be 'Talamban'.");
-      return;
-    }
-  
-    if (municipality.toLowerCase() !== "cebu city") {
-      alert("Municipality must be 'Cebu City'.");
-      return;
-    }
-  
-    if (zipCode !== "6000") {
-      alert("Zip Code must be 6000.");
-      return;
-    }
-  
     if (password !== confirmpassword) {
       alert("Passwords do not match.");
       return;
@@ -146,8 +131,10 @@ const Register = () => {
       });
      
       if (response.status === 200) {
-        alert("You have Successfully Registered!");
+        alert(response.data.message);
         navigation.navigate("Login");
+      }else{
+        alert(response.data.message);
       }
     } catch (error) {
       alert("An unexpected error occurred");
@@ -198,7 +185,7 @@ const Register = () => {
               onChange={onChange}
             />
         )}
-        <Text style={styles.label}>Birthdate</Text>
+        <Text style={styles.label}>Birth Date</Text>
         {!showPicker &&(
           <Pressable onPress={toggleDatepicker}>
             <TextInput
@@ -226,7 +213,7 @@ const Register = () => {
                 onSelect={onRelSelect} 
               />
         </View> 
-       <CustomInput label="BirthPlace" value={birthPlace} setValue={setbirthPlace} />
+       <CustomInput label="Birth Place" value={birthPlace} setValue={setbirthPlace} />
        <CustomInput label="Occupation" value={occupation} setValue={setoccupation} />
        <CustomInput label="Contact Number" value={contactNo} setValue={setcontactNo} />
        <CustomInput label="Civil Status" value={civilStatus} setValue={setcivilStatus} />
