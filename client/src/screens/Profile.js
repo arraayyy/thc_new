@@ -43,19 +43,29 @@ const ProfileScreen = () => {
   const navigateToEditAcc = () => {
     navigation.navigate('EditAcc');
   }
+  const navigateToLogin = () => {
+    navigation.navigate('Login');
+  }
+  const navigateToDashboard = () => {
+    navigation.navigate('Dashboard');
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.buttonContainer}>
           {/* Buttons */}
-          <Icon name="users" size={20} color="white" style={styles.button} />
+          <TouchableOpacity onPress={navigateToDashboard}>
+            <Icon name="users" size={20} color="white" style={styles.button} />
+          </TouchableOpacity>
           <TouchableOpacity onPress={navigateToEditProfile}>
             <Icon name="edit" size={20} color="white" style={styles.button} />
             </TouchableOpacity>
           <TouchableOpacity onPress={navigateToEditAcc}>
             <Icon name="cog" size={20} color="white" style={styles.button} />
           </TouchableOpacity>
-          <Icon name="sign-out" size={20} color="white" style={styles.button} />
+          <TouchableOpacity onPress={navigateToLogin}>
+            <Icon name="sign-out" size={20} color="white" style={styles.button} />
+          </TouchableOpacity>
         </View>
         {/* <Image
           source={require('../../assets/user.png')}
