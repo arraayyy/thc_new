@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -14,6 +14,14 @@ const ProfileScreen = () => {
     accountInformation();
   },[])
 
+  const clearUserData = async () => {
+    // Clear the user data from AsyncStorage and reset the state
+    await AsyncStorage.removeItem('ProfileId');
+    await AsyncStorage.removeItem('accountId');
+    setProfileData({});
+    setAccountData({});
+  };
+  
   const profileInformation = async () => {
     const profId = await AsyncStorage.getItem('ProfileId');
 
@@ -40,12 +48,22 @@ const ProfileScreen = () => {
   const navigateToEditProfile = () => {
     navigation.navigate('EditProfile'); 
   };
+
   const navigateToEditAcc = () => {
     navigation.navigate('EditAcc');
   }
+
   const navigateToLogin = () => {
-    navigation.navigate('Login');
+    clearUserData().then(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        })
+      );
+    });
   }
+
   const navigateToDashboard = () => {
     navigation.navigate('Dashboard');
   }
