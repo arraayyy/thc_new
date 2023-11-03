@@ -213,6 +213,39 @@ router.patch("/setdefault/:profid", async (req, res) => {
     }
 })
 
+//UPDATE ACCOUNT EMAIL AND PASSWORD
+router.put("/update/:accid", async (req, res) => {
+    const { email, password } = req.body;
+    const accid = req.params.accid;
+  
+    try {
+      // Find the account by ID
+      const account = await AccountModel.findById(accid);
+  
+      if (!account) {
+        return res.json({ message: "Account not found" });
+      }
+  
+      // Update the email if provided
+      if (email) {
+        account.email = email;
+      }
+  
+      // Update the password if provided
+      if (password) {
+        // Encrypt the new password before updating
+        account.password = encryptCRPYTO(password);
+      }
+  
+      // Save the updated account
+      await account.save();
+  
+      res.json({ message: "Account updated successfully" });
+    } catch (error) {
+      res.json(error);
+    }
+  });
+
 // SETTING ACCOUNT TO ACTIVE WHEN THERE IS A PROFILE THAT IS ACTIVE
 router.patch("/accountactivation", async (req, res) => {
     try {
