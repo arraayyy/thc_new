@@ -60,6 +60,7 @@ const Dashboard = () => {
                 </View>
                 <Text numberOfLines={1} style={styles.iconName}>{item.first_name + " " + (item.middle_name).charAt(0) + "  " + item.last_name + " "}</Text>
               </TouchableOpacity>
+              
             )}
           />
          

@@ -60,8 +60,7 @@ const MNavigation = () => {
         }}>
             <Stack.Screen name="Login" component={SignInScreen}  options={{headerShown: false}}/>
             <Stack.Screen name="Register" component={Register}  options={{headerShown: false}}/>
-            <Stack.Screen name="Dashboard" component={Dashboard} options={{
-            }} />
+            <Stack.Screen name="Dashboard" component={Dashboard} options={{headerShown: false}} />
 
             <Stack.Screen name="Home" component={Home}/>
             <Stack.Screen name="Services" component={Services}/>
