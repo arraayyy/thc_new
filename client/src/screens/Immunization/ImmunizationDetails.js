@@ -30,7 +30,7 @@ const ImmunizationDetails = () => {
     const acctId = await AsyncStorage.getItem("accountId");
    
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      const response = await axios.get(`/account/fetchmember/${acctId}`);
       //console.log("response.data: ",response.data.profile)
       const profiles = response.data.profile;
       const motherProfile = profiles.find(profile => profile.relationship === "Mother");
@@ -40,7 +40,7 @@ const ImmunizationDetails = () => {
       setFatherInfo(fatherProfile || {});
       setGuardianInfo(guardianProfile || {});    
       
-      const fetchPatientInfo = await axios.get(`http://10.0.2.2:8001/profile/${profileId}`);
+      const fetchPatientInfo = await axios.get(`/profile/${profileId}`);
           setChildInfo(fetchPatientInfo.data);
 
           } catch (error) {
@@ -50,7 +50,7 @@ const ImmunizationDetails = () => {
 
       const getPrenatalDetails = async () => {
           try {
-            const response = await axios.get(`http://10.0.2.2:8001/childhealth/getrecord/${recordId}`);
+            const response = await axios.get(`/childhealth/getrecord/${recordId}`);
             setPatientRec(response.data);
             
         } catch (error) {

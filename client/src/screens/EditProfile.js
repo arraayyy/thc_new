@@ -40,7 +40,7 @@ const EditProfile = () => {
     const profId = await AsyncStorage.getItem('ProfileId');
 
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/profile/${profId}`);
+      const response = await axios.get(`/profile/${profId}`);
       const profileData = response.data;
       setFirstName(profileData.first_name);
       setLastName(profileData.last_name);
@@ -92,7 +92,7 @@ const EditProfile = () => {
           relationship:relationship,
         };
 
-        const response = await axios.patch(`http://10.0.2.2:8001/profile/updateprofile/${profId}`, updatedData);
+        const response = await axios.patch(`/profile/updateprofile/${profId}`, updatedData);
 
         if (response.status === 200) {
           alert('Profile Updated Successfully');

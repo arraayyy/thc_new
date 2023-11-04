@@ -20,7 +20,7 @@ const Dashboard = () => {
     const acctId = await AsyncStorage.getItem("accountId");
     
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      const response = await axios.get(`/account/fetchmember/${acctId}`);
       setProfiles(response.data.profile);
       
     } catch (error) {

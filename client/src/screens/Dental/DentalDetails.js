@@ -24,10 +24,10 @@ const DentalDetails = () => {
     const acctId = await AsyncStorage.getItem("accountId");
     
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      const response = await axios.get(`/account/fetchmember/${acctId}`);
       setProfiles(response.data.profile);
       
-      const fetchPatientInfo = await axios.get(`http://10.0.2.2:8001/profile/${profileId}`);
+      const fetchPatientInfo = await axios.get(`/profile/${profileId}`);
       setPatientInfo(fetchPatientInfo.data)
 
     } catch (error) {
@@ -37,7 +37,7 @@ const DentalDetails = () => {
 
   const getDentalDetails = async () => {
     try {
-        const response = await axios.get(`http://10.0.2.2:8001/oralhealth/getrecord/${profileId}/${recordId}`);
+        const response = await axios.get(`/oralhealth/getrecord/${profileId}/${recordId}`);
         setDentalInfo(response.data.record);
     } catch (error) {
         console.error(error);

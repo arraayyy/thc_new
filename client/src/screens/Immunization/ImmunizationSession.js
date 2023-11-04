@@ -17,7 +17,7 @@ const ImmunizationSession = () => {
 
     const  getAssessmentDetails = async () => {
         try {
-            const response = await axios.get(`http://10.0.2.2:8001/childhealth/assessment/${sessionId}`);
+            const response = await axios.get(`/childhealth/assessment/${sessionId}`);
             setAssessmentInfo(response.data);
            
             

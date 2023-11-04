@@ -35,7 +35,7 @@ const MedicalCheckup = () => {
 
   const patientRecords = async (profileId) => {
     try {
-        const response = await axios.get(`http://10.0.2.2:8001/medicalcheckup/${profileId}`);
+        const response = await axios.get(`/medicalcheckup/${profileId}`);
         setRecords(response.data.medical_records);
     } catch (error) {
         console.error(error);

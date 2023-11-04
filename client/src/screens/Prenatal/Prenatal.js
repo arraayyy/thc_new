@@ -35,7 +35,7 @@ const Prenatal = () => {
 
   const patientRecords = async (profileId) => {
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/maternalhealth/${profileId}`);
+      const response = await axios.get(`/maternalhealth/${profileId}`);
       setRecords(response.data.medical_records);
   } catch (error) {
       // Handle the error here

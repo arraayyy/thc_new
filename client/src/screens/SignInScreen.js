@@ -21,7 +21,7 @@ const SignInScreen = () => {
     console.log('loginPassword:', loginPassword);
 
     try {
-      const response = await axios.post('http://10.0.2.2:8001/account/login', { loginEmail, loginPassword });
+      const response = await axios.post('/account/loginresident', { loginEmail, loginPassword });
 
       if (response.data.accountId) {    
         alert("You have Successfully Logged In");

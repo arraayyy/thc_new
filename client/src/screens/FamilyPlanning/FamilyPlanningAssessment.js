@@ -15,7 +15,7 @@ const FamilyPlanningSession = () => {
 
   const  getAssessmentDetails = async () => {
     try {
-        const response = await axios.get(`http://10.0.2.2:8001/familyplanning/assessment/${sessionId}`);
+        const response = await axios.get(`/familyplanning/assessment/${sessionId}`);
         setAssessmentInfo(response.data);
     
         if (response.data.vitalSign) {

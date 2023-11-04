@@ -30,7 +30,7 @@ const EditAcc = () => {
       const accId = await AsyncStorage.getItem('accountId'); // Replace with the actual account ID
 
       // Fetch the current account details
-      const response = await axios.get(`http://10.0.2.2:8001/account/specaccount/${accId}`);
+      const response = await axios.get(`/account/specaccount/${accId}`);
 
       if (response.status === 200) {
         // Populate the form fields with the retrieved values
@@ -54,7 +54,7 @@ const EditAcc = () => {
       const accId = await AsyncStorage.getItem('accountId'); // Replace with the actual account ID
 
       // Send a PUT request to update the email and password
-      const response = await axios.put(`http://10.0.2.2:8001/account/update/${accId}`, {
+      const response = await axios.put(`/account/update/${accId}`, {
         email,
         password,
       });

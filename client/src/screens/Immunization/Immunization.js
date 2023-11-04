@@ -33,7 +33,7 @@ const Immunization = () => {
 
   const patientRecords = async (profileId) => {
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/childhealth//${profileId}`);
+      const response = await axios.get(`/childhealth//${profileId}`);
       setRecords(response.data.medical_records);
       
   } catch (error) {

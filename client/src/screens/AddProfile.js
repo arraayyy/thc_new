@@ -89,7 +89,7 @@ const AddProfile = () => {
           user_type:"Resident",
         };
        
-        const response = await axios.post(`http://10.0.2.2:8001/profile/addprofile/${accountId}`, profileData);
+        const response = await axios.post(`/profile/addprofile/${accountId}`, profileData);
 
         if (response.status === 200) {
           alert('Profile Added Successfully');

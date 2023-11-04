@@ -28,10 +28,10 @@ const PrenatalDetails = () => {
     const acctId = await AsyncStorage.getItem("accountId");
     
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/account/fetchmember/${acctId}`);
+      const response = await axios.get(`/account/fetchmember/${acctId}`);
       setProfiles(response.data.profile);
       
-      const fetchPatientInfo = await axios.get(`http://10.0.2.2:8001/profile/${profileId}`);
+      const fetchPatientInfo = await axios.get(`/profile/${profileId}`);
       setPatientInformation(fetchPatientInfo.data);
      
       const checkIfFather = (profiles) => {
@@ -55,7 +55,7 @@ const PrenatalDetails = () => {
 
       const getPrenatalDetails = async () => {
           try {
-            const response = await axios.get(`http://10.0.2.2:8001/maternalhealth/getrecord/${profileId}/${recordId}`);
+            const response = await axios.get(`/maternalhealth/getrecord/${profileId}/${recordId}`);
             setPrenatalInformation(response.data.record);
            
         } catch (error) {

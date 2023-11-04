@@ -26,7 +26,7 @@ const ProfileScreen = () => {
     const profId = await AsyncStorage.getItem('ProfileId');
 
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/profile/${profId}`)
+      const response = await axios.get(`/profile/${profId}`)
       setProfileData(response.data);
     } catch (error) {
       console.log(error);
@@ -37,7 +37,7 @@ const ProfileScreen = () => {
     const accId = await AsyncStorage.getItem('accountId');
 
     try {
-      const response = await axios.get(`http://10.0.2.2:8001/account/specaccount/${accId}`);
+      const response = await axios.get(`/account/specaccount/${accId}`);
       setAccountData(response.data[0]);
     } catch (error) {
       console.log(error);
