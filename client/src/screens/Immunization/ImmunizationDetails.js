@@ -80,85 +80,25 @@ const ImmunizationDetails = () => {
           <Text style={styles.cardTitle}>Personal Information</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Name: </Text>
-              <Text style={styles.info}>{childInfo.first_name + " "+ childInfo.middle_name + " " + childInfo.last_name}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Gender: </Text>
-              <Text style={styles.info}>{childInfo.gender}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Date of Birth: </Text>
-              <Text style={styles.info}>{formatDate(childInfo.birthDate)}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Address: </Text>
-              <Text style={styles.info}>{childInfo.street + " " + childInfo.barangay + " " + childInfo.municipality + " " + childInfo.zipCode}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Place of Delivery: </Text>
-              <Text style={styles.info}>{patientRecords.placeOfDelivery}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Mother’s Name: </Text>
-              <Text style={styles.info}>{motherInfo.first_name + " "+ motherInfo.middle_name + " " + motherInfo.last_name}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Mother’s Age: </Text>
-              <Text style={styles.info}>{motherInfo.age}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Mother’s Occupation: </Text>
-              <Text style={styles.info}>{motherInfo.occupation}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Mother’s Contact: </Text>
-              <Text style={styles.info}>{motherInfo.contactNo}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Father’s Name: </Text>
-              <Text style={styles.info}>{fatherInfo.first_name + " "+ fatherInfo.middle_name + " " + fatherInfo.last_name}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Father’s Age: </Text>
-              <Text style={styles.info}>{fatherInfo.age}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Father’s Occupation: </Text>
-              <Text style={styles.info}>{fatherInfo.occupation}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Father’s Contact: </Text>
-              <Text style={styles.info}>{fatherInfo.contactNo}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Birth Weight: </Text>
-              <Text style={styles.info}>{patientRecords.birthWeight}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Type of Feeding: </Text>
-              <Text style={styles.info}>{patientRecords.typeOfFeeding}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Date of Newborn Screening: </Text>
-              <Text style={styles.info}>{formatDate(patientRecords.dateOfNewbornScreening)}</Text>
-            </View>
+              <Text><Text style={styles.label}>Name : </Text>{childInfo.first_name + " "+ childInfo.middle_name + " " + childInfo.last_name}</Text>
+              <Text><Text style={styles.label}>Gender: </Text>{childInfo.gender}</Text>
+              <Text><Text style={styles.label}>Date of Birth: </Text>{formatDate(childInfo.birthDate)}</Text>
+              <Text><Text style={styles.label}>Address: </Text>{childInfo.street + " " + childInfo.barangay + " " + childInfo.municipality + " " + childInfo.zipCode}</Text>
+              <Text><Text style={styles.label}>Place of Delivery: </Text>{patientRecords.placeOfDelivery}</Text>
+              <Text><Text style={styles.label}>Mother’s Name: </Text>{motherInfo.first_name + " "+ motherInfo.middle_name + " " + motherInfo.last_name}</Text>
+              <Text><Text style={styles.label}>Mother’s Age: </Text>{motherInfo.age}</Text>
+              <Text><Text style={styles.label}>Mother’s Occupation: </Text>{motherInfo.occupation}</Text>
+              <Text><Text style={styles.label}>Mother’s Contact: </Text>{motherInfo.contactNo}</Text>
+             
+              <Text><Text style={styles.label}>Father’s Name: </Text>{fatherInfo.first_name + " "+ fatherInfo.middle_name + " " + fatherInfo.last_name}</Text>
+              <Text><Text style={styles.label}>Father’s Age: </Text>{fatherInfo.age}</Text>
+              <Text><Text style={styles.label}>Father’s Occupation: </Text>{fatherInfo.occupation}</Text>
+              <Text><Text style={styles.label}>Father’s Contact: </Text>{fatherInfo.contactNo}</Text>
+              
+              
+              <Text><Text style={styles.label}>Birth Weight: </Text>{patientRecords.birthWeight}</Text>
+              <Text><Text style={styles.label}>Type of Feeding: </Text>{patientRecords.typeOfFeeding}</Text>
+              <Text><Text style={styles.label}>Date of New Born Screening: </Text>{formatDate(patientRecords.dateOfNewbornScreening)}</Text>
           </View>
         </View>
         <View style={[styles.titleBox]}>
@@ -169,7 +109,7 @@ const ImmunizationDetails = () => {
             patientRecords.childHealthVaccine && patientRecords.childHealthVaccine.map((rec, idx) => {
                       if (rec._id != null) {
                       return (
-                        <Text><Text style={{fontWeight:'bold'}}>{rec.vaccine_name} :  </Text>&nbsp;&nbsp;{formatDate(rec.dateGiven)}</Text>
+                        <Text><Text style={styles.label}>{rec.vaccine_name} :  </Text>&nbsp;&nbsp;{formatDate(rec.dateGiven)}</Text>
                         );
                       }
                                                               
@@ -208,67 +148,83 @@ const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
+  container:{
+    backgroundColor:'white',
   },
+
   body: {
-    padding: 15,
+     padding: 15,
   },
+
   title: {
     color: '#88EECC',
     fontSize: 30,
     marginBottom: 20,
+    fontWeight: 'bold',
   },
+
+  label:{
+    color: '#8EC3B0',
+    fontWeight:'bold',
+    justifyContent:'flex-start',
+  },
+     
   titleBox: {
-    borderRadius: 10,
-    marginTop: 10,
-    backgroundColor: 'white',
-    padding: 15,
-    elevation: 3,
-    
-  },
-  cardTitle: {
-    color: '#44AA92',
-    fontSize: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderColor: '#E0E2E1',
-  },
-  cardBody: {
-    paddingVertical: 10,
-    
-  },
-  card: {
-    backgroundColor: '#91E0CE',
-    marginTop: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#44AA92',
-    shadowColor: '#566e66',
-    shadowOffset: { width: 0, height: 1 },
+    backgroundColor:'white',
+    borderRadius:5,
+    marginTop: 20,
+    alignItems:'center',
+    shadowColor:'black',
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
+      },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
   },
-  cardRow: {
-    fontSize: getFontSize(15),
-    color: '#44AA92',
-    fontWeight: 'bold',
-    marginBottom: 5,
+
+  cardTitle:{
+    fontSize: 20,
+    textAlign:'center',
+    color:'#44AA92',
+    padding:20,
+    fontWeight:'bold'
   },
-  icon: {
-    color: '#44AA92',
+
+  lineStyle:{
+    borderWidth: 0.1,
+    backgroundColor:'black',
+    height:0.5,
+    width:'100%'
   },
-  infoSection: {
-    marginBottom: 10,
+
+  cardBody:{
+    padding:30
   },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#44AA92',
-    marginBottom: 5,
-  },
-  info: {
-    fontSize: 16,
-  },
+
+  card:{
+    backgroundColor:'#88EECC',
+    marginLeft:0,
+    width:350 ,
+    borderRadius:10,
+    borderWidth:1,
+    borderColor: '#F9F9F9',
+    shadowColor:'black',
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
+      },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, 
+  }, 
+
+  cardRow:{
+    fontSize:16, 
+    color:'white',
+    fontWeight:'bold'
+  }
 })

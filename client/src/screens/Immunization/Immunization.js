@@ -66,7 +66,7 @@ const Immunization = () => {
             {/* Table Data */}
           
             
-            {records && records.map((value,indx)=>{
+            {records && records.length > 0 ? (records.map((value,indx)=>{
                if(value.service_id !== null && value.service_id.recordStat !== false){
                 return(
                   <Card containerStyle={styles.card} key={indx}>
@@ -87,7 +87,12 @@ const Immunization = () => {
                     </TouchableOpacity>
                   </Card>
                 )}
-            })}
+            })) : (
+              <Text style={[
+                styles.cardRow,
+                { fontSize: 20, fontWeight: 'bold', color: "#44AA92" }
+              ]}>NO RECORDS FOUND</Text>
+            )}
           </View>
         </View>
       </ScrollView>

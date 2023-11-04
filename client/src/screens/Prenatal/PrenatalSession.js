@@ -52,15 +52,15 @@ const PrenatalSession = () => {
           <Text style={styles.cardTitle}>Session Findings</Text>
           <View style={styles.lineStyle} />
           <View style={styles.cardBody}>
-            <Text><Text style={styles.label}>Date: </Text> {formatDate(assessmentinfo.dateOfVisitation)}</Text>
-            <Text><Text style={styles.label}>Assessment of Gestational Age: </Text> {assessmentinfo.aog}</Text>
-            <Text><Text style={styles.label}>Weight: </Text> {vitalsignsinfo ? vitalsignsinfo.weight : ''}</Text>
-            <Text><Text style={styles.label}>Blood Pressure: </Text> {vitalsignsinfo ? vitalsignsinfo.bloodpressure : ''}</Text>
-            <Text><Text style={styles.label}>Fundal Height: </Text> {assessmentinfo.fundalHeight}</Text>
-            <Text><Text style={styles.label}>Fetal Heart Beat: </Text> {assessmentinfo.fetalHeartBeat}</Text>
-            <Text><Text style={styles.label}>Presenting Part of Fetus: </Text> {assessmentinfo.partOfFetus}</Text>
-            <Text><Text style={styles.label}>Findings: </Text> {assessmentinfo.findings}</Text>
-            <Text><Text style={styles.label}>Nurses Notes: </Text> {assessmentinfo.nuresesNotes}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Date: </Text> {formatDate(assessmentinfo.dateOfVisitation)}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Assessment of Gestational Age: </Text> {assessmentinfo.aog}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Weight: </Text> {vitalsignsinfo ? vitalsignsinfo.weight : ''}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Blood Pressure: </Text> {vitalsignsinfo ? vitalsignsinfo.bloodpressure : ''}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Fundal Height: </Text> {assessmentinfo.fundalHeight}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Fetal Heart Beat: </Text> {assessmentinfo.fetalHeartBeat}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Presenting Part of Fetus: </Text> {assessmentinfo.partOfFetus}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Findings: </Text> {assessmentinfo.findings}</Text>
+            <Text style={styles.row}><Text style={styles.label}>Nurses Notes: </Text> {assessmentinfo.nuresesNotes}</Text>
           </View>
         </View>
       </View>
@@ -148,10 +148,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5, 
   }, 
-
-  cardRow:{
-    fontSize:16, 
-    color:'white',
-    fontWeight:'bold'
-  }
+ row:{
+   paddingTop:10,
+ }
+ 
 })
