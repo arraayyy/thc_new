@@ -1,173 +1,157 @@
-import { View, Text,ScrollView,StyleSheet,Dimensions,PixelRatio } from 'react-native'
-import React, { useState, useEffect }from 'react'
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
 import axios from 'axios';
-import { useNavigation,useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const PrenatalSession = () => {
   const route = useRoute();
   const sessionId = route.params?.sessionId;
-  
+
   const [assessmentinfo, setAssessmentInfo] = useState([]);
   const [vitalsignsinfo, setVitalSignsInfo] = useState([]);
 
-     useEffect(() => {
-         getAssessmentDetails();
+  useEffect(() => {
+    getAssessmentDetails();
+  }, []);
 
-     }, [])
+  const getAssessmentDetails = async () => {
+    try {
+      const response = await axios.get(`http://10.0.2.2:8001/maternalhealth/assessment/${sessionId}`);
+      setAssessmentInfo(response.data);
 
-    const  getAssessmentDetails = async () => {
-        try {
-            const response = await axios.get(`http://10.0.2.2:8001/maternalhealth/assessment/${sessionId}`);
-            setAssessmentInfo(response.data);
-        
-            if (response.data.vitalSign) {
-              const vitalSignCreatedAtDate = new Date(response.data.vitalSign.createdAt).toISOString().split('T')[0];
-              const assessmentCreatedAtDate = new Date(response.data.createdAt).toISOString().split('T')[0];
-          
-              if (vitalSignCreatedAtDate === assessmentCreatedAtDate) {
-                setVitalSignsInfo(response.data.vitalSign);
-              } else {
-                setVitalSignsInfo([]);
-              }
-            } else {
-              setVitalSignsInfo([]);
-            }
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
+      if (response.data.vitalSign) {
+        const vitalSignCreatedAtDate = new Date(response.data.vitalSign.createdAt).toISOString().split('T')[0];
+        const assessmentCreatedAtDate = new Date(response.data.createdAt).toISOString().split('T')[0];
+
+        if (vitalSignCreatedAtDate === assessmentCreatedAtDate) {
+          setVitalSignsInfo(response.data.vitalSign);
+        } else {
+          setVitalSignsInfo([]);
+        }
+      } else {
+        setVitalSignsInfo([]);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
- 
-    const formatDate = (dateString) => {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      const date = new Date(dateString);
-      return date.toLocaleDateString(undefined, options);
-    };
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, options);
+  };
 
   return (
     <ScrollView style={styles.container}>
-     <View style={styles.body}>
-        <View style={{marginTop: 20,paddingLeft:10}}>
-            <Text style={styles.title}>PRENATAL EXAMINATION SESSION {sessionId.slice(-6)}</Text>
+      <View style={styles.body}>
+        <View style={{ marginTop: 20, paddingLeft: 10 }}>
+          <Text style={styles.title}>PRENATAL EXAMINATION SESSION {sessionId.slice(-6)}</Text>
         </View>
         <View style={[styles.titleBox]}>
-           <Text style={styles.cardTitle}>Session Findings</Text>
-           <View style = {styles.lineStyle} />
-            <View style={styles.cardBody}>
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Date: </Text>
-                <Text style={styles.info}>{formatDate(assessmentinfo.dateOfVisitation)}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Assessment of Gestational Age: </Text>
-                <Text style={styles.info}>{assessmentinfo.aog}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Weight: </Text>
-                <Text style={styles.info}>{vitalsignsinfo ? vitalsignsinfo.weight : ""}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Blood Pressure: </Text>
-                <Text style={styles.info}>{vitalsignsinfo ? vitalsignsinfo.bloodpressure : ""}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Fundal Height: </Text>
-                <Text style={styles.info}>{assessmentinfo.fundalHeight}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Fetal Heart Beat: </Text>
-                <Text style={styles.info}>{assessmentinfo.fetalHeartBeat}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Presenting Part of Fetus: </Text>
-                <Text style={styles.info}>{assessmentinfo.partOfFetus}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Findings: </Text>
-                <Text style={styles.info}>{assessmentinfo.findings}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Nurses Notes: </Text>
-                <Text style={styles.info}>{assessmentinfo.nuresesNotes}</Text>
-              </View>
-              </View>
+          <Text style={styles.cardTitle}>Session Findings</Text>
+          <View style={styles.lineStyle} />
+          <View style={styles.cardBody}>
+            <Text><Text style={styles.label}>Date: </Text> {formatDate(assessmentinfo.dateOfVisitation)}</Text>
+            <Text><Text style={styles.label}>Assessment of Gestational Age: </Text> {assessmentinfo.aog}</Text>
+            <Text><Text style={styles.label}>Weight: </Text> {vitalsignsinfo ? vitalsignsinfo.weight : ''}</Text>
+            <Text><Text style={styles.label}>Blood Pressure: </Text> {vitalsignsinfo ? vitalsignsinfo.bloodpressure : ''}</Text>
+            <Text><Text style={styles.label}>Fundal Height: </Text> {assessmentinfo.fundalHeight}</Text>
+            <Text><Text style={styles.label}>Fetal Heart Beat: </Text> {assessmentinfo.fetalHeartBeat}</Text>
+            <Text><Text style={styles.label}>Presenting Part of Fetus: </Text> {assessmentinfo.partOfFetus}</Text>
+            <Text><Text style={styles.label}>Findings: </Text> {assessmentinfo.findings}</Text>
+            <Text><Text style={styles.label}>Nurses Notes: </Text> {assessmentinfo.nuresesNotes}</Text>
+          </View>
         </View>
       </View>
-     </ScrollView>   
-  )
-}
+    </ScrollView>
+  );
+};
 
-export default PrenatalSession
+export default PrenatalSession;
 
 const width = Dimensions.get('window').width - 40;
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = (size) => size / fontScale;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
+  container:{
+    backgroundColor:'white',
   },
+
   body: {
-    padding: 15,
+     padding: 15,
   },
+
   title: {
     color: '#88EECC',
     fontSize: 30,
     marginBottom: 20,
+    fontWeight: 'bold',
   },
+
+  label:{
+    color: '#8EC3B0',
+    fontWeight:'bold',
+    justifyContent:'flex-start'
+  },
+     
   titleBox: {
-    borderRadius: 10,
-    marginTop: 10,
-    backgroundColor: 'white',
-    padding: 15,
-    elevation: 3,
-  },
-  cardTitle: {
-    color: '#44AA92',
-    fontSize: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderColor: '#E0E2E1',
-  },
-  cardBody: {
-    paddingVertical: 10,
-  },
-  card: {
-    backgroundColor: '#91E0CE',
-    marginTop: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#44AA92',
-    shadowColor: '#566e66',
-    shadowOffset: { width: 0, height: 1 },
+    backgroundColor:'white',
+    borderRadius:5,
+    marginTop: 20,
+    alignItems:'center',
+    shadowColor:'black',
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
+      },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
   },
-  cardRow: {
-    fontSize: getFontSize(15),
-    color: '#44AA92',
-    fontWeight: 'bold',
-    marginBottom: 5,
+
+  cardTitle:{
+    fontSize: 20,
+    textAlign:'center',
+    color:'#44AA92',
+    padding:20,
+    fontWeight:'bold'
   },
-  
-  infoSection: {
-    marginBottom: 10,
+
+  lineStyle:{
+    borderWidth: 0.1,
+    backgroundColor:'black',
+    height:0.5,
+    width:'100%'
   },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#44AA92',
-    marginBottom: 5,
+
+  cardBody:{
+    padding:30
   },
-  info: {
-    fontSize: 16,
-  },
+
+  card:{
+    backgroundColor:'#88EECC',
+    marginLeft:0,
+    width:350 ,
+    borderRadius:10,
+    borderWidth:1,
+    borderColor: '#F9F9F9',
+    shadowColor:'black',
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
+      },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, 
+  }, 
+
+  cardRow:{
+    fontSize:16, 
+    color:'white',
+    fontWeight:'bold'
+  }
 })

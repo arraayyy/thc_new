@@ -65,12 +65,12 @@ const MedicalCheckupDetails = () => {
            <Text style={styles.cardTitle}>Personal Information</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text><Text style={styles.label}>Name:  </Text>{patientInfo.name}</Text>
-                <Text><Text style={styles.label}>Sex: </Text>{patientInfo.sex}</Text>
-                <Text><Text style={styles.label}>Birthdate: </Text>{patientInfo.birthdate}</Text>
+                <Text><Text style={styles.label}>Name:  </Text>{patientInfo.first_name} {patientInfo.middle_name} {patientInfo.last_name}</Text>
+                <Text><Text style={styles.label}>Sex: </Text>{patientInfo.gender}</Text>
+                <Text><Text style={styles.label}>Birthdate: </Text>{formatDate(patientInfo.birthDate)}</Text>
                 <Text><Text style={styles.label}>Age: </Text>{patientInfo.age}</Text>
                 <Text><Text style={styles.label}>Occupation: </Text>{patientInfo.occupation}</Text>
-                <Text><Text style={styles.label}>Address: </Text>{patientInfo.address}</Text>
+                <Text><Text style={styles.label}>Address: </Text>{patientInfo.street + " " + patientInfo.barangay + " " + patientInfo.municipality + " " + patientInfo.zipCode}</Text>
             </View>
         </View>
 

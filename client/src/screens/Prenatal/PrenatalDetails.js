@@ -93,158 +93,53 @@ const PrenatalDetails = () => {
           <Text style={styles.cardTitle}>Personal Information</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Name:</Text>
-                <Text style={styles.info}>
-                  {patientInfo.first_name} {patientInfo.middle_name} {patientInfo.last_name}
-                </Text>
-            </View>
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Age:</Text>
-              <Text style={styles.info}>{patientInfo.age}</Text>
-            </View>
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Birthdate: </Text>
-              <Text style={styles.info}>{formatDate(patientInfo.birthDate)}</Text>
-            </View>
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Place of Birth: </Text>
-              <Text style={styles.info}>{patientInfo.birthPlace}</Text>
-            </View>
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Occupation: </Text>
-              <Text style={styles.info}>{patientInfo.occupation}</Text>
-            </View>
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Address: </Text>
-                <Text style={styles.info}>{patientInfo.street + " " + patientInfo.barangay + " " + patientInfo.municipality + " " + patientInfo.zipCode}</Text>
-              </View>
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Husband's Name:</Text>
-                <Text style={styles.info}>
-                  {husband.length > 0
+            <Text><Text style={styles.label}>Name:  </Text> {patientInfo.first_name} {patientInfo.middle_name} {patientInfo.last_name}</Text>
+            <Text><Text style={styles.label}>Age: </Text> {patientInfo.age}</Text>
+            <Text><Text style={styles.label}>Birthdate: </Text> {formatDate(patientInfo.birthDate)}</Text>
+            <Text><Text style={styles.label}>Place of Birth: </Text> {patientInfo.birthPlace}</Text>
+            <Text><Text style={styles.label}>Occupation: </Text> {patientInfo.occupation}</Text>
+            <Text><Text style={styles.label}>Address: </Text> {patientInfo.street + " " + patientInfo.barangay + " " + patientInfo.municipality + " " + patientInfo.zipCode}</Text>
+            <Text><Text style={styles.label}>Husband's Name: </Text> {husband.length > 0
                     ? `${husband[0].first_name} ${husband[0].middle_name} ${husband[0].last_name}`
                     : 'N/A'}
-                </Text>
-              </View>
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Husband's Occupation:</Text>
-              <Text style={styles.info}>
-                {husband.length > 0 ? husband[0].occupation : 'N/A'}
               </Text>
-            </View>
- 
+            <Text><Text style={styles.label}>Husband's Occupation: </Text> {husband.length > 0 ? husband[0].occupation : 'N/A'}
+              </Text>
           </View>
         </View>
+
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Obstetrical Information</Text>
           <View style = {styles.lineStyle} />
           <View style={[styles.cardBody]} >
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Gravida:</Text>
-                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numGravida}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Para "(Parity)":</Text>
-                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numPara}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>No. of Full Term:</Text>
-                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numFullterm}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>No. of Abortion:</Text>
-                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numOfAbortion}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>No. of Premature:</Text>
-                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numPremature}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>No of Children Born Alive:</Text>
-                <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numBornAlive}</Text>
-              </View>
-                
-              <View style={styles.infoSection}>
-              <Text style={styles.label}>No. of Living Children: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numOfLivingChild}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>No of Stillbirths: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numOfStillBirth}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Number of Large Babies: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.numberOfLargeBabies}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Date of Last Delivery: </Text>
-              <Text style={styles.info}>{formatDate(prenatalInfo?.obstetricalHistory?.dateOfLastDelivery)}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Type of Last Delivery: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.typeOfLastDelivery}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Last Menstrual Period: </Text>
-              <Text style={styles.info}>{formatDate(prenatalInfo?.obstetricalHistory?.lastMenstrualPeriod)}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Menstrual Flow: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.menstrualFlow}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Hydatidiform mole: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.hydatidiformMole ? 'Yes' : 'No'}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>History of Ectopic Pregnancy: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.ectopicPregnancy ? 'Yes' : 'No'}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>History of Dysmenorrhea: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.dysmenorrhea ? 'Yes' : 'No'}</Text>
-            </View>
-
-            <View style={styles.infoSection}>
-              <Text style={styles.label}>Diabetes: </Text>
-              <Text style={styles.info}>{prenatalInfo?.obstetricalHistory?.diabetes ? 'Yes' : 'No'}</Text>
-            </View>
+            <Text><Text style={styles.label}>Gravida: </Text> {prenatalInfo?.obstetricalHistory?.numGravida}</Text>
+            <Text><Text style={styles.label}>Para "(Parity)": </Text> {prenatalInfo?.obstetricalHistory?.numPara}</Text>
+            <Text><Text style={styles.label}>No. of Full Term: </Text> {prenatalInfo?.obstetricalHistory?.numFullterm}</Text>
+            <Text><Text style={styles.label}>No. of Abortion: </Text> {prenatalInfo?.obstetricalHistory?.numOfAbortion}</Text>
+            <Text><Text style={styles.label}>No. of Premature: </Text> {prenatalInfo?.obstetricalHistory?.numPremature}</Text>
+            <Text><Text style={styles.label}>No of Children Born Alive: </Text> {prenatalInfo?.obstetricalHistory?.numBornAlive}</Text>
+            <Text><Text style={styles.label}>No. of Living Children: </Text> {prenatalInfo?.obstetricalHistory?.numOfLivingChild}</Text>
+            <Text><Text style={styles.label}>No of Stillbirths: </Text>{prenatalInfo?.obstetricalHistory?.numOfStillBirth}</Text>
+            <Text><Text style={styles.label}>Number of Large Babies: </Text> {prenatalInfo?.obstetricalHistory?.numberOfLargeBabies}</Text>
+            <Text><Text style={styles.label}>Date of Last Delivery: </Text> {formatDate(prenatalInfo?.obstetricalHistory?.dateOfLastDelivery)}</Text>
+            <Text><Text style={styles.label}>Type of Last Delivery: </Text> {prenatalInfo?.obstetricalHistory?.typeOfLastDelivery}</Text>
+            <Text><Text style={styles.label}>Last Menstrual Period: </Text> {formatDate(prenatalInfo?.obstetricalHistory?.lastMenstrualPeriod)}</Text>
+            <Text><Text style={styles.label}>Menstrual Flow: </Text> {prenatalInfo?.obstetricalHistory?.menstrualFlow}</Text>
+            <Text><Text style={styles.label}>Hydatidiform mole: </Text> {prenatalInfo?.obstetricalHistory?.hydatidiformMole ? 'Yes' : 'No'}</Text>
+            <Text><Text style={styles.label}>History of Ectopic Pregnancy: </Text> {prenatalInfo?.obstetricalHistory?.ectopicPregnancy ? 'Yes' : 'No'}</Text>
+            <Text><Text style={styles.label}>History of Dysmenorrhea: </Text> {prenatalInfo?.obstetricalHistory?.dysmenorrhea ? 'Yes' : 'No'}</Text>
+            <Text><Text style={styles.label}>Diabetes: </Text> {prenatalInfo?.obstetricalHistory?.diabetes ? 'Yes' : 'No'}</Text>
           </View>
         </View>
+
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Medical History</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Previous Illness: </Text>
-                <Text style={styles.info}>{prenatalInfo?.medicalHistory?.illness ? prenatalInfo.medicalHistory.illness : "N/A"}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Allergy: </Text>
-                <Text style={styles.info}>{prenatalInfo?.medicalHistory?.allergy ? prenatalInfo.medicalHistory.allergy : "N/A"}</Text>
-              </View>
-
-              <View style={styles.infoSection}>
-                <Text style={styles.label}>Previous Hospitalization: </Text>
-                <Text style={styles.info}>{prenatalInfo?.medicalHistory?.hospitalization ? prenatalInfo.medicalHistory.hospitalization : "N/A"}</Text>
-              </View>
-            </View>
+            <Text><Text style={styles.label}>Previous Illness: </Text> {prenatalInfo?.medicalHistory?.illness ? prenatalInfo.medicalHistory.illness : "N/A"}</Text>
+            <Text><Text style={styles.label}>Allergy: </Text> {prenatalInfo?.medicalHistory?.allergy ? prenatalInfo.medicalHistory.allergy : "N/A"}</Text>
+            <Text><Text style={styles.label}>Previous Hospitalization: </Text> {prenatalInfo?.medicalHistory?.hospitalization ? prenatalInfo.medicalHistory.hospitalization : "N/A"}</Text>
+         </View>
         </View>
         <View style={[styles.titleBox]}>
           <Text style={styles.cardTitle}>Tetanus Toxoid Status</Text>
@@ -254,7 +149,7 @@ const PrenatalDetails = () => {
             prenatalInfo.tetanusToxoidStatus&& prenatalInfo.tetanusToxoidStatus.map((rec, idx) => {
                       if (rec._id != null) {
                       return (
-                        <Text><Text style={{fontWeight:'bold'}}>{rec.vaccine_name} :  </Text>&nbsp;&nbsp;{formatDate(rec.dateGiven)}</Text>
+                        <Text><Text style={styles.label}>{rec.vaccine_name} :  </Text>&nbsp;&nbsp;{formatDate(rec.dateGiven)}</Text>
                         );
                       }
                                                               
@@ -266,11 +161,11 @@ const PrenatalDetails = () => {
           <Text style={styles.cardTitle}>Laboratory Examination</Text>
           <View style = {styles.lineStyle} />
           <View style={styles.cardBody}>
-            <Text><Text style={{fontWeight:'bold'}}>Urinalysis Results :  </Text>{patient.Urine}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>CBC Results: </Text>{patient.CBC}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Blood Typing Results: </Text>{patient.BT}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>HBS Antigen Results: </Text>{patient.HBS}</Text>
-            <Text><Text style={{fontWeight:'bold'}}>Previous Pregnancy Complications: </Text>{patient.PPC}</Text>
+            <Text><Text style={styles.label}>Urinalysis Results :  </Text>{patient.Urine}</Text>
+            <Text><Text style={styles.label}>CBC Results: </Text>{patient.CBC}</Text>
+            <Text><Text style={styles.label}>Blood Typing Results: </Text>{patient.BT}</Text>
+            <Text><Text style={styles.label}>HBS Antigen Results: </Text>{patient.HBS}</Text>
+            <Text><Text style={styles.label}>Previous Pregnancy Complications: </Text>{patient.PPC}</Text>
           </View>
         </View>
         
@@ -300,72 +195,84 @@ const PrenatalDetails = () => {
 
 export default PrenatalDetails
 
-const width = Dimensions.get('window').width - 40;
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / fontScale;
-
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
+  container:{
+    backgroundColor:'white',
   },
+
   body: {
-    padding: 15,
+     padding: 15,
   },
+
   title: {
     color: '#88EECC',
     fontSize: 30,
     marginBottom: 20,
+    fontWeight: 'bold',
   },
+
+  label:{
+    color: '#8EC3B0',
+    fontWeight:'bold',
+    justifyContent:'flex-start',
+  },
+     
   titleBox: {
-    borderRadius: 10,
-    marginTop: 10,
-    backgroundColor: 'white',
-    padding: 15,
-    elevation: 3,
-    
-  },
-  cardTitle: {
-    color: '#44AA92',
-    fontSize: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderColor: '#E0E2E1',
-  },
-  cardBody: {
-    paddingVertical: 10,
-    
-  },
-  card: {
-    backgroundColor: '#91E0CE',
-    marginTop: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#44AA92',
-    shadowColor: '#566e66',
-    shadowOffset: { width: 0, height: 1 },
+    backgroundColor:'white',
+    borderRadius:5,
+    marginTop: 20,
+    alignItems:'center',
+    shadowColor:'black',
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
+      },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
   },
-  cardRow: {
-    fontSize: getFontSize(15),
-    color: '#44AA92',
-    fontWeight: 'bold',
-    marginBottom: 5,
+
+  cardTitle:{
+    fontSize: 20,
+    textAlign:'center',
+    color:'#44AA92',
+    padding:20,
+    fontWeight:'bold'
   },
-  icon: {
-    color: '#E0E2E1',
+
+  lineStyle:{
+    borderWidth: 0.1,
+    backgroundColor:'black',
+    height:0.5,
+    width:'100%'
   },
-  infoSection: {
-    marginBottom: 10,
+
+  cardBody:{
+    padding:30
   },
-  label: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#44AA92',
-    marginBottom: 5,
-  },
-  info: {
-    fontSize: 16,
-  },
+
+  card:{
+    backgroundColor:'#88EECC',
+    marginLeft:0,
+    width:350 ,
+    borderRadius:10,
+    borderWidth:1,
+    borderColor: '#F9F9F9',
+    shadowColor:'black',
+    shadowOffset:
+      {
+        width: 0,
+        height: 2,
+      },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, 
+  }, 
+
+  cardRow:{
+    fontSize:16, 
+    color:'white',
+    fontWeight:'bold'
+  }
 });
