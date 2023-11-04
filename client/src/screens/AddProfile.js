@@ -34,7 +34,7 @@ const AddProfile = () => {
   const [educAttainDis,seteducAttainDis] = useState(null);
   const [relationship, setrelationship] = useState('');
   const [relationshipDis, setrelationshipDis] = useState('');
-  const [updateStatus, setUpdateStatus] = useState('');
+ 
 
 
 //   useEffect(() => {

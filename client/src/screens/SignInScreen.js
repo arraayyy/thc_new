@@ -25,7 +25,7 @@ const SignInScreen = () => {
 
       if (response.data.accountId) {    
         alert("You have Successfully Logged In");
-          await AsyncStorage.setItem("accountId", response.data.accountId);
+        await AsyncStorage.setItem("accountId", response.data.accountId);
         navigation.navigate('Dashboard');
        
       } else {
@@ -86,7 +86,16 @@ const SignInScreen = () => {
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
               <Text style={styles.signUpText}>Sign Up</Text>
           </TouchableOpacity>
-          </View>
+        </View>
+
+        <View style={styles.accTextContainer}>
+        <Text style={styles.accText}>
+          Learn what steps are needed to be taken.
+        </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Contacts")}>
+              <Text style={[styles.signUpText,{ color: '#FF5733' }]}>Get Support</Text>
+          </TouchableOpacity>
+        </View>
       </View>
      </View> 
     
@@ -145,7 +154,7 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     fontSize: 14,
-    color: '#88EECC',
+    color: '#6EC1B1',
   },
   passwordContainer: {
     flexDirection: 'row',

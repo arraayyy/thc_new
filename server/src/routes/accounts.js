@@ -175,7 +175,7 @@ router.post("/login", async (req, res) => {
     try {
         const user = await AccountModel.findOne({email: loginEmail, acc_status: "Active"}).populate("profile");
         if(!user){
-            retValMsg = "Account Not Found";
+            retValMsg = "Account Not Found or  Account is not verified [ Consider reaching out to 'Get Support' for assistance.] ";
         } else{
             if(user.acc_type === "Resident"){
                 const isPasswordValid = decryptCRPYTO(user.password) == loginPassword;

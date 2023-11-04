@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontSize: 14,
-    color: '#88EECC',
+    color: '#6EC1B1',
   },
  check:{
   flexDirection: "row",

@@ -125,6 +125,14 @@ const ProfileScreen = () => {
             <Text style={styles.userInfoValue}>{profileData.occupation?profileData.occupation: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoLabel}>Civil Status:</Text>
+            <Text style={styles.userInfoValue}>{profileData.occupation?profileData.civilStatus: "N/A"}</Text>
+          </View>
+          <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoLabel}>Relationship:</Text>
+            <Text style={styles.userInfoValue}>{profileData.occupation?profileData.relationship: "N/A"}</Text>
+          </View>
+          <View style={styles.userInfoItem}>
             <Text style={styles.userInfoLabel}>Contact:</Text>
             <Text style={styles.userInfoValue}>{profileData.contactNo?profileData.contactNo: "N/A"}</Text>
           </View>

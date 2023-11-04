@@ -38,6 +38,7 @@ import Profile from "../screens/Profile";
 import EditProfile from "../screens/EditProfile";
 import EditAcc from "../screens/EditAccount";
 import AddProfile from "../screens/AddProfile";
+import Contacts from "../screens/Contacts";
 
 const Stack = createNativeStackNavigator();
 
@@ -91,7 +92,7 @@ const MNavigation = () => {
             <Stack.Screen name="Immunization Details" 
                 component={ImmunizationDetails}
                 options={{
-                    title:"Immunization",
+                    title:"IMMUNIZATION",
                     headerTintColor: "#FFF",
                     headerTitleAlign: 'center',
                     headerStyle:{
@@ -101,7 +102,7 @@ const MNavigation = () => {
                 <Stack.Screen name="Immunization Session" 
                 component={ImmunizationSession}
                 options={{
-                    title:"Immunization",
+                    title:"IMMUNIZATION",
                     headerTintColor: "#FFF",
                     headerTitleAlign: 'center',
                     headerStyle:{
@@ -113,7 +114,7 @@ const MNavigation = () => {
             <Stack.Screen name="Dental Details" 
                 component={DentalDetails}
                 options={{
-                    title:"Dental",
+                    title:"DENTAL",
                     headerTintColor: "#FFF",
                     headerTitleAlign: 'center',
                     headerStyle:{
@@ -178,11 +179,19 @@ const MNavigation = () => {
                         }} />
 
 
-            <Stack.Screen name="Profile" component={Profile} />
-            <Stack.Screen name="EditProfile" component={EditProfile} />
-            <Stack.Screen name="EditAcc" component={EditAcc} />
-            <Stack.Screen name="AddProfile" component={AddProfile} />
-
+            <Stack.Screen name="Profile" component={Profile} options={{title:" PROFILE ", headerTintColor: "#FFF",
+                        headerTitleAlign: 'center',
+                        headerStyle:{
+                            backgroundColor: "#44AA92",
+                        }}} />
+            <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}}/>
+            <Stack.Screen name="EditAcc" component={EditAcc}  options={{headerShown: false}}/>
+            <Stack.Screen name="AddProfile" component={AddProfile} options={{headerShown: false}}/>
+            <Stack.Screen name="Contacts" component={Contacts} options={{title:" GET SUPPORT", headerTintColor: "#FFF",
+                        headerTitleAlign: 'center',
+                        headerStyle:{
+                            backgroundColor: "#44AA92",
+                        }}}/>
 
       </Stack.Navigator>
   );

@@ -21,7 +21,7 @@ const EditProfile = () => {
   const [barangay, setBarangay] = useState('');
   const [municipality, setMunicipality] = useState('');
   const [zipCode, setZipCode] = useState('');
-
+  const [relationship, setrelationship] = useState('');
   const [updateStatus, setUpdateStatus] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false); // To toggle date picker visibility
 
@@ -48,6 +48,7 @@ const EditProfile = () => {
       setBirthDate(new Date(profileData.birthDate)); // Format the date from the server
       setBirthPlace(profileData.birthPlace);
       setCivilStatus(profileData.civilStatus);
+      setrelationship(profileData.relationship);
       setGender(profileData.gender);
       setNationality(profileData.nationality);
       setEducAttain(profileData.educAttain);
@@ -79,6 +80,7 @@ const EditProfile = () => {
           birthDate: formattedDate,
           birthPlace: birthPlace,
           civilStatus: civilStatus,
+          occupation: occupation,
           gender: gender,
           nationality: nationality,
           educAttain: educAttain,
@@ -87,6 +89,7 @@ const EditProfile = () => {
           barangay: barangay,
           municipality: municipality,
           zipCode: zipCode,
+          relationship:relationship,
         };
 
         const response = await axios.patch(`http://10.0.2.2:8001/profile/updateprofile/${profId}`, updatedData);
@@ -162,12 +165,27 @@ const EditProfile = () => {
             />
           )}
 
+          <Text style={styles.label}>Civil Status</Text>
+          <TextInput
+            style={styles.input}
+            value={civilStatus}
+            onChangeText={(text) => setCivilStatus(text)}
+          />
+
+          <Text style={styles.label}>Relationship:</Text>
+          <TextInput
+            style={styles.input}
+            value={relationship}
+            onChangeText={(text) => setrelationship(text)}
+          />
+
           <Text style={styles.label}>Educational Attainment</Text>
           <TextInput
             style={styles.input}
             value={educAttain}
             onChangeText={(text) => setEducAttain(text)}
           />
+
 
           <Text style={styles.label}>Occupation</Text>
           <TextInput
