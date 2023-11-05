@@ -76,7 +76,7 @@ const Urinalysis = () => {
                               styles.cardRow,
                               { fontSize: 20, fontWeight: 'bold', color: "#44AA92" }
                             ]}>Examination {value.service_id._id.slice(-6)}</Text>
-                            <Text style={[styles.cardRow]}>Dr.{value.service_id.serviceProvider}</Text>
+                            <Text style={[styles.cardRow]}>{value.service_id.serviceProvider}</Text>
                             <Text style={[styles.cardRow]}>{formatDate(value.service_id.createdAt)}</Text>
                           </View>
                           <Icon style={[styles.icon, { marginLeft: 100, color: '#44AA92' }]} name='vial' size={25} color='#44AA92' />
