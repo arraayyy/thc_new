@@ -51,10 +51,11 @@ const FamilyPlanningSession = () => {
            <Text style={styles.cardTitle}>Session Findings</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
-                <Text style={styles.row}><Text style={{ fontWeight: 'bold' }}>Date of Visit:  </Text>{formatDate(assessmentinfo.dateOfVisitation)}</Text>
-                <Text style={styles.row}><Text style={{ fontWeight: 'bold' }}>Name of Service Provider:  </Text>{assessmentinfo.serviceProvider}</Text>
-                <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Findings:  </Text>{assessmentinfo.findings}</Text>
-                <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Method Accepted:  </Text>{assessmentinfo.methodAccepted}</Text>
+                <Text style={styles.row}><Text style={{ fontWeight: 'bold' }}>Date of Visit:  </Text> {formatDate(assessmentinfo.createdAt)}</Text>
+                <Text style={styles.row}><Text style={{ fontWeight: 'bold' }}>Name of Service Provider:  </Text> {assessmentinfo.serviceProvider}</Text>
+                <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Findings:  </Text> {assessmentinfo.findings}</Text>
+                <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Method Accepted:  </Text> {assessmentinfo.methodAccepted}</Text>
+                <Text style={styles.row}><Text style={{fontWeight:'bold'}}>Date of Follow Up Visit: </Text> {formatDate(assessmentinfo.dateOfFollowUpVisit)}</Text>
             </View>
         </View>
       </View>
