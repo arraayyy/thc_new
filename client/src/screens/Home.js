@@ -13,7 +13,7 @@ import axios from 'axios';
 const Home = () => {
     const [userName, setUserName] = useState();
     const navigation = useNavigation();
-    const [profStatus, setProfStatus] = useState('Pending'); // initial state
+    const [profStatus, setProfStatus] = useState(''); // initial state
     const route = useRoute();
     const profileId = route.params?.profileId;
 
@@ -26,12 +26,14 @@ const Home = () => {
     useEffect(() => {
         fetchName();
         fetchProfStatus();
+        
     },[]);
     
     const fetchProfStatus = async () => {
         try{
-            const response = await axios.get('/profile/' + profileId);
-            setProfStatus(response.data.status);
+            var profId = await AsyncStorage.getItem('ProfileId')
+            const response = await axios.get('/profile/' + profId);
+            setProfStatus(response.data.prof_status);
         } catch(error){
             console.log('Error fetching prof_status:', error);
         }

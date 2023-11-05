@@ -17,8 +17,8 @@ const SignInScreen = () => {
 
   const handleLogin = async () => {
   
-    console.log('loginEmail:', loginEmail);
-    console.log('loginPassword:', loginPassword);
+    // console.log('loginEmail:', loginEmail);
+    // console.log('loginPassword:', loginPassword);
 
     try {
       const response = await axios.post('/account/loginresident', { loginEmail, loginPassword });
@@ -26,6 +26,8 @@ const SignInScreen = () => {
       if (response.data.accountId) {    
         alert("You have Successfully Logged In");
         await AsyncStorage.setItem("accountId", response.data.accountId);
+        setloginEmail("");
+        setloginPassword("");
         navigation.navigate('Dashboard');
        
       } else {
