@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Dropdown from '../components/Dropdown';
 
 const EditProfile = () => {
   const [firstName, setFirstName] = useState('');
@@ -37,7 +38,13 @@ const EditProfile = () => {
       // Reload the screen
       navigation.replace('Profile');
     }
-  }, [updateStatus, navigation]);
+  }, [updateStatus, navigation,]);
+
+  useEffect(() => {
+    if(civilStatus) {
+      onCivilStatusSelect({ name: civilStatus });
+    }
+  }, [civilStatus]);
 
   const initialProfileInfo = async () => {
     const profId = await AsyncStorage.getItem('ProfileId');
@@ -178,7 +185,7 @@ const EditProfile = () => {
                 if (selectedDate) {
                   setBirthDate(selectedDate);
                 }
-              }}
+              }}  
             />
           )}
 
