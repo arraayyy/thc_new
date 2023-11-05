@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "thc_new",
+    "name": "Talamban Health Connect",
     "slug": "thc_new",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/THC_Logo_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/thc.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +19,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/THC_Logo_icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.marvin001.thc_new"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d0f6d6c2-7def-4101-b4fb-7209c36d40dd"
+      }
     }
   }
 }
