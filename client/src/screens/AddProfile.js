@@ -35,22 +35,7 @@ const AddProfile = () => {
   const [educAttainDis,seteducAttainDis] = useState(null);
   const [relationship, setrelationship] = useState('');
   const [relationshipDis, setrelationshipDis] = useState('');
- 
-
-
-//   useEffect(() => {
-//     //initialProfileInfo();
-//   }, [updateStatus]); // Add updateStatus to the dependency array
-  
-//   useEffect(() => {
-//     if (updateStatus) {
-//       // Reload the screen
-//       navigation.replace('Profile');
-//     }
-//   }, [updateStatus, navigation]);
-  
-
-  
+   
 
   const handleSave = async () => {
     const accountId = await AsyncStorage.getItem('accountId');
@@ -265,12 +250,7 @@ const AddProfile = () => {
             onChangeText={(text) => setContactNo(text)}
             />
 
-            {/* <Text style={styles.label}>Civil Status</Text>
-            <TextInput
-            style={styles.input}
-            value={civilStatus}
-            onChangeText={(text) => setCivilStatus(text)}
-            /> */}
+         
             <Text style={styles.label}>Civil Status</Text>
               <Dropdown
                 value={civilStatusDis}

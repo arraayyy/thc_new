@@ -17,7 +17,7 @@ const DentalSession = ({route}) => {
     <ScrollView style={styles.container}>
      <View style={styles.body}>
         <View style={{marginTop: 20,paddingLeft:10}}>
-            <Text style={styles.title}>PRENATAL EXAMINATION 1 SESSION {route.params.examID}</Text>
+            <Text style={styles.title}>Dental SESSION {route.params.examID}</Text>
         </View>
         <View style={[styles.titleBox]}>
            <Text style={styles.cardTitle}>Session Findings</Text>

@@ -87,7 +87,10 @@ const Urinalysis = () => {
                 }
               })
             ) : (
-              <Text>No Records Found</Text>
+              <Text style={[
+                styles.cardRow,
+                { fontSize: 20, fontWeight: 'bold', color: "#44AA92" }
+              ]}>NO RECORDS FOUND</Text>
             )}
 
           </View>

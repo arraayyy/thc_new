@@ -22,7 +22,7 @@ const Prenatal = () => {
       const profileId = await AsyncStorage.getItem('ProfileId');
       if (profileId) {
         setProfileId(profileId)
-        console.log("profileId: ", profileId)
+        
         patientRecords(profileId);
       } else {
         // Handle the case where profileId is not found in AsyncStorage

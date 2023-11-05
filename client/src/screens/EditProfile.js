@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Dropdown from '../components/Dropdown';
+import Dropdown from '../components/Dropdown'
 
 const EditProfile = () => {
   const [firstName, setFirstName] = useState('');
@@ -25,7 +25,9 @@ const EditProfile = () => {
   const [zipCode, setZipCode] = useState('');
   const [relationship, setrelationship] = useState('');
   const [updateStatus, setUpdateStatus] = useState('');
-  const [showDatePicker, setShowDatePicker] = useState(false); // To toggle date picker visibility
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [educAttainDis,seteducAttainDis] = useState(null);
+  const [relationshipDis, setrelationshipDis] = useState(''); // To toggle date picker visibility
 
   
 
@@ -57,10 +59,22 @@ const EditProfile = () => {
       setMiddleName(profileData.middle_name);
       setBirthDate(new Date(profileData.birthDate)); // Format the date from the server
       setBirthPlace(profileData.birthPlace);
+      const initialCivilStatus = civilStatusOptions.find(
+        (status) => status.name === profileData.civilStatus
+      );
+      setCivilStatusDis(initialCivilStatus);
       setCivilStatus(profileData.civilStatus);
+      const initialRelationship = rel.find(
+        (relationship) => relationship.name === profileData.relationship
+      );
+      setrelationshipDis(initialRelationship);  
       setrelationship(profileData.relationship);
       setGender(profileData.gender);
       setNationality(profileData.nationality);
+      const initialEducAttain = eduAt.find(
+        (attain) => attain.name === profileData.educAttain
+      );
+      seteducAttainDis(initialEducAttain);
       setEducAttain(profileData.educAttain);
       setOccupation(profileData.occupation);
       setContactNo(profileData.contactNo);
@@ -128,12 +142,31 @@ const EditProfile = () => {
     { id: 5, name: 'Separated' },
     // Add more civil status options as needed
   ];
-
+  let eduAt =[ 
+    {id:1, name:'Elementary Level'},
+    {id:2,name:'Elementary Graduate'},
+    {id:3,name:'Vocational'},
+    {id:4,name:'High School Level'},
+    { id:5, name:' High School Graduate'},
+    {id:6,name:'College Level '},
+    {id:7,name:'College Graduate'},
+    {id:8,name:'Graduate School'}]
+   let rel =[ {id:1, name:'Father'},{id:2,name:'Mother'},{id:3,name:'Child'},{id:4,name:'Guardian'}]
   const onCivilStatusSelect = (item) => {
     setCivilStatus(item.name);
     setCivilStatusDis(item);
   };
+  const onEduSelect = (item) =>{
+    setEducAttain(item.name);
+    seteducAttainDis(item);
 
+  }
+  const onRelSelect = (item) =>{
+    setrelationship(item.name);
+    setrelationshipDis(item);
+
+  }
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container}>
@@ -196,20 +229,23 @@ const EditProfile = () => {
                 onSelect={onCivilStatusSelect}
               />
 
+        < Text style={styles.label}>Educational Attainment</Text> 
+            <View >
+                <Dropdown 
+                value={educAttainDis}
+                    data ={eduAt}
+                    onSelect={onEduSelect} 
+                />
+            </View>
 
-          <Text style={styles.label}>Relationship:</Text>
-          <TextInput
-            style={styles.input}
-            value={relationship}
-            onChangeText={(text) => setrelationship(text)}
-          />
-
-          <Text style={styles.label}>Educational Attainment</Text>
-          <TextInput
-            style={styles.input}
-            value={educAttain}
-            onChangeText={(text) => setEducAttain(text)}
-          />
+            <Text style={styles.label}>Relationship</Text> 
+                <View >
+                    <Dropdown 
+                    value={relationshipDis}
+                        data ={rel}
+                        onSelect={onRelSelect} 
+                    />
+                </View> 
 
 
           <Text style={styles.label}>Occupation</Text>
