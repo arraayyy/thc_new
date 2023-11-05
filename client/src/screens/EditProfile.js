@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Dropdown from '../components/Dropdown'
+import Dropdown from '../components/Dropdown';
 
 const EditProfile = () => {
   const [firstName, setFirstName] = useState('');
@@ -116,7 +116,7 @@ const EditProfile = () => {
           relationship:relationship,
         };
 
-        const response = await axios.patch(`/profile/updateprofile/${profId}`, updatedData);
+        const response = await axios.patch(`/profile/updateprofile/resident/${profId}`, updatedData);
 
         if (response.status === 200) {
           alert('Profile Updated Successfully');
@@ -224,6 +224,7 @@ const EditProfile = () => {
 
           <Text style={styles.label}>Civil Status</Text>
               <Dropdown
+                style={styles.input}
                 value={civilStatusDis}
                 data={civilStatusOptions}
                 onSelect={onCivilStatusSelect}

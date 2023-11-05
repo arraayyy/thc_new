@@ -261,14 +261,15 @@ const Register = () => {
        <CustomInput label="Occupation" value={occupation} setValue={setoccupation} />
        <CustomInput label="Contact Number" value={contactNo} setValue={setcontactNo} />
        <Text style={styles.label}>Civil Status</Text>
-              <Dropdown
-                value={civilStatusDis}
-                data={civilStatusOptions}
-                onSelect={onCivilStatusSelect}
-      />
-
+       <View style={styles.padd}>
+        <Dropdown
+          style={styles.input}
+          value={civilStatusDis}
+          data={civilStatusOptions}
+          onSelect={onCivilStatusSelect}
+        />
+        </View>
        <CustomInput label="Nationality" value={nationality} setValue={setnationality} />
-
 
         <CustomHr label="Address Information"/>
 
