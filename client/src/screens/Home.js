@@ -41,41 +41,41 @@ const Home = () => {
     
     return (
         <SafeAreaView>
-            <Header height={80} />
-            <View style={{ alignItems: 'center' }}>
-                <View style={styles.greetingOuterContainer}>
-                    <View style={styles.greetingInnerContainer}>
-                        <Text
-                            numberOfLines={1}
-                            style={styles.greetingText}>Hello {userName}</Text>
-                        <Text
-                            numberOfLines={2}
-                            style={styles.greetingText}>Welcome To Talamban Health Connect Access Our Services</Text>
-                    </View>
-                </View>
-                {profStatus === 'Active' && (
-                    <View style={styles.container} numColumns={2}>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("Services")}
-                            style={styles.homeContainer}>
-                            <View>
-                                <Icon style={styles.icon} name='briefcase-medical' size={15} color='#15876C' />
-                            </View>
-                            <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Profile")}
-                    style={styles.homeContainer}>
-                    <View>
-                        <Icon style={styles.icon} name='user-alt' size={15} color='#15876C' />
-                    </View>
-                    <Text numberOfLines={1} style={styles.iconName}>PROFILE</Text>
-                </TouchableOpacity>
+          <Header height={80} />
+          <View style={{ alignItems: 'center' }}>
+            <View style={styles.greetingOuterContainer}>
+              <View style={styles.greetingInnerContainer}>
+                <Text
+                  numberOfLines={1}
+                  style={styles.greetingText}>Hello {userName}</Text>
+                <Text
+                  numberOfLines={2}
+                  style={styles.greetingText}>Welcome To Talamban Health Connect Access Our Services</Text>
+              </View>
             </View>
+            <View style={styles.rowContainer}>
+              {profStatus === 'Active' && (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Services")}
+                  style={styles.inlineContainer}>
+                  <View>
+                    <Icon style={styles.icon} name='briefcase-medical' size={15} color='#15876C' />
+                  </View>
+                  <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
+                </TouchableOpacity>
+              )}
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Profile")}
+                style={styles.inlineContainer}>
+                <View>
+                  <Icon style={styles.icon} name='user-alt' size={15} color='#15876C' />
+                </View>
+                <Text numberOfLines={1} style={styles.iconName}>PROFILE</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </SafeAreaView>
-    )
+      )
 }
 
 export default Home
@@ -120,5 +120,20 @@ const styles = StyleSheet.create({
         paddingVertical:5,
         color: '#44AA92',
         fontWeight: 'bold'
-      }
+      },
+      rowContainer: {
+        paddingTop: 50,
+        width: width,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      },
+      inlineContainer: {
+        paddingTop: 5,
+        backgroundColor: '#E6EDED',
+        width: 130,
+        height: 110,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
 })
