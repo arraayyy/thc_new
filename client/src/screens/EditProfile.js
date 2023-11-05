@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Picker } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,7 @@ const EditProfile = () => {
   const [birthDate, setBirthDate] = useState(new Date()); // Initialize birthDate with a Date object
   const [birthPlace, setBirthPlace] = useState('');
   const [civilStatus, setCivilStatus] = useState('');
+  const [civilStatusDis, setCivilStatusDis] = useState(null);
   const [gender, setGender] = useState('');
   const [nationality, setNationality] = useState('');
   const [educAttain, setEducAttain] = useState('');
@@ -25,7 +26,7 @@ const EditProfile = () => {
   const [updateStatus, setUpdateStatus] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false); // To toggle date picker visibility
 
-  const civilStatusOptions = ['Single', 'Married', 'Divorced', 'Widowed', 'Other'];
+  
 
   useEffect(() => {
     initialProfileInfo();
@@ -112,6 +113,20 @@ const EditProfile = () => {
     navigation.goBack();
   };
 
+  const civilStatusOptions = [
+    { id: 1, name: 'Single' },
+    { id: 2, name: 'Married' },
+    { id: 3, name: 'Divorced' },
+    { id: 4, name: 'Widowed' },
+    { id: 5, name: 'Separated' },
+    // Add more civil status options as needed
+  ];
+
+  const onCivilStatusSelect = (item) => {
+    setCivilStatus(item.name);
+    setCivilStatusDis(item);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container}>
@@ -167,23 +182,13 @@ const EditProfile = () => {
             />
           )}
 
-          {/* <Text style={styles.label}>Civil Status</Text>
-          <TextInput
-            style={styles.input}
-            value={civilStatus}
-            onChangeText={(text) => setCivilStatus(text)}
-          /> */}
-
           <Text style={styles.label}>Civil Status</Text>
-          <Picker
-            style={styles.input}
-            selectedValue={civilStatus}
-            onValueChange={(itemValue, itemIndex) => setCivilStatus(itemValue)}
-          >
-            {civilStatusOptions.map((option, index) => (
-              <Picker.Item key={index} label={option} value={option} />
-            ))}
-          </Picker>
+              <Dropdown
+                value={civilStatusDis}
+                data={civilStatusOptions}
+                onSelect={onCivilStatusSelect}
+              />
+
 
           <Text style={styles.label}>Relationship:</Text>
           <TextInput

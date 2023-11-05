@@ -8,7 +8,7 @@ import { View,
         Pressable,
         Platform,
         ScrollView,
-        Picker,
+     
   } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -17,6 +17,7 @@ import CustomInput from '../components/CustomInput';
 import CustomHr from '../components/CustomHr';
 import { useNavigation } from '@react-navigation/native';
 import Header from '../components/Header';
+
 
 let eduAt =[ {id:1, name:'Elementary Level'},{id:2,name:'Elementary Graduate'},{id:3,name:'Vocational'},{id:4,name:'High School Level'},{    id:5, name:' High School Graduate'},{id:6,name:'College Level '},{id:7,name:'College Graduate'},{id:8,name:'Graduate School'}]
 let rel =[ {id:1, name:'Father'},{id:2,name:'Mother'},{id:3,name:'Child'},{id:4,name:'Guardian'}]
@@ -47,13 +48,12 @@ const Register = () => {
   const [occupation, setoccupation] = useState('');
   const [contactNo, setcontactNo] = useState('');
   const [civilStatus, setcivilStatus] = useState('');
+  const [civilStatusDis, setCivilStatusDis] = useState(null);
   const [relationship, setrelationship] = useState('');
   const [relationshipDis, setrelationshipDis] = useState('');
   const navigation = useNavigation();
   
-  const onCivilStatusChange = (itemValue) => {
-    setcivilStatus(itemValue);
-  };
+  
 
   const onEduSelect = (item) =>{
     seteducAttain(item.name);
@@ -103,7 +103,7 @@ const Register = () => {
     }
   }
     
-  const civilStatusOptions = ['Single', 'Married', 'Divorced', 'Widowed', 'Other'];
+  
 
   const isEmailValid = (email) => {
     // Regular expression to match a valid email format
@@ -116,6 +116,21 @@ const Register = () => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$/;
     return passwordRegex.test(password);
   };
+
+  const civilStatusOptions = [
+    { id: 1, name: 'Single' },
+    { id: 2, name: 'Married' },
+    { id: 3, name: 'Divorced' },
+    { id: 4, name: 'Widowed' },
+    { id: 5, name: 'Separated' },
+    // Add more civil status options as needed
+  ];
+
+  const onCivilStatusSelect = (item) => {
+    setcivilStatus(item.name);
+    setCivilStatusDis(item);
+  };
+
 
 
   const handleRegister = async () => {
@@ -246,15 +261,11 @@ const Register = () => {
        <CustomInput label="Occupation" value={occupation} setValue={setoccupation} />
        <CustomInput label="Contact Number" value={contactNo} setValue={setcontactNo} />
        <Text style={styles.label}>Civil Status</Text>
-          <Picker
-            style={styles.input}
-            selectedValue={civilStatus}
-            onValueChange={(itemValue, itemIndex) => setCivilStatus(itemValue)}
-          >
-            {civilStatusOptions.map((option, index) => (
-              <Picker.Item key={index} label={option} value={option} />
-            ))}
-      </Picker>
+              <Dropdown
+                value={civilStatusDis}
+                data={civilStatusOptions}
+                onSelect={onCivilStatusSelect}
+      />
 
        <CustomInput label="Nationality" value={nationality} setValue={setnationality} />
 
