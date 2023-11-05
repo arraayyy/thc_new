@@ -8,10 +8,12 @@ import Header from '../components/Header'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRoute } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
+import axios from 'axios';
 
 const Home = () => {
     const [userName, setUserName] = useState();
     const navigation = useNavigation();
+    const [profStatus, setProfStatus] = useState('Pending'); // initial state
     const route = useRoute();
     const profileId = route.params?.profileId;
 
@@ -23,43 +25,54 @@ const Home = () => {
 
     useEffect(() => {
         fetchName();
+        fetchProfStatus();
     },[]);
     
+    const fetchProfStatus = async () => {
+        try{
+            const response = await axios.get('/profile/' + profileId);
+            setProfStatus(response.data.status);
+        } catch(error){
+            console.log('Error fetching prof_status:', error);
+        }
+    }
     
     return (
-    <SafeAreaView>
-        <Header height={80}/>
-        <View style={{alignItems: 'center'}}>
-            <View style={styles.greetingOuterContainer}>
-                <View style={styles.greetingInnerContainer}>
-                    <Text 
-                        numberOfLines={1} 
-                        style={styles.greetingText}>Hello {userName}</Text>
-                    <Text 
-                        numberOfLines={2} 
-                        style={styles.greetingText}>Welcome To Talamban Health Connect Access Our Services</Text>
-                </View>
-            </View>
-            <View style={styles.container} numColumns={2}>
-                <TouchableOpacity
-                onPress={() => navigation.navigate("Services")}
-                style={styles.homeContainer}>
-                    <View>
-                    <Icon style={styles.icon} name='briefcase-medical' size={15} color='#15876C' />
+        <SafeAreaView>
+            <Header height={80} />
+            <View style={{ alignItems: 'center' }}>
+                <View style={styles.greetingOuterContainer}>
+                    <View style={styles.greetingInnerContainer}>
+                        <Text
+                            numberOfLines={1}
+                            style={styles.greetingText}>Hello {userName}</Text>
+                        <Text
+                            numberOfLines={2}
+                            style={styles.greetingText}>Welcome To Talamban Health Connect Access Our Services</Text>
                     </View>
-                    <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
-                </TouchableOpacity>
+                </View>
+                {profStatus === 'Active' && (
+                    <View style={styles.container} numColumns={2}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("Services")}
+                            style={styles.homeContainer}>
+                            <View>
+                                <Icon style={styles.icon} name='briefcase-medical' size={15} color='#15876C' />
+                            </View>
+                            <Text numberOfLines={1} style={styles.iconName}>SERVICES</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Profile")}
-                style={styles.homeContainer}>
+                    onPress={() => navigation.navigate("Profile")}
+                    style={styles.homeContainer}>
                     <View>
-                    <Icon style={styles.icon} name='user-alt' size={15} color='#15876C' />
+                        <Icon style={styles.icon} name='user-alt' size={15} color='#15876C' />
                     </View>
                     <Text numberOfLines={1} style={styles.iconName}>PROFILE</Text>
                 </TouchableOpacity>
             </View>
-        </View>
-    </SafeAreaView>
+        </SafeAreaView>
     )
 }
 
