@@ -144,7 +144,7 @@ const Register = () => {
   
     const user_type = acc_type = "Resident";
     const acc_status = "Pending";
-    
+   
   
     try {
       const response = await axios.post('/account/register', {
@@ -152,7 +152,7 @@ const Register = () => {
         gender, birthDate, birthPlace, educAttain, occupation, contactNo, civilStatus,
         nationality, street, barangay, municipality, zipCode
       });
-      
+     
       if (response.status === 200) {
         alert(response.data.message);
         navigation.navigate("Login");
