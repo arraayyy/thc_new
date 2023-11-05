@@ -1,5 +1,5 @@
 import { Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import axios from 'axios';
@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Dashboard = () => {
   const navigation = useNavigation();
   const [profiles, setProfiles] = useState([]);
-  
+
   useFocusEffect(
     React.useCallback(() => {
       getProfiles();
@@ -18,11 +18,10 @@ const Dashboard = () => {
 
   const getProfiles = async () => {
     const acctId = await AsyncStorage.getItem("accountId");
-    
+
     try {
       const response = await axios.get(`/account/fetchmember/${acctId}`);
       setProfiles(response.data.profile);
-      
     } catch (error) {
       console.error(error);
     }
@@ -37,54 +36,65 @@ const Dashboard = () => {
       console.error(error);
     }
   }
+
   const navigateToAddProfile = () => {
-    navigation.navigate('AddProfile'); 
+    navigation.navigate('AddProfile');
+  };
+
+  const addButtonData = {
+    _id: 'add',
+    type: 'add',
+    first_name: 'Add Profile',
   };
 
   return (
     <SafeAreaView>
-      <Header height={150}/>
-      <View style={{alignItems: 'center'}}>
+      <Header height={150} />
+      <View style={{ alignItems: 'center' }}>
         <View style={styles.container}>
           <FlatList
             numColumns={2}
             columnWrapperStyle={{ justifyContent: 'space-evenly', marginBottom: 20 }}
             keyExtractor={(item) => item._id}
-            data={profiles}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => fetchProfile(item)}
-                style={styles.profileContainer}>
-                <View style={styles.profileIconContainer}>
-                  <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />
-                </View>
-                <Text numberOfLines={1} style={styles.iconName}>{item.first_name + " " + (item.middle_name).charAt(0) + "  " + item.last_name + " "}</Text>
-              </TouchableOpacity>
-              
-            )}
+            data={[...profiles, addButtonData]} // Include the "Add" button in the data
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    if (item.type === 'add') {
+                      navigateToAddProfile();
+                    } else {
+                      fetchProfile(item);
+                    }
+                  }}
+                  style={item.type === 'add' ? styles.addButton : styles.profileContainer}>
+                  <View style={styles.profileIconContainer}>
+                    {item.type === 'add' ? (
+                      <Icon style={{ fontSize: 25 }} name='user-plus' size={15} color='#E0E2E1' />
+                    ) : (
+                      <Icon style={styles.icon} name='user-alt' size={15} color='#E0E2E1' />
+                    )}
+                  </View>
+                  <Text numberOfLines={1} style={styles.iconName}>
+                    {item.type === 'add' ? item.first_name : `${item.first_name} ${item.middle_name.charAt(0)} ${item.last_name}`}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
           />
-         
-            <TouchableOpacity
-              onPress={() => navigateToAddProfile()}
-              style={styles.addButton}>
-              <View style={styles.profileIconContainer}>
-                <Icon style={{ fontSize: 25 }} name='user-plus' size={15} color='#E0E2E1' />
-              </View>
-            </TouchableOpacity>
-          </View>
         </View>
-      
+      </View>
     </SafeAreaView>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;
 
-const width = Dimensions.get('window').width -40;
+const width = Dimensions.get('window').width - 40;
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     borderTopWidth: 1,
-    paddingTop:50,
+    paddingTop: 50,
     borderTopColor: '#000',
     marginVertical: 25,
     width: width,
@@ -96,37 +106,31 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 20,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  profileIconContainer:{
-    width: 70,
-    height: 70,
-    borderRadius: 70/2,
-    backgroundColor: '#44AA92',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  icon:{
-    fontSize: 35
-  },
-  iconName:{
-    paddingVertical:5,
-    color: '#44AA92',
-    fontWeight: 'bold'
+    alignItems: 'center',
   },
   addButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 50,
-    height: 50,
-    backgroundColor: '#44AA92',
-    borderRadius: 25,
+    position: 'relative',
+    width: 130,
+    height: 110,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 3,
+    backgroundColor: '#E6EDED',
   },
-  addIcon: {
-    fontSize: 20,
-  }
-})
+  profileIconContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 70 / 2,
+    backgroundColor: '#44AA92',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    fontSize: 50,
+  },
+  iconName: {
+    paddingVertical: 5,
+    color: '#44AA92',
+    fontWeight: 'bold',
+  },
+});
