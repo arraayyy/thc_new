@@ -18,6 +18,7 @@ const AddProfile = () => {
   const [birthDate, setBirthDate] = useState('');
   const [birthPlace, setBirthPlace] = useState('');
   const [civilStatus, setCivilStatus] = useState('');
+  const [civilStatusDis, setCivilStatusDis] = useState(null);
   const [gender, setGender] = useState('');
   const [nationality, setNationality] = useState('');
   const [educAttain, setEducAttain] = useState('');
@@ -158,6 +159,20 @@ const AddProfile = () => {
     navigation.goBack(); 
   };
 
+  const civilStatusOptions = [
+    { id: 1, name: 'Single' },
+    { id: 2, name: 'Married' },
+    { id: 3, name: 'Divorced' },
+    { id: 4, name: 'Widowed' },
+    { id: 5, name: 'Separated' },
+    // Add more civil status options as needed
+  ];
+
+  const onCivilStatusSelect = (item) => {
+    setCivilStatus(item.name);
+    setCivilStatusDis(item);
+  };
+
   return (
     <ScrollView style={styles.container}>
         <View style={styles.container}>
@@ -250,12 +265,18 @@ const AddProfile = () => {
             onChangeText={(text) => setContactNo(text)}
             />
 
-            <Text style={styles.label}>Civil Status</Text>
+            {/* <Text style={styles.label}>Civil Status</Text>
             <TextInput
             style={styles.input}
             value={civilStatus}
             onChangeText={(text) => setCivilStatus(text)}
-            />
+            /> */}
+            <Text style={styles.label}>Civil Status</Text>
+              <Dropdown
+                value={civilStatusDis}
+                data={civilStatusOptions}
+                onSelect={onCivilStatusSelect}
+              />
 
             <Text style={styles.label}>Nationality</Text>
             <TextInput

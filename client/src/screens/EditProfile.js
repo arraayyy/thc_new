@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Picker } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
@@ -24,6 +24,8 @@ const EditProfile = () => {
   const [relationship, setrelationship] = useState('');
   const [updateStatus, setUpdateStatus] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false); // To toggle date picker visibility
+
+  const civilStatusOptions = ['Single', 'Married', 'Divorced', 'Widowed', 'Other'];
 
   useEffect(() => {
     initialProfileInfo();
@@ -165,12 +167,23 @@ const EditProfile = () => {
             />
           )}
 
-          <Text style={styles.label}>Civil Status</Text>
+          {/* <Text style={styles.label}>Civil Status</Text>
           <TextInput
             style={styles.input}
             value={civilStatus}
             onChangeText={(text) => setCivilStatus(text)}
-          />
+          /> */}
+
+          <Text style={styles.label}>Civil Status</Text>
+          <Picker
+            style={styles.input}
+            selectedValue={civilStatus}
+            onValueChange={(itemValue, itemIndex) => setCivilStatus(itemValue)}
+          >
+            {civilStatusOptions.map((option, index) => (
+              <Picker.Item key={index} label={option} value={option} />
+            ))}
+          </Picker>
 
           <Text style={styles.label}>Relationship:</Text>
           <TextInput

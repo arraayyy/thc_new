@@ -7,7 +7,8 @@ import { View,
         StyleSheet,
         Pressable,
         Platform,
-        ScrollView
+        ScrollView,
+        Picker,
   } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -50,6 +51,9 @@ const Register = () => {
   const [relationshipDis, setrelationshipDis] = useState('');
   const navigation = useNavigation();
   
+  const onCivilStatusChange = (itemValue) => {
+    setcivilStatus(itemValue);
+  };
 
   const onEduSelect = (item) =>{
     seteducAttain(item.name);
@@ -98,7 +102,9 @@ const Register = () => {
       setzipCode(value.toString()); 
     }
   }
-  
+    
+  const civilStatusOptions = ['Single', 'Married', 'Divorced', 'Widowed', 'Other'];
+
   const isEmailValid = (email) => {
     // Regular expression to match a valid email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -239,7 +245,17 @@ const Register = () => {
        <CustomInput label="Birth Place" value={birthPlace} setValue={setbirthPlace} />
        <CustomInput label="Occupation" value={occupation} setValue={setoccupation} />
        <CustomInput label="Contact Number" value={contactNo} setValue={setcontactNo} />
-       <CustomInput label="Civil Status" value={civilStatus} setValue={setcivilStatus} />
+       <Text style={styles.label}>Civil Status</Text>
+          <Picker
+            style={styles.input}
+            selectedValue={civilStatus}
+            onValueChange={(itemValue, itemIndex) => setCivilStatus(itemValue)}
+          >
+            {civilStatusOptions.map((option, index) => (
+              <Picker.Item key={index} label={option} value={option} />
+            ))}
+      </Picker>
+
        <CustomInput label="Nationality" value={nationality} setValue={setnationality} />
 
 
@@ -326,7 +342,18 @@ const styles = StyleSheet.create({
  padd:{
   paddingLeft: 35,
   paddingRight: 35,
- }
+ },
+ picker: {
+  width: '80%',
+  height: 40,
+  borderColor: 'gray',
+  borderWidth: 1,
+  borderRadius: 5,
+  marginBottom: 16,
+  paddingLeft: 8,
+  alignItems: 'center',
+  alignSelf: 'center',
+},
 });
 
 export default Register;
