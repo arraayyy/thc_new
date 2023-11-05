@@ -92,7 +92,7 @@ const EditAcc = () => {
           <Text style={styles.label}>Password</Text>
           <View style={styles.passwordContainer}>
             <TextInput
-              style={styles.passwordInput}
+              style={styles.input}
               onChangeText={(text) => setFormData({ ...formData, password: text })}
               secureTextEntry={!showPassword} // Toggle secureTextEntry based on showPassword state
               value={formData.password} // Control the input value
