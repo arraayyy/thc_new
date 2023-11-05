@@ -98,6 +98,19 @@ const Register = () => {
       setzipCode(value.toString()); 
     }
   }
+  
+  const isEmailValid = (email) => {
+    // Regular expression to match a valid email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isPasswordValid = (password) => {
+    // Regular expression to enforce certain password requirements (e.g., minimum length)
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
 
   const handleRegister = async () => {
     const requiredFields = [
@@ -113,6 +126,16 @@ const Register = () => {
         return;
       }
     }
+
+    if (!isEmailValid(email)) {
+      alert("Please enter a valid email address without spaces");
+      return;
+    }
+
+    if (!isPasswordValid(password)) {
+      alert("Please enter a valid password.\nMinimum 8 characters with at least one uppercase letter, one lowercase letter,one digit and without spaces and special characters.");
+      return;
+    }
   
     if (password !== confirmpassword) {
       alert("Passwords do not match.");
@@ -121,7 +144,7 @@ const Register = () => {
   
     const user_type = acc_type = "Resident";
     const acc_status = "Pending";
-   
+    
   
     try {
       const response = await axios.post('/account/register', {
@@ -129,7 +152,7 @@ const Register = () => {
         gender, birthDate, birthPlace, educAttain, occupation, contactNo, civilStatus,
         nationality, street, barangay, municipality, zipCode
       });
-     
+      
       if (response.status === 200) {
         alert(response.data.message);
         navigation.navigate("Login");
