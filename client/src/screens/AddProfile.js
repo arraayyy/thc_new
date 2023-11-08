@@ -265,7 +265,7 @@ const AddProfile = () => {
             onChangeText={(text) => setNationality(text)}
             />
 
-            <Text style={styles.label}>Street</Text>
+            <Text style={styles.label}>House Number/Street</Text>
             <TextInput
             style={styles.input}
             value={street}
@@ -286,7 +286,7 @@ const AddProfile = () => {
             onChangeText={(text) => setMunicipality(text)}
             />
 
-            <Text style={styles.label}>Zipcode</Text>
+            <Text style={styles.label}>Zip Code</Text>
             <TextInput
               style={styles.input}
               value={zipCode}

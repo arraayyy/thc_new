@@ -1,23 +1,19 @@
 import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity, Dimensions,PixelRatio } from 'react-native'
 import React from 'react'
 import { useNavigation,useRoute } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 
 import Header from '../components/Header'
 const Services = () => {
   const navigation = useNavigation();
-  
-
-  const onPrenatal = (profile_id) => {
-    navigation.navigate("Prenatal", { profileId: profile_id});
-  }
+   console.log("HEIGHT:",buttonHeight)
   return (
-    <SafeAreaView style={{ height:height}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Header height={80}/>
       <View style={{alignItems: 'center'}}>
           <View style={styles.header}/>
-          <View View style={{paddingTop:30}}>
+          <View View style={{paddingTop:30, }}>
             {/* <Icon name="briefcase-medical" size={50} color="#9ED5C5" /> */}
           </View>
           <View style={styles.container}>
@@ -76,7 +72,7 @@ const Services = () => {
 
 export default Services
 const width = Dimensions.get('window').width -40;
-const height = Dimensions.get('window').height -40;
+const buttonHeight = (Dimensions.get('window').height-350)/7;
 const fontScale = PixelRatio.getFontScale();
 const getFontSize = size => size / fontScale;
 const styles = StyleSheet.create({
@@ -85,7 +81,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     borderTopWidth: 0.5,
     borderColor: '#000',
-    width:width-50,
+    width:width- 50,
   }, 
   container: { 
     paddingTop:2,
@@ -93,8 +89,8 @@ const styles = StyleSheet.create({
   servButton: {
     paddingTop: 5,
     backgroundColor: '#F9F9F9',
-    width: width-150,
-    height: height-720,
+    width: Dimensions.get('window').width - 150,
+    height:buttonHeight,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

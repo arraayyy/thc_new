@@ -51,6 +51,7 @@ const Register = () => {
   const [civilStatusDis, setCivilStatusDis] = useState(null);
   const [relationship, setrelationship] = useState('');
   const [relationshipDis, setrelationshipDis] = useState('');
+  const [currentDate, setCurrentDate] = useState(new Date());
   const navigation = useNavigation();
   
   
@@ -70,17 +71,17 @@ const Register = () => {
     setShowPicker(!showPicker);
   }
 
-  const onChange =({type}, selectedDate) =>{
-    if (type == "set"){
-      const currentDate =selectedDate;
+  const onChange = ({ type }, selectedDate) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
       setDate(currentDate);
-      if(Platform.OS === "android"){
-         toggleDatepicker();
-         setbirthDate(currentDate.toDateString());
-
-      }
-    }else{
+      setCurrentDate(currentDate); // Update the current date
+      if (Platform.OS === "android") {
         toggleDatepicker();
+        setbirthDate(currentDate.toDateString());
+      }
+    } else {
+      toggleDatepicker();
     }
   }
 
@@ -226,6 +227,7 @@ const Register = () => {
               mode='date'
               display='spinner'
               value ={date}
+              maximumDate={currentDate}
               onChange={onChange}
             />
         )}
@@ -260,23 +262,24 @@ const Register = () => {
        <CustomInput label="Birth Place" value={birthPlace} setValue={setbirthPlace} />
        <CustomInput label="Occupation" value={occupation} setValue={setoccupation} />
        <CustomInput label="Contact Number" value={contactNo} setValue={setcontactNo} />
+       
        <Text style={styles.label}>Civil Status</Text>
        <View style={styles.padd}>
-        <Dropdown
-          style={styles.input}
-          value={civilStatusDis}
-          data={civilStatusOptions}
-          onSelect={onCivilStatusSelect}
-        />
+              <Dropdown
+                value={civilStatusDis}
+                data={civilStatusOptions}
+                onSelect={onCivilStatusSelect}
+       />
         </View>
        <CustomInput label="Nationality" value={nationality} setValue={setnationality} />
 
+
         <CustomHr label="Address Information"/>
 
-        <CustomInput label="House Number,Street/street" value={street} setValue={setstreet} />
+        <CustomInput label="House Number/Street" value={street} setValue={setstreet} />
         <CustomInput label="Barangay" value={barangay} setValue={setBarangay} />
         <CustomInput label="Municipality (e.g.Cebu City)" value={municipality} setValue={setmunicipality} />
-        <CustomInput label="ZipCode" value={zipCode} setValue={setZipCodeValue} />
+        <CustomInput label="Zip Code" value={zipCode} setValue={setZipCodeValue} />
 
         <TouchableOpacity
           style={styles.buttonContainer}

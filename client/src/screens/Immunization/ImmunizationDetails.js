@@ -85,16 +85,39 @@ const ImmunizationDetails = () => {
               <Text><Text style={styles.label}>Date of Birth: </Text>{formatDate(childInfo.birthDate)}</Text>
               <Text><Text style={styles.label}>Address: </Text>{childInfo.street + " " + childInfo.barangay + " " + childInfo.municipality + " " + childInfo.zipCode}</Text>
               <Text><Text style={styles.label}>Place of Delivery: </Text>{patientRecords.placeOfDelivery}</Text>
-              <Text><Text style={styles.label}>Mother’s Name: </Text>{motherInfo.first_name + " "+ motherInfo.middle_name + " " + motherInfo.last_name}</Text>
-              <Text><Text style={styles.label}>Mother’s Age: </Text>{motherInfo.age}</Text>
-              <Text><Text style={styles.label}>Mother’s Occupation: </Text>{motherInfo.occupation}</Text>
-              <Text><Text style={styles.label}>Mother’s Contact: </Text>{motherInfo.contactNo}</Text>
-             
-              <Text><Text style={styles.label}>Father’s Name: </Text>{fatherInfo.first_name + " "+ fatherInfo.middle_name + " " + fatherInfo.last_name}</Text>
-              <Text><Text style={styles.label}>Father’s Age: </Text>{fatherInfo.age}</Text>
-              <Text><Text style={styles.label}>Father’s Occupation: </Text>{fatherInfo.occupation}</Text>
-              <Text><Text style={styles.label}>Father’s Contact: </Text>{fatherInfo.contactNo}</Text>
-              
+              <Text>
+                    <Text style={styles.label}>Mother’s Name: </Text>
+                    {motherInfo.first_name? `${motherInfo.first_name} ${motherInfo.middle_name} ${motherInfo.last_name}`: 'N/A'}
+              </Text>
+              <Text>
+                <Text style={styles.label}>Mother’s Age: </Text>{motherInfo.age || 'N/A'}
+              </Text>
+
+              <Text>
+                <Text style={styles.label}>Mother’s Occupation: </Text>
+                {motherInfo.occupation || 'N/A'}
+              </Text>
+
+              <Text>
+                <Text style={styles.label}>Mother’s Contact: </Text>
+                {motherInfo.contactNo || 'N/A'}
+              </Text>
+              <Text>
+                <Text style={styles.label}>Father’s Name: </Text>
+                {fatherInfo.first_name? `${fatherInfo.first_name} ${fatherInfo.middle_name} ${fatherInfo.last_name}`: 'N/A'}
+              </Text>
+              <Text>
+                <Text style={styles.label}>Father’s Age: </Text>
+                {fatherInfo.age || 'N/A'}
+              </Text>
+              <Text>
+                <Text style={styles.label}>Father’s Occupation: </Text>
+                {fatherInfo.occupation || 'N/A'}
+              </Text>
+              <Text>
+                <Text style={styles.label}>Father’s Contact: </Text>
+                {fatherInfo.contactNo || 'N/A'}
+              </Text>
               
               <Text><Text style={styles.label}>Birth Weight: </Text>{patientRecords.birthWeight}</Text>
               <Text><Text style={styles.label}>Type of Feeding: </Text>{patientRecords.typeOfFeeding}</Text>
