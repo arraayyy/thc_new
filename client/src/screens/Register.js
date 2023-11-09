@@ -285,7 +285,7 @@ const Register = () => {
 
         <CustomHr label="Address Information"/>
 
-        <CustomInput label="House Number/Street" value={street} setValue={setstreet} />
+        <CustomInput label="House Number/Street/Sitio" value={street} setValue={setstreet} />
         <Text style={styles.label}>
           Are you a {isResident ? "Resident" : "Non-Resident"} of Barangay Talamban?
         </Text>

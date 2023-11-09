@@ -59,9 +59,9 @@ const EditAcc = () => {
       console.error('Error:', error);
     }
   };
-
+   console.log("valid",isPasswordValid);
   const handleSave = async () => {
-    
+    if(isPasswordValid){
     try {
       const { email, password } = formData;
       const accId = await AsyncStorage.getItem('accountId'); // Replace with the actual account ID
@@ -80,7 +80,7 @@ const EditAcc = () => {
       }
     } catch (error) {
       console.error('Error:', error);
-    }
+    }}
   };
 
   const navigation = useNavigation();
