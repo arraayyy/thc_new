@@ -278,7 +278,7 @@ const EditProfile = () => {
             onChangeText={(text) => setNationality(text)}
           />
 
-          <Text style={styles.label}>House Number/Street</Text>
+          <Text style={styles.label}>House Number/Street/Sitio</Text>
           <TextInput
             style={styles.input}
             value={street}
