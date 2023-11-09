@@ -39,7 +39,7 @@ const EditProfile = () => {
   useEffect(() => {
     if (updateStatus) {
       // Reload the screen
-      navigation.replace('Profile');
+      navigation.replace('Dashboard');
     }
   }, [updateStatus, navigation,]);
 
