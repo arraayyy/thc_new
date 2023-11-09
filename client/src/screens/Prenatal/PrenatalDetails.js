@@ -70,14 +70,7 @@ const PrenatalDetails = () => {
         return date.toLocaleDateString(undefined, options);
       };
       
-      let patient = 
-        {
-            Urine:"Normal",
-            CBC:"Normal",
-            BT:"Normal",
-            HBS:"Normal",
-            PPC:"N/A",
-        };
+     
       
       const onPrenatalSession=(sessionid)=>{
           navigation.navigate("Prenatal Session",{sessionId :sessionid})
@@ -157,17 +150,7 @@ const PrenatalDetails = () => {
             }
           </View>
         </View>
-        <View style={[styles.titleBox]}>
-          <Text style={styles.cardTitle}>Laboratory Examination</Text>
-          <View style = {styles.lineStyle} />
-          <View style={styles.cardBody}>
-            <Text><Text style={styles.label}>Urinalysis Results :  </Text>{patient.Urine}</Text>
-            <Text><Text style={styles.label}>CBC Results: </Text>{patient.CBC}</Text>
-            <Text><Text style={styles.label}>Blood Typing Results: </Text>{patient.BT}</Text>
-            <Text><Text style={styles.label}>HBS Antigen Results: </Text>{patient.HBS}</Text>
-            <Text><Text style={styles.label}>Previous Pregnancy Complications: </Text>{patient.PPC}</Text>
-          </View>
-        </View>
+        
         
         <View style={{marginTop: 20,paddingLeft:10}}>
           <Text style={[styles.title,{fontSize:20, fontWeight:'bold'}]}>SESSION FINDINGS</Text>

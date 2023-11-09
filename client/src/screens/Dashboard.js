@@ -21,12 +21,13 @@ const Dashboard = () => {
 
     try {
       const response = await axios.get(`/account/fetchmember/${acctId}`);
-      setProfiles(response.data.profile);
+      const activeProfiles = response.data.profile.filter(profile => profile.prof_status !== "Inactive");
+    setProfiles(activeProfiles);
     } catch (error) {
       console.error(error);
     }
   }
-
+  console.log("prof_status: " ,profiles)
   const fetchProfile = async (user) => {
     try {
       await AsyncStorage.setItem('UserName', user.first_name);

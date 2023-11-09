@@ -25,9 +25,10 @@ const EditProfile = () => {
   const [zipCode, setZipCode] = useState('');
   const [relationship, setrelationship] = useState('');
   const [updateStatus, setUpdateStatus] = useState('');
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false); // To toggle date picker visibility
   const [educAttainDis,seteducAttainDis] = useState(null);
-  const [relationshipDis, setrelationshipDis] = useState(''); // To toggle date picker visibility
+  const [relationshipDis, setrelationshipDis] = useState('');
+
 
   
 
@@ -82,6 +83,7 @@ const EditProfile = () => {
       setBarangay(profileData.barangay);
       setMunicipality(profileData.municipality);
       setZipCode(String(profileData.zipCode));
+
     } catch (error) {
       console.log(error);
     }
@@ -129,7 +131,7 @@ const EditProfile = () => {
   };
 
   const navigation = useNavigation();
-
+  
   const handleBack = () => {
     navigation.goBack();
   };
@@ -147,11 +149,16 @@ const EditProfile = () => {
     {id:2,name:'Elementary Graduate'},
     {id:3,name:'Vocational'},
     {id:4,name:'High School Level'},
-    { id:5, name:' High School Graduate'},
-    {id:6,name:'College Level '},
+    { id:5, name:'High School Graduate'},
+    {id:6,name:'College Level'},
     {id:7,name:'College Graduate'},
     {id:8,name:'Graduate School'}]
-   let rel =[ {id:1, name:'Father'},{id:2,name:'Mother'},{id:3,name:'Child'},{id:4,name:'Guardian'}]
+
+   let rel =[ {id:1, name:'Father'},
+              {id:2,name:'Mother'},
+              {id:3,name:'Child'},
+              {id:4,name:'Guardian'}]
+
   const onCivilStatusSelect = (item) => {
     setCivilStatus(item.name);
     setCivilStatusDis(item);
@@ -209,17 +216,18 @@ const EditProfile = () => {
             <Text>{birthDate.toDateString()}</Text>
           </TouchableOpacity>
           {showDatePicker && (
-            <DateTimePicker // Conditionally render the date picker
-              value={birthDate}
-              mode="date"
-              display="spinner"
-              onChange={(event, selectedDate) => {
-                setShowDatePicker(false); // Close the date picker
-                if (selectedDate) {
-                  setBirthDate(selectedDate);
-                }
-              }}  
-            />
+            <DateTimePicker
+            value={birthDate}
+            mode="date"
+            display="spinner"
+            maximumDate={new Date()} // Set the maximum date to the current date
+            onChange={(event, selectedDate) => {
+              setShowDatePicker(false); // Close the date picker
+              if (selectedDate) {
+                setBirthDate(selectedDate);
+              }
+            }}
+          />
           )}
 
           <Text style={styles.label}>Civil Status</Text>
@@ -239,7 +247,7 @@ const EditProfile = () => {
                 />
             </View>
 
-            <Text style={styles.label}>Relationship</Text> 
+            <Text style={styles.label}>Family Role</Text> 
                 <View >
                     <Dropdown 
                     value={relationshipDis}

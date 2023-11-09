@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,9 +17,19 @@ const SignInScreen = () => {
   const handleLogin = async () => {
   
     // console.log('loginEmail:', loginEmail);
-    // console.log('loginPassword:', loginPassword);
-
+    //  console.log('loginPassword:', loginPassword);
+    
+    const requiredFields = [
+      loginEmail, loginPassword
+    ];
+  
+    for (const field of requiredFields) {
+      if (!field) {
+        alert("Please fill in all fields.");
+        return;
+      }}
     try {
+      console
       const response = await axios.post('/account/loginresident', { loginEmail, loginPassword });
 
       if (response.data.accountId) {    
@@ -42,6 +51,7 @@ const SignInScreen = () => {
   };
 
   return (
+    <ScrollView>
     <View style={{backgroundColor: '', minHeight:"100%", marginTop: 75}}>
       <Header height={150}/>
       <View style={styles.container}>  
@@ -100,7 +110,7 @@ const SignInScreen = () => {
         </View>
       </View>
      </View> 
-    
+     </ScrollView>
     
   );
 };

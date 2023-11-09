@@ -43,7 +43,7 @@ const FamilyPlanningDetails = () => {
             console.error(error);
         }
     }
-    
+
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         const date = new Date(dateString);
@@ -53,7 +53,7 @@ const FamilyPlanningDetails = () => {
     const onFamilyPlanningRecord =(sessionid)=>{
         navigation.navigate("Family Planning Assessment", {sessionId :sessionid})
     }
-
+     
     return (
         <ScrollView style={styles.container}>
             <View style={styles.body}>
@@ -95,7 +95,7 @@ const FamilyPlanningDetails = () => {
                             <Text ><Text style={styles.label}>No of Children Born Alive: </Text>{familyplanningInfo?.obstetricalHistory?.numBornAlive}</Text>
                             <Text ><Text style={styles.label}>No. of Living Children:  </Text>{familyplanningInfo?.obstetricalHistory?.numOfLivingChild}</Text>
                             <Text ><Text style={styles.label}>No of Stillbirths: </Text>{familyplanningInfo?.obstetricalHistory?.numOfStillBirth}</Text>
-                            <Text ><Text style={styles.label}>Date of Last Delivery :  </Text>{formatDate(familyplanningInfo?.obstetricalHistory?.dateOfLastDelivery)}</Text>
+                            <Text ><Text style={styles.label}>Date of Last Delivery : </Text> {familyplanningInfo?.obstetricalHistory?.dateOfLastDelivery? formatDate(familyplanningInfo?.obstetricalHistory?.dateOfLastDelivery) : 'N/A'}</Text>
                             <Text ><Text style={styles.label}>Type of Last Delivery: </Text>{familyplanningInfo?.obstetricalHistory?.typeOfLastDelivery}</Text>
                             <Text ><Text style={styles.label}>Menstrual Flow :  </Text>{familyplanningInfo?.obstetricalHistory?.menstrualFlow}</Text>
                             <Text ><Text style={styles.label}>Dysmenorrhea: </Text>{familyplanningInfo?.obstetricalHistory?.dysmenorrhea ? "Yes" : "No"}</Text>

@@ -15,7 +15,7 @@ const AddProfile = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [middleName, setMiddleName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
+  const [birthDate, setBirthDate] = useState(new Date());
   const [birthPlace, setBirthPlace] = useState('');
   const [civilStatus, setCivilStatus] = useState('');
   const [civilStatusDis, setCivilStatusDis] = useState(null);
@@ -28,13 +28,13 @@ const AddProfile = () => {
   const [barangay, setBarangay] = useState('');
   const [municipality, setMunicipality] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [date,setDate] = useState( new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [male, setMale] = useState(false);
   const [female,setFemale] = useState(false);
   const [educAttainDis,seteducAttainDis] = useState(null);
   const [relationship, setrelationship] = useState('');
   const [relationshipDis, setrelationshipDis] = useState('');
+ 
    
 
   const handleSave = async () => {
@@ -87,23 +87,7 @@ const AddProfile = () => {
     }
   };
 
-  const toggleDatepicker = ()=>{
-    setShowPicker(!showPicker);
-  }
-
-  const onChange =({type}, selectedDate) =>{
-    if (type == "set"){
-      const currentDate =selectedDate;
-      setDate(currentDate);
-      if(Platform.OS === "android"){
-         toggleDatepicker();
-         setBirthDate(currentDate.toDateString());
-
-      }
-    }else{
-        toggleDatepicker();
-    }
-  }
+ 
 
   const genderMale=()=>{
     setMale(true);
@@ -191,24 +175,26 @@ const AddProfile = () => {
                 <CheckBox title="FEMALE" center checked={female} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={genderFemale}/>
             </View>
             
+            <Text style={styles.label}>Birth Date</Text>
+            <TouchableOpacity // Open the date picker on touch
+              style={styles.datePickerContainer}
+              onPress={() => setShowPicker(true)}
+            >
+              <Text>{birthDate.toDateString()}</Text>
+            </TouchableOpacity>
             {showPicker && (
-                <DateTimePicker
-                mode='date'
-                display='spinner'
-                value ={date}
-                onChange={onChange}
-                />
-            )}
-            <Text style={styles.label}>Birthdate</Text>
-            {!showPicker &&(
-                <Pressable onPress={toggleDatepicker}>
-                    <TextInput
-                    style={styles.input}
-                    onChangeText={setBirthDate}
-                    value={birthDate}
-                    editable ={false}
-                    />
-                </Pressable>
+              <DateTimePicker
+              value={birthDate}
+              mode="date"
+              display="spinner"
+              maximumDate={new Date()} // Set the maximum date to the current date
+              onChange={(event, selectedDate) => {
+                setShowPicker(false); // Close the date picker
+                if (selectedDate) {
+                  setBirthDate(selectedDate);
+                }
+              }}
+            />
             )}
 
             <Text style={styles.label}>Birth Place</Text>
@@ -227,7 +213,7 @@ const AddProfile = () => {
                 />
             </View>
 
-            <Text style={styles.label}>Relationship</Text> 
+            <Text style={styles.label}>Family Role</Text> 
                 <View >
                     <Dropdown 
                     value={relationshipDis}
@@ -368,6 +354,15 @@ const styles = StyleSheet.create({
     saveButtonText: {
       color: 'white',
       textAlign: 'center',
+    },
+    datePickerContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: '#29C999',
+      borderRadius: 5,
+      marginBottom: 10,
+      padding: 10,
     },
   });
   

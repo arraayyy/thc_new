@@ -39,7 +39,7 @@ const Contacts = () => {
       <Card>
         <Text style={styles.cardHeader}>Registration</Text>
         <Text style={styles.cardText}>
-          When everyone in the family is new to the app, start by filling up the registration form. Once submitted,<Text style={[{fontWeight:"bold"}]}>a visit to the health center for account verification is needed </Text> . If you already have an account and want to add a new family member, simply log in and look for the <Text style={{ fontStyle: 'italic' }}> Add </Text> button to include them in your account.
+          When everyone in the family is new to the app, start by filling up the registration form. Once submitted,<Text style={[{fontWeight:"bold"}]}>wait for a call from the health center for account verification is needed </Text> . If you already have an account and want to add a new family member, simply log in and look for the <Text style={{ fontStyle: 'italic' }}> Add </Text> button to include them in your account.
         </Text>
       </Card>
 

@@ -129,7 +129,7 @@ const ProfileScreen = () => {
             <Text style={styles.userInfoValue}>{profileData.occupation?profileData.civilStatus: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>
-            <Text style={styles.userInfoLabel}>Relationship:</Text>
+            <Text style={styles.userInfoLabel}>Family Role:</Text>
             <Text style={styles.userInfoValue}>{profileData.occupation?profileData.relationship: "N/A"}</Text>
           </View>
           <View style={styles.userInfoItem}>

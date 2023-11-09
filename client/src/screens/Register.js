@@ -19,7 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import Header from '../components/Header';
 
 
-let eduAt =[ {id:1, name:'Elementary Level'},{id:2,name:'Elementary Graduate'},{id:3,name:'Vocational'},{id:4,name:'High School Level'},{    id:5, name:' High School Graduate'},{id:6,name:'College Level '},{id:7,name:'College Graduate'},{id:8,name:'Graduate School'}]
+let eduAt =[ {id:1, name:'Elementary Level'},{id:2,name:'Elementary Graduate'},{id:3,name:'Vocational'},{id:4,name:'High School Level'},{    id:5, name:' High School Graduate'},{id:6,name:'College Level'},{id:7,name:'College Graduate'},{id:8,name:'Graduate School'}]
 let rel =[ {id:1, name:'Father'},{id:2,name:'Mother'},{id:3,name:'Child'},{id:4,name:'Guardian'}]
 
 
@@ -34,7 +34,7 @@ const Register = () => {
   const [male, setMale] = useState(false);
   const [female,setFemale] = useState(false);
   const [gender,setgender] = useState('');
-  const [birthDate, setbirthDate] = useState('');
+  const [birthDate, setbirthDate] = useState(new Date());
   const [date,setDate] = useState( new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [educAttainDis,seteducAttainDis] = useState(null);
@@ -222,27 +222,29 @@ const Register = () => {
             <CheckBox title="FEMALE" center checked={female} checkedIcon="dot-circle-o" uncheckedIcon="circle-o" onPress={genderFemale}/>
           </View>
 
-        {showPicker && (
-            <DateTimePicker
-              mode='date'
-              display='spinner'
-              value ={date}
-              maximumDate={currentDate}
-              onChange={onChange}
-            />
-        )}
-        <Text style={styles.label}>Birth Date</Text>
-        {!showPicker &&(
-          <Pressable onPress={toggleDatepicker}>
-            <TextInput
-              style={styles.input}
-              onChangeText={setbirthDate}
+          <Text style={styles.label}>Birth Date</Text>
+          <View style={styles.padd}>
+            <TouchableOpacity // Open the date picker on touch
+              style={styles.datePickerContainer}
+              onPress={() => setShowPicker(true)}
+            >
+            <Text>{birthDate.toDateString()}</Text>
+            </TouchableOpacity>
+            {showPicker && (
+              <DateTimePicker
               value={birthDate}
-              editable ={false}
+              mode="date"
+              display="spinner"
+              maximumDate={new Date()} // Set the maximum date to the current date
+              onChange={(event, selectedDate) => {
+                setShowPicker(false); // Close the date picker
+                if (selectedDate) {
+                  setbirthDate(selectedDate);
+                }
+              }}
             />
-          </Pressable>
-        )}
-
+            )}
+            </View>
         <Text style={styles.label}>Educational Attainment</Text> 
           <View style={styles.padd}>
               <Dropdown 
@@ -251,7 +253,7 @@ const Register = () => {
                 onSelect={onEduSelect} 
               />
           </View>
-       <Text style={styles.label}>Relationship</Text> 
+       <Text style={styles.label}>Family Role</Text> 
           <View style={styles.padd}>
               <Dropdown 
               value={relationshipDis}
@@ -308,6 +310,7 @@ const styles = StyleSheet.create({
   },
  
   label: {
+    color: '#AEAEAE',
     fontSize: 16,
     marginBottom: 8,
     paddingLeft: 35,
@@ -358,16 +361,15 @@ const styles = StyleSheet.create({
   paddingLeft: 35,
   paddingRight: 35,
  },
- picker: {
-  width: '80%',
-  height: 40,
-  borderColor: 'gray',
-  borderWidth: 1,
-  borderRadius: 5,
-  marginBottom: 16,
-  paddingLeft: 8,
+ datePickerContainer: {
+  flexDirection: 'row',
   alignItems: 'center',
-  alignSelf: 'center',
+  borderWidth: 1,
+  height:40,
+  borderColor: 'gray',
+  borderRadius: 5,
+  marginBottom: 10,
+  padding: 10,
 },
 });
 

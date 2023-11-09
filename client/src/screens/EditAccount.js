@@ -91,20 +91,22 @@ const EditAcc = () => {
 
           <Text style={styles.label}>Password</Text>
           <View style={styles.passwordContainer}>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => setFormData({ ...formData, password: text })}
-              secureTextEntry={!showPassword} // Toggle secureTextEntry based on showPassword state
-              value={formData.password} // Control the input value
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Icon
-                name={showPassword ? 'eye' : 'eye-slash'}
-                size={20}
-                color="#1BC592"
-                style={{ marginRight: 10 }}
+            <View style={styles.passwordInput}>
+              <TextInput
+                onChangeText={(text) => setFormData({ ...formData, password: text })}
+                secureTextEntry={!showPassword}
+                value={formData.password}
               />
-            </TouchableOpacity>
+            </View>
+            <View style={styles.passwordIcon}>
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Icon
+                  name={showPassword ? 'eye' : 'eye-slash'}
+                  size={20}
+                  color="#1BC592"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.buttonContainer}>
@@ -182,6 +184,22 @@ const styles = StyleSheet.create({
       color: 'white',
       textAlign: 'center',
     },
+    passwordContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: '#29C999',
+      borderRadius: 5,
+      marginBottom: 10,
+      padding: 10,
+    },
+    passwordInput: {
+      flex: 1,
+    },
+    passwordIcon: {
+      marginLeft: 10,
+    },
+ 
   });
   
   export default EditAcc;

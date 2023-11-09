@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity, Dimensions,PixelRatio } from 'react-native'
+import { StyleSheet, Text, View,ScrollView,TouchableOpacity, Dimensions,PixelRatio } from 'react-native'
 import React from 'react'
 import { useNavigation,useRoute } from '@react-navigation/native';
 
@@ -7,9 +7,9 @@ import { useNavigation,useRoute } from '@react-navigation/native';
 import Header from '../components/Header'
 const Services = () => {
   const navigation = useNavigation();
-   console.log("HEIGHT:",buttonHeight)
+   //console.log("HEIGHT:",buttonHeight)
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       <Header height={80}/>
       <View style={{alignItems: 'center'}}>
           <View style={styles.header}/>
@@ -66,7 +66,7 @@ const Services = () => {
                 </TouchableOpacity>
           </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   )
 }
 
