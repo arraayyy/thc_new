@@ -34,6 +34,7 @@ const AddProfile = () => {
   const [educAttainDis,seteducAttainDis] = useState(null);
   const [relationship, setrelationship] = useState('');
   const [relationshipDis, setrelationshipDis] = useState('');
+  const [isResident, setIsResident] = useState(true);
  
    
 
@@ -55,6 +56,9 @@ const AddProfile = () => {
     if (accountId) {
         
       try {
+
+        
+
         const profileData = {
           first_name: firstName,
           last_name: lastName,
@@ -121,7 +125,19 @@ const AddProfile = () => {
     }
   }
 
+  const onResident =() =>{
+    setIsResident(true);
+    setBarangay("Talamban");
+    setMunicipality("Cebu City");
+    setZipCode('6000');
+  }
 
+  const nonResident =() =>{
+    setIsResident(false);
+    setBarangay('');
+    setMunicipality('');
+    setZipCode('');
+  }
   const navigation = useNavigation(); 
 
   const handleBack = () => {
@@ -257,8 +273,38 @@ const AddProfile = () => {
             value={street}
             onChangeText={(text) => setStreet(text)}
             />
+            
+            <Text style={[styles.label,{paddingTop:20}]}>
+              Are you a {isResident ? "Resident" : "Non-Resident"} of Barangay Talamban?
+            </Text>
+            <View style={styles.residentButtons}>
+              <TouchableOpacity
+                style={[
+                  styles.residentButton,
+                  isResident && styles.selectedButton,
+                ]}
+                onPress={() => onResident()}
+              >
+                <Text style={isResident ? styles.selectedText : [styles.buttonText,{color:"#15876C"}]}>
+                  Resident
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.residentButton,
+                  !isResident && styles.selectedButton,
+                ]}
+                onPress={() => nonResident()}
+              >
+                <Text style={!isResident ? styles.selectedText : [styles.buttonText,{color:"#15876C"}]}>
+                  Non-Resident
+                </Text>
+              </TouchableOpacity>
+            </View>
 
-            <Text style={styles.label}>Barangay</Text>
+            {!isResident && (
+              <>
+               <Text style={styles.label}>Barangay</Text>
             <TextInput
             style={styles.input}
             value={barangay}
@@ -278,6 +324,28 @@ const AddProfile = () => {
               value={zipCode}
               onChangeText={(text) => setZipCodeValue(text)}
             />
+              </>
+            )}
+            {/* <Text style={styles.label}>Barangay</Text>
+            <TextInput
+            style={styles.input}
+            value={barangay}
+            onChangeText={(text) => setBarangay(text)}
+            />
+
+            <Text style={styles.label}>Municipality</Text>
+            <TextInput
+            style={styles.input}
+            value={municipality}
+            onChangeText={(text) => setMunicipality(text)}
+            />
+
+            <Text style={styles.label}>Zip Code</Text>
+            <TextInput
+              style={styles.input}
+              value={zipCode}
+              onChangeText={(text) => setZipCodeValue(text)}
+            /> */}
 
             {/* Centered and Styled Buttons */}
             <View style={styles.buttonContainer}>
@@ -363,6 +431,30 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       marginBottom: 10,
       padding: 10,
+    },
+    residentButtons: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingHorizontal: 35,
+      marginBottom: 10,
+    },
+    residentButton: {
+      flex: 1,
+      height: 40,
+      borderRadius: 5,
+      alignItems: "center",
+      justifyContent: "center",
+      marginHorizontal: 5,
+      borderWidth: 1,
+      borderColor: "#15876C",
+    },
+    selectedButton: {
+      backgroundColor: "#15876C",
+    },
+    
+    selectedText: {
+      fontSize: 16,
+      color: "white",
     },
   });
   

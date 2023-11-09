@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { View,
-        Text,
-        TextInput, 
-        TouchableOpacity,
-        StyleSheet,
-        Pressable,
-        Platform,
-        ScrollView,
-     
-  } from 'react-native';
+import { View,Text,TouchableOpacity,StyleSheet,ScrollView} from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Dropdown from '../components/Dropdown';
@@ -35,7 +26,6 @@ const Register = () => {
   const [female,setFemale] = useState(false);
   const [gender,setgender] = useState('');
   const [birthDate, setbirthDate] = useState(new Date());
-  const [date,setDate] = useState( new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [educAttainDis,seteducAttainDis] = useState(null);
   const [educAttain,seteducAttain] = useState(null);
@@ -51,7 +41,7 @@ const Register = () => {
   const [civilStatusDis, setCivilStatusDis] = useState(null);
   const [relationship, setrelationship] = useState('');
   const [relationshipDis, setrelationshipDis] = useState('');
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [isResident, setIsResident] = useState(true);
   const navigation = useNavigation();
   
   
@@ -67,24 +57,20 @@ const Register = () => {
 
   }
 
-  const toggleDatepicker = ()=>{
-    setShowPicker(!showPicker);
+  const onResident =() =>{
+    setIsResident(true);
+    setBarangay("Talamban");
+    setmunicipality("Cebu City");
+    setzipCode('6000');
   }
 
-  const onChange = ({ type }, selectedDate) => {
-    if (type == "set") {
-      const currentDate = selectedDate;
-      setDate(currentDate);
-      setCurrentDate(currentDate); // Update the current date
-      if (Platform.OS === "android") {
-        toggleDatepicker();
-        setbirthDate(currentDate.toDateString());
-      }
-    } else {
-      toggleDatepicker();
-    }
+  const nonResident =() =>{
+    setIsResident(false);
+    setBarangay('');
+    setmunicipality('');
+    setzipCode('');
   }
-
+  
   const genderMale=()=>{
     setMale(true);
     setFemale(false);
@@ -113,8 +99,8 @@ const Register = () => {
   };
 
   const isPasswordValid = (password) => {
-    // Regular expression to enforce certain password requirements (e.g., minimum length)
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$/;
+    // Regular expression to enforce password requirements (e.g., minimum length, special characters)
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
     return passwordRegex.test(password);
   };
 
@@ -131,8 +117,6 @@ const Register = () => {
     setcivilStatus(item.name);
     setCivilStatusDis(item);
   };
-
-
 
   const handleRegister = async () => {
     const requiredFields = [
@@ -155,7 +139,7 @@ const Register = () => {
     }
 
     if (!isPasswordValid(password)) {
-      alert("Please enter a valid password.\nMinimum 8 characters with at least one uppercase letter, one lowercase letter,one digit and without spaces and special characters.");
+      alert("Please enter a valid password.");
       return;
     }
   
@@ -181,6 +165,7 @@ const Register = () => {
       }else{
         alert(response.data.message);
       }
+     
     } catch (error) {
       alert("An unexpected error occurred");
       console.error(error);
@@ -196,8 +181,9 @@ const Register = () => {
      <CustomHr label="Account Information"/>
 
         <CustomInput label="Email" value={email} setValue={setEmail} />
+        
+        <Text style={styles.label}>Password</Text>
         <CustomInput
-          label="Password"
           value={password}
           setValue={setPassword}
           isPassword={true} // Pass the isPassword prop
@@ -209,7 +195,28 @@ const Register = () => {
           setValue={setconfPassword}
           isPassword={true} // Pass the isPassword prop
         />
-        
+        <Text style={[styles.passwordRequirement,{fontWeight:'bold'}]}>
+         NOTE : Password Requirement
+        </Text>
+        <Text style={styles.passwordRequirement}>
+          {'\u2022'} Minimum 8 characters
+        </Text>
+        <Text style={styles.passwordRequirement}>
+          {'\u2022'} At least one uppercase letter
+        </Text>
+        <Text style={styles.passwordRequirement}>
+          {'\u2022'} At least one lowercase letter
+        </Text>
+        <Text style={styles.passwordRequirement}>
+          {'\u2022'} At least one digit
+        </Text>
+        <Text style={styles.passwordRequirement}>
+          {'\u2022'} At least one special character 
+        </Text>
+        <Text style={[styles.passwordRequirement,{paddingBottom:20}]}>
+          {'\u2022'} No spaces 
+        </Text>
+
         <CustomHr label="Personal Information"/> 
         
         <CustomInput label="First Name" value={first_name} setValue={setfirst_name} />
@@ -279,10 +286,41 @@ const Register = () => {
         <CustomHr label="Address Information"/>
 
         <CustomInput label="House Number/Street" value={street} setValue={setstreet} />
-        <CustomInput label="Barangay" value={barangay} setValue={setBarangay} />
-        <CustomInput label="Municipality (e.g.Cebu City)" value={municipality} setValue={setmunicipality} />
-        <CustomInput label="Zip Code" value={zipCode} setValue={setZipCodeValue} />
+        <Text style={styles.label}>
+          Are you a {isResident ? "Resident" : "Non-Resident"} of Barangay Talamban?
+        </Text>
+        <View style={styles.residentButtons}>
+          <TouchableOpacity
+            style={[
+              styles.residentButton,
+              isResident && styles.selectedButton,
+            ]}
+            onPress={() => onResident()}
+          >
+            <Text style={isResident ? styles.selectedText : [styles.buttonText,{color:"#15876C"}]}>
+              Resident
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.residentButton,
+              !isResident && styles.selectedButton,
+            ]}
+            onPress={() => nonResident()}
+          >
+            <Text style={!isResident ? styles.selectedText : [styles.buttonText,{color:"#15876C"}]}>
+              Non-Resident
+            </Text>
+          </TouchableOpacity>
+        </View>
 
+        {!isResident && (
+          <>
+            <CustomInput label="Barangay" value={barangay} setValue={setBarangay} />
+            <CustomInput label="Municipality (e.g. Cebu City)" value={municipality} setValue={setmunicipality} />
+            <CustomInput label="Zip Code" value={zipCode} setValue={setZipCodeValue} />
+          </>
+        )}
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={handleRegister}
@@ -370,6 +408,35 @@ const styles = StyleSheet.create({
   borderRadius: 5,
   marginBottom: 10,
   padding: 10,
+},
+passwordRequirement: {
+  color: '#AEAEAE',
+  fontSize: 12,
+  paddingLeft: 35,
+},
+residentButtons: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  paddingHorizontal: 35,
+  marginBottom: 10,
+},
+residentButton: {
+  flex: 1,
+  height: 40,
+  borderRadius: 5,
+  alignItems: "center",
+  justifyContent: "center",
+  marginHorizontal: 5,
+  borderWidth: 1,
+  borderColor: "#15876C",
+},
+selectedButton: {
+  backgroundColor: "#15876C",
+},
+
+selectedText: {
+  fontSize: 16,
+  color: "white",
 },
 });
 

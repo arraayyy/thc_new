@@ -13,6 +13,7 @@ const EditAcc = () => {
 
   const [updateStatus, setUpdateStatus] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   useEffect(() => {
     getAccountDetails();
@@ -24,6 +25,17 @@ const EditAcc = () => {
       navigation.replace('Profile');
     }
   }, [updateStatus, navigation]);
+  
+  const handlePasswordChange = (text) => {
+    setFormData({ ...formData, password: text });
+    setIsPasswordValid(PasswordValid(text));
+  };
+
+  const PasswordValid = (password) => {
+    // Regular expression to enforce password requirements (e.g., minimum length, special characters)
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   const getAccountDetails = async () => {
     try {
@@ -49,6 +61,7 @@ const EditAcc = () => {
   };
 
   const handleSave = async () => {
+    
     try {
       const { email, password } = formData;
       const accId = await AsyncStorage.getItem('accountId'); // Replace with the actual account ID
@@ -93,7 +106,7 @@ const EditAcc = () => {
           <View style={styles.passwordContainer}>
             <View style={styles.passwordInput}>
               <TextInput
-                onChangeText={(text) => setFormData({ ...formData, password: text })}
+                onChangeText={handlePasswordChange}
                 secureTextEntry={!showPassword}
                 value={formData.password}
               />
@@ -108,6 +121,34 @@ const EditAcc = () => {
               </TouchableOpacity>
             </View>
           </View>
+            
+          <Text style={[styles.passwordRequirement,{fontWeight:'bold'}]}>
+              NOTE : Password Requirement
+          </Text>
+          <Text style={styles.passwordRequirement}>
+            {'\u2022'} Minimum 8 characters
+          </Text>
+          <Text style={styles.passwordRequirement}>
+            {'\u2022'} At least one uppercase letter
+          </Text>
+          <Text style={styles.passwordRequirement}>
+            {'\u2022'} At least one lowercase letter
+          </Text>
+          <Text style={styles.passwordRequirement}>
+            {'\u2022'} At least one digit
+          </Text>
+          <Text style={styles.passwordRequirement}>
+            {'\u2022'} At least one special character 
+          </Text>
+          <Text style={[styles.passwordRequirement,{paddingBottom:20}]}>
+            {'\u2022'} No spaces 
+          </Text>
+          
+          {!isPasswordValid && (
+            <Text style={styles.passwordErrorMessage}>
+              Password is invalid! Please follow the Password Requirements.
+            </Text>
+          )}
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.backButton} onPress={handleBack}>
@@ -199,7 +240,16 @@ const styles = StyleSheet.create({
     passwordIcon: {
       marginLeft: 10,
     },
- 
+    passwordRequirement: {
+      color: '#AEAEAE',
+      fontSize: 12,
+      paddingLeft: 35,
+    },
+    passwordErrorMessage: {
+      color: 'red',
+      marginBottom: 10,
+      fontSize: 14,
+    },
   });
   
   export default EditAcc;
