@@ -11,13 +11,16 @@ const MedicalCheckupDetails = () => {
   const route = useRoute();
   const profileId = route.params?.profileId;
   const recordId = route.params?.recordId;
+  const latestVitalRecordId = route.params?.latestVitalRecordId;
   const [profiles, setProfiles] = useState([]);
   const [patientInfo, setPatientInfo] = useState([]);
   const [medicalCheckupInfo, setMedicalCheckupInfo] = useState([]);
-  
+  const [vitalrec, setVitalRec] = useState([]);
+   
   useEffect(() => {
     getProfiles();
     getMedicalCheckupDetails();
+    getVitalSignsRecord();
   }, [])
 
   const getProfiles = async () => {
@@ -43,9 +46,20 @@ const MedicalCheckupDetails = () => {
     try {
         const response = await axios.get(`/medicalcheckup/getrecord/${profileId}/${recordId}`);
         setMedicalCheckupInfo(response.data.record);
+        
     } catch (error) {
         console.error(error);
     }
+  }
+
+  const getVitalSignsRecord  = async () => {
+    try {
+      const response = await axios.get(`/vitalsign/getrecord/${ latestVitalRecordId}`);
+      setVitalRec(response.data);
+  
+  } catch (error) {
+      console.error(error);
+  }
   }
 
   const formatDate = (dateString) => {
@@ -73,12 +87,58 @@ const MedicalCheckupDetails = () => {
                 <Text><Text style={styles.label}>Address: </Text>{patientInfo.street + " " + patientInfo.barangay + " " + patientInfo.municipality + " " + patientInfo.zipCode}</Text>
             </View>
         </View>
-
+        <View style={[styles.titleBox]}>
+            <Text style={styles.cardTitle}>Vital Signs Record</Text>
+            <View style={styles.lineStyle} />
+            <View style={[styles.cardBody]}>
+            
+                  <Text>
+                    <Text style={styles.label}>Height: </Text>
+                      {`${vitalrec.height} cm`}
+                  </Text>
+                  <Text>
+                    <Text style={styles.label}>Weight: </Text>
+                    {`${vitalrec.weight} kg`}
+                  </Text>
+                  <Text>
+                    <Text style={styles.label}>Blood Pressure: </Text>
+                    {`${vitalrec.bloodpressure} mmHg`}
+                  </Text>
+                  <Text>
+                    <Text style={styles.label}>Pulse Rate: </Text>
+                    {`${vitalrec.pulseRate} bpm`}
+                  </Text>
+                  <Text>
+                    <Text style={styles.label}>Temperature: </Text>
+                    {`${vitalrec.temp} °C`}
+                  </Text>
+                  <Text>
+                    <Text style={styles.label}>Body Mass Index (BMI): </Text>
+                    {vitalrec.bmi}
+                  </Text>
+                  <View style={{ marginTop: 10 }}>
+                    <Text style={[styles.label, { color: '#888' }]}>BMI Classification:</Text>
+                    <Text style={{ color: '#888' }}> - Underweight: Less than 18.5</Text>
+                    <Text style={{ color: '#888' }}> - Normal: 18.5 to 24.9</Text>
+                    <Text style={{ color: '#888' }}> - Overweight: 25 to 29.9</Text>
+                    <Text style={{ color: '#888' }}> - Obesity: 30 or greater</Text>
+                  </View>
+              
+            </View>
+        </View>
         <View style={[styles.titleBox]}>
             <Text style={styles.cardTitle}>Session Findings</Text>
             <View style={styles.lineStyle} />
             <View style={[styles.cardBody]}>
                 <Text>
+                <Text style={styles.label}>PERFORMED BY: </Text>
+                  {medicalCheckupInfo.serviceProvider}
+                </Text>
+                <Text  style={{ marginTop: 20 }}>
+                <Text style={styles.label}>Service Date Done: </Text>
+                  {formatDate(medicalCheckupInfo.createdAt)}
+                </Text>
+                <Text  style={{ marginTop: 20 }}>
                 <Text style={styles.label}>Findings: </Text>
                   {medicalCheckupInfo.findings}
                 </Text>

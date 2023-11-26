@@ -12,6 +12,8 @@ const Urinalysis = () => {
   const route = useRoute();
   const [profile_id,setProfileId]= useState("");
   const navigation = useNavigation();
+  const [vitallist, setVitalList] = useState([]);
+  const [vitalrec, setVitalRec] = useState([]);
   
   useEffect(() => {
     getProfileId();
@@ -41,6 +43,34 @@ const Urinalysis = () => {
         console.error(error);
     }
   }
+  const getVitalSignsRecord  = async ({recDate}) => {
+    try {
+      const response = await axios.get(`/vitalsign/${profile_id}`);
+      setVitalList(response.data.vital_signs);
+
+      const medRecDate = new Date(recDate).toLocaleDateString();
+
+      const filteredVitals = response.data.vital_signs
+        .filter(vital => {
+          const vitalDate = new Date(vital.createdAt).toLocaleDateString();
+          return medRecDate === vitalDate;
+        })
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by createdAt in descending order
+
+      // Get the last record
+      const lastVitalRecord = filteredVitals.length > 0 ? [filteredVitals[0]] : [];
+
+      // Set the latest vital sign record ID
+      const latestVitalRecordId = lastVitalRecord.length > 0 ? lastVitalRecord[0]._id : null;
+
+      setVitalRec(lastVitalRecord);
+
+      return latestVitalRecordId;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -48,8 +78,10 @@ const Urinalysis = () => {
     return date.toLocaleDateString(undefined, options);
   };
 
-  const onUrinalysisRecord =(recordid)=>{
-    navigation.navigate("Urinalysis Details", {recordId: recordid, profileId:profile_id})
+  const onUrinalysisRecord =async(recordid,recDate)=>{
+    const latestVitalRecordId = await getVitalSignsRecord({ recDate });
+    
+    navigation.navigate("Urinalysis Details", {recordId: recordid, profileId:profile_id,  latestVitalRecordId: latestVitalRecordId,})
   }
 
   return (
@@ -69,7 +101,7 @@ const Urinalysis = () => {
                 if (value.service_id !== null && value.service_id.recordStat !== false) {
                   return (
                     <Card containerStyle={styles.card} key={indx}>
-                      <TouchableOpacity onPress={() => onUrinalysisRecord(value.service_id._id , profile_id)}>
+                      <TouchableOpacity onPress={() => onUrinalysisRecord(value.service_id._id ,value.service_id.createdAt)}>
                         <View style={{ flexDirection: 'row' }}>
                           <View>
                             <Text style={[
@@ -77,7 +109,7 @@ const Urinalysis = () => {
                               { fontSize: 20, fontWeight: 'bold', color: "#44AA92" }
                             ]}>Examination {value.service_id._id.slice(-6)}</Text>
                             <Text style={[styles.cardRow]}>{value.service_id.serviceProvider}</Text>
-                            <Text style={[styles.cardRow]}>{formatDate(value.service_id.createdAt)}</Text>
+                            <Text style={[styles.cardRow]}>{formatDate(value.service_id.updatedAt)}</Text>
                           </View>
                           <Icon style={[styles.icon, { marginLeft: 100, color: '#44AA92' }]} name='vial' size={25} color='#44AA92' />
                         </View>

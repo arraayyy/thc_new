@@ -135,7 +135,7 @@ const FamilyPlanningDetails = () => {
                                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
                                     <Text style={styles.sessionCardRow}>Assessment {rec._id.slice(-6)}</Text>
                                     {/* <Text style={styles.cardRow}>{rec.serviceProvider}</Text> */}
-                                    <Text style={styles.sessionCardRow}>{formatDate(rec.createdAt)}</Text>
+                                    <Text style={styles.sessionCardRow}>{formatDate(rec.updatedAt)}</Text>
                                     <Icon style={[styles.icon,{color:'white'}]} name='angle-right' size={30} color='#E0E2E1' />
                                     </View>
                                 </View>

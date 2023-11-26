@@ -42,11 +42,11 @@ const ImmunizationSession = () => {
            <Text style={styles.cardTitle}>Session Findings</Text>
            <View style = {styles.lineStyle} />
             <View style={styles.cardBody}>
+                <Text style={styles.row}><Text style={styles.label}>Date of Visit:  </Text>{formatDate(assessmentinfo.createdAt)}</Text>
                 <Text style={styles.row}><Text style={styles.label}>Service Provider :  </Text>{assessmentinfo.serviceProvider}</Text>
-                <Text style={styles.row}><Text style={styles.label}>Date :  </Text>{formatDate(assessmentinfo.updatedAt)}</Text>
-                <Text style={styles.row}><Text style={styles.label}>Weight: </Text>{assessmentinfo.weight}</Text>
-                <Text style={styles.row}><Text style={styles.label}>Height: </Text>{assessmentinfo.height}</Text>
-                <Text style={styles.row}><Text style={styles.label}>Temperature: </Text>{assessmentinfo.temp}</Text>
+                <Text style={styles.row}><Text style={styles.label}>Weight: </Text>{`${assessmentinfo.weight} kg`}</Text>
+                <Text style={styles.row}><Text style={styles.label}>Height: </Text>{`${assessmentinfo.height} cm`}</Text>
+                <Text style={styles.row}><Text style={styles.label}>Temperature: </Text>{`${assessmentinfo.temp}°C`}</Text>
                 <Text style={styles.row}><Text style={styles.label}>Findings: </Text>{assessmentinfo.findings}</Text>
                 <Text style={styles.row}><Text style={styles.label}>Nurses Notes: </Text>{assessmentinfo.notes}</Text>
             </View>

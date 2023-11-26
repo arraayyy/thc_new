@@ -163,7 +163,7 @@ const PrenatalDetails = () => {
                 <View style={{flexDirection:'column'}}>
                     <View style={{flexDirection:'row',  justifyContent: 'space-between'}}>
                     <Text style={styles.cardRow}>Session {rec._id.slice(-6)}</Text>
-                    <Text style={styles.cardRow}>{formatDate(rec.createdAt)}</Text>
+                    <Text style={styles.cardRow}>{formatDate(rec.updatedAt)}</Text>
                     <Icon style={[styles.icon]} name='angle-right' size={23}  />
                     </View>
                 </View>
